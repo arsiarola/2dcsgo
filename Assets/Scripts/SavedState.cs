@@ -28,6 +28,7 @@ public class SavedState : MonoBehaviour
         public bool attack;
     }
 
+    // muutos
     private void AddFrameState()
     {
         frameState = new Dictionary<int, ObjectState>();
