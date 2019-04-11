@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class SavedState : MonoBehaviour
 {
-    public int currentFrame = 0;
     public int nextKey = 0;
     public Dictionary<int, GameObject> objectRefs = new Dictionary<int, GameObject>();
-    public Dictionary<int, GameObject> dummyType = new Dictionary<int, GameObject>();
+    public Dictionary<int, GameObject> dummyTypes = new Dictionary<int, GameObject>();
     public Dictionary<int, GameObject> dummyRefs = new Dictionary<int, GameObject>();
+    public Dictionary<int, ObjectState> frame = new Dictionary<int, ObjectState>();
     public List<Dictionary<int, ObjectState>> frameList = new List<Dictionary<int, ObjectState>>();
-    public Dictionary<int, ObjectState> frame;
     bool replay = false;
     public int replayFrame;
     public GameObject explosion;
@@ -23,15 +22,9 @@ public class SavedState : MonoBehaviour
         public bool attack;
     }
 
-    private void AddFrame()
-    {
-        frame = new Dictionary<int, ObjectState>();
-        frameList.Add(frame);
-    }
-
     void Start()
     {
-        AddFrame();
+        frameList.Add(frame);
     }
 
     void Update()
@@ -82,7 +75,7 @@ public class SavedState : MonoBehaviour
                 }
                 dict.Value.SetActive(false);
             }
-            dummyRefs.Add(dict.Key, Instantiate(dummyType[dict.Key], new Vector3(0, 0, 0), Quaternion.identity));
+            dummyRefs.Add(dict.Key, Instantiate(dummyTypes[dict.Key], new Vector3(0, 0, 0), Quaternion.identity));
         }
         replay = true;
         replayFrame = 0;
@@ -96,8 +89,8 @@ public class SavedState : MonoBehaviour
         }
         if (!replay)
         {
-            currentFrame++;
-            AddFrame();
+            frame = new Dictionary<int, ObjectState>();
+            frameList.Add(frame);
         } 
     }
 
@@ -109,13 +102,13 @@ public class SavedState : MonoBehaviour
         }
     }
 
-    public int GetObjectKey(GameObject dummy, ref GameObject me)
+    public int GetObjectKey(GameObject dummyType, ref GameObject objectRef)
     {
         int key = nextKey;
         nextKey++;
 
-        objectRefs.Add(key, me);
-        dummyType.Add(key, dummy);
+        objectRefs.Add(key, objectRef);
+        this.dummyTypes.Add(key, dummyType);
         return key;
     }
 }
