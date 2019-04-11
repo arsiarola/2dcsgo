@@ -28,23 +28,30 @@ public class PlayerMobility : MonoBehaviour
         anim = GetComponent<Animator>();
         GameObject gObj = gameObject;
         replayKey = savedState.GetObjectKey(dummy, ref gObj);
+        GetComponent<Animator>().keepAnimatorControllerStateOnDisable = true;
     }
 
     void Update()
     {
         bool attackAnim = false;
+        float nt = -1;
         if (Input.GetMouseButtonDown (0))
         {
             attackAnim = true;
             anim.SetTrigger("Attack");
             Debug.Log("jotai vaa");
         }
+        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsName("AttackAnim")) {
+            //Debug.Log("Attack anim");
+            nt = GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).normalizedTime;
+        }
         SavedState.ObjectState os = new SavedState.ObjectState
         {
             position = transform.position,
             rotation = transform.rotation.eulerAngles.z,
             velocity = GetComponent<Rigidbody2D>().velocity,
-            attack = attackAnim
+            attack = attackAnim,
+            normalizedTime = nt
         };
         savedState.UpdateFrameState(replayKey, os);
     }
