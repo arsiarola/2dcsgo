@@ -37,6 +37,7 @@ public class PlayerMobility : MonoBehaviour
         {
             attackAnim = true;
             anim.SetTrigger("Attack");
+            Debug.Log("jotai vaa");
         }
         SavedState.ObjectState os = new SavedState.ObjectState
         {
@@ -52,12 +53,6 @@ public class PlayerMobility : MonoBehaviour
     {
         Vector3 mousePosition = SetZAxisToZero(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         transform.up = mousePosition - transform.position;
-
-        /*float dist = Vector3.Distance(mousePosition, transform.position);
-        if (1.5 < dist)
-        {
-            GetComponent<Rigidbody2D>().AddForce(transform.up * speed);
-        }*/
 
         float inputWS = Input.GetAxis("Vertical");
         GetComponent<Rigidbody2D>().AddForce(transform.up * speed * inputWS);

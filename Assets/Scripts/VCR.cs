@@ -83,7 +83,7 @@ public class VCR : MonoBehaviour
         GameObject player = GameObject.Find("Player");
         player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         player.GetComponent<Rigidbody2D>().angularVelocity = 0;
-        new WaitForSeconds(1);
+        new WaitForSeconds(1000);
         player.transform.position = originalPos;
         for (int i = 0; i < enemyObjects.Count; i++)
         {

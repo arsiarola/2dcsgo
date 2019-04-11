@@ -59,7 +59,7 @@ public class SavedState : MonoBehaviour
             }
             else
             {
-                Debug.Log(replayFrame + ", " + replay + ", " + frameStream.Count);
+                //Debug.Log(replayFrame + ", " + replay + ", " + frameStream.Count);
                 foreach (KeyValuePair<int, ObjectReferences> dict in references) {
                     if (frameStream[replayFrame].ContainsKey(dict.Key)) {
                         dummyRef[dict.Key].transform.position = frameStream[replayFrame][dict.Key].position;
