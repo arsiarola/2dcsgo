@@ -210,7 +210,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &622515759
 Transform:
   m_ObjectHideFlags: 0
@@ -237,8 +237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cab26422d4fc4bb4fa71f4f4b3bcae74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  vcr: {fileID: 0}
 --- !u!1 &877854857
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,7 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ca67a103dfbc344a54f0fa6adde99e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frame: 0
+  currentFrame: 0
   nextKey: 0
   replayFrame: 0
   explosion: {fileID: 8889254995952351810, guid: b72112705fc7803438b818afef34e4d6,

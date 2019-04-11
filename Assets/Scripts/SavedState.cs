@@ -4,21 +4,16 @@ using UnityEngine;
 
 public class SavedState : MonoBehaviour
 {
-    public int frame = 0;
+    public int currentFrame = 0;
     public int nextKey = 0;
-    public Dictionary<int, ObjectReferences> references = new Dictionary<int, ObjectReferences>();
-    public Dictionary<int, GameObject> dummyRef = new Dictionary<int, GameObject>();
-    public List<Dictionary<int, ObjectState>> frameStream = new List<Dictionary<int, ObjectState>>();
-    public Dictionary<int, ObjectState> frameState;
+    public Dictionary<int, GameObject> objectRefs = new Dictionary<int, GameObject>();
+    public Dictionary<int, GameObject> dummyType = new Dictionary<int, GameObject>();
+    public Dictionary<int, GameObject> dummyRefs = new Dictionary<int, GameObject>();
+    public List<Dictionary<int, ObjectState>> frameList = new List<Dictionary<int, ObjectState>>();
+    public Dictionary<int, ObjectState> frame;
     bool replay = false;
     public int replayFrame;
     public GameObject explosion;
-
-    public struct ObjectReferences
-    {
-        public GameObject dummy;
-        public GameObject me;
-    }
 
     public struct ObjectState
     {
@@ -28,50 +23,48 @@ public class SavedState : MonoBehaviour
         public bool attack;
     }
 
-    // muutos
-    private void AddFrameState()
+    private void AddFrame()
     {
-        frameState = new Dictionary<int, ObjectState>();
-        frameStream.Add(frameState);
+        frame = new Dictionary<int, ObjectState>();
+        frameList.Add(frame);
     }
 
     void Start()
     {
-        AddFrameState();
+        AddFrame();
     }
 
     void Update()
     {
         if (replay)
         {
-            if (frameStream.Count - 1 <= replayFrame)
+            if (frameList.Count - 1 <= replayFrame)
             {
                 replay = false;
-                foreach (KeyValuePair<int, ObjectReferences> dict in references) {
-                    Destroy(dummyRef[dict.Key]);
-                    GameObject me = dict.Value.me;
-                    if (me != null) {
-                        me.SetActive(true);
-                        me.transform.position = frameStream[replayFrame - 1][dict.Key].position;
-                        me.transform.eulerAngles = new Vector3(0, 0, frameStream[replayFrame - 1][dict.Key].rotation);
-                        me.GetComponent<Rigidbody2D>().velocity = frameStream[replayFrame - 1][dict.Key].velocity;
+                foreach (KeyValuePair<int, GameObject> dict in objectRefs) {
+                    Destroy(dummyRefs[dict.Key]);
+                    if (dict.Value != null) {
+                        dict.Value.SetActive(true);
+                        dict.Value.transform.position = frameList[replayFrame - 1][dict.Key].position;
+                        dict.Value.transform.eulerAngles = new Vector3(0, 0, frameList[replayFrame - 1][dict.Key].rotation);
+                        dict.Value.GetComponent<Rigidbody2D>().velocity = frameList[replayFrame - 1][dict.Key].velocity;
                     }
                 }
             }
             else
             {
                 //Debug.Log(replayFrame + ", " + replay + ", " + frameStream.Count);
-                foreach (KeyValuePair<int, ObjectReferences> dict in references) {
-                    if (frameStream[replayFrame].ContainsKey(dict.Key)) {
-                        dummyRef[dict.Key].transform.position = frameStream[replayFrame][dict.Key].position;
-                        dummyRef[dict.Key].transform.eulerAngles = new Vector3(0, 0, frameStream[replayFrame][dict.Key].rotation);
-                        if (frameStream[replayFrame][dict.Key].attack == true) {
-                            dummyRef[dict.Key].GetComponent<Animator>().SetTrigger("Attack");
+                foreach (KeyValuePair<int, GameObject> dict in objectRefs) {
+                    if (frameList[replayFrame].ContainsKey(dict.Key)) {
+                        dummyRefs[dict.Key].transform.position = frameList[replayFrame][dict.Key].position;
+                        dummyRefs[dict.Key].transform.eulerAngles = new Vector3(0, 0, frameList[replayFrame][dict.Key].rotation);
+                        if (frameList[replayFrame][dict.Key].attack == true) {
+                            dummyRefs[dict.Key].GetComponent<Animator>().SetTrigger("Attack");
                         }
                     }
-                    else if (dummyRef[dict.Key] != null) {
-                        Instantiate(explosion, frameStream[replayFrame - 1][dict.Key].position, Quaternion.identity);
-                        Destroy(dummyRef[dict.Key]);
+                    else if (dummyRefs[dict.Key] != null) {
+                        Instantiate(explosion, frameList[replayFrame - 1][dict.Key].position, Quaternion.identity);
+                        Destroy(dummyRefs[dict.Key]);
                     }
                 }
                 replayFrame++;
@@ -81,15 +74,15 @@ public class SavedState : MonoBehaviour
 
     private void Replay()
     {
-        dummyRef = new Dictionary<int, GameObject>();
-        foreach (KeyValuePair<int, ObjectReferences> dict in references) {
-            if (dict.Value.me != null) {
-                if (dict.Value.me.gameObject.transform.childCount > 0) {
-                    dict.Value.me.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        dummyRefs = new Dictionary<int, GameObject>();
+        foreach (KeyValuePair<int, GameObject> dict in objectRefs) {
+            if (dict.Value != null) {
+                if (dict.Value.gameObject.transform.childCount > 0) {
+                    dict.Value.gameObject.transform.GetChild(0).gameObject.SetActive(false);
                 }
-                dict.Value.me.SetActive(false);
+                dict.Value.SetActive(false);
             }
-            dummyRef.Add(dict.Key, Instantiate(references[dict.Key].dummy, new Vector3(0, 0, 0), Quaternion.identity));
+            dummyRefs.Add(dict.Key, Instantiate(dummyType[dict.Key], new Vector3(0, 0, 0), Quaternion.identity));
         }
         replay = true;
         replayFrame = 0;
@@ -103,8 +96,8 @@ public class SavedState : MonoBehaviour
         }
         if (!replay)
         {
-            frame++;
-            AddFrameState();
+            currentFrame++;
+            AddFrame();
         } 
     }
 
@@ -112,21 +105,17 @@ public class SavedState : MonoBehaviour
     {
         if (!replay)
         {
-            frameState.Add(key, objectState);
+            frame.Add(key, objectState);
         }
     }
 
-    public int GetObjectKey(GameObject d, ref GameObject m)
+    public int GetObjectKey(GameObject dummy, ref GameObject me)
     {
         int key = nextKey;
         nextKey++;
 
-        ObjectReferences of = new ObjectReferences
-        {
-            dummy = d,
-            me = m
-        };
-        references.Add(key, of);
+        objectRefs.Add(key, me);
+        dummyType.Add(key, dummy);
         return key;
     }
 }
