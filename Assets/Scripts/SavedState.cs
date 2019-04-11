@@ -26,7 +26,6 @@ public class SavedState : MonoBehaviour
         public float rotation;
         public Vector2 velocity;
         public bool attack;
-        public float normalizedTime;
     }
 
     private void AddFrameState()
@@ -55,12 +54,6 @@ public class SavedState : MonoBehaviour
                         me.transform.position = frameStream[replayFrame - 1][dict.Key].position;
                         me.transform.eulerAngles = new Vector3(0, 0, frameStream[replayFrame - 1][dict.Key].rotation);
                         me.GetComponent<Rigidbody2D>().velocity = frameStream[replayFrame - 1][dict.Key].velocity;
-                        /*if (frameStream[replayFrame - 1][dict.Key].normalizedTime > 0) {
-                            me.gameObject.transform.GetChild(0).gameObject.SetActive(false);
-                            me.gameObject.transform.GetChild(0).gameObject.SetActive(true);
-                            me.GetComponent<Animator>().Play("AttackAnim", 1, frameStream[replayFrame - 1][dict.Key].normalizedTime);
-                            Debug.Log("Here we go");
-                        }*/
                     }
                 }
             }

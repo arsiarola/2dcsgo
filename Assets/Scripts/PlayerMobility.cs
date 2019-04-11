@@ -34,16 +34,10 @@ public class PlayerMobility : MonoBehaviour
     void Update()
     {
         bool attackAnim = false;
-        float nt = -1;
         if (Input.GetMouseButtonDown (0))
         {
             attackAnim = true;
             anim.SetTrigger("Attack");
-            Debug.Log("jotai vaa");
-        }
-        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsName("AttackAnim")) {
-            //Debug.Log("Attack anim");
-            nt = GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).normalizedTime;
         }
         SavedState.ObjectState os = new SavedState.ObjectState
         {
@@ -51,7 +45,6 @@ public class PlayerMobility : MonoBehaviour
             rotation = transform.rotation.eulerAngles.z,
             velocity = GetComponent<Rigidbody2D>().velocity,
             attack = attackAnim,
-            normalizedTime = nt
         };
         savedState.UpdateFrameState(replayKey, os);
     }
