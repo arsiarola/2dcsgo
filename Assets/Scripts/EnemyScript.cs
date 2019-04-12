@@ -8,7 +8,7 @@ public class EnemyScript : MonoBehaviour
     public Transform player;
 
     public int replayKey;
-    public SavedState savedState;
+    public Recorder savedState;
     public GameObject dummy;
 
     void Start()
@@ -20,7 +20,7 @@ public class EnemyScript : MonoBehaviour
 
     private void Update()
     {
-        SavedState.ObjectState os = new SavedState.ObjectState
+        Recorder.ObjectState os = new Recorder.ObjectState
         {
             position = transform.position,
             rotation = transform.rotation.eulerAngles.z,

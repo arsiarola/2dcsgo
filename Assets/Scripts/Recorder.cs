@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SavedState : MonoBehaviour
+public class Recorder : MonoBehaviour
 {
     public int nextKey = 0;
     public Dictionary<int, GameObject> objectRefs = new Dictionary<int, GameObject>();

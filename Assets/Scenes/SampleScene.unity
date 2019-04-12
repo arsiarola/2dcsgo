@@ -237,59 +237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cab26422d4fc4bb4fa71f4f4b3bcae74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &877854857
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 877854858}
-  - component: {fileID: 877854859}
-  m_Layer: 0
-  m_Name: VCR
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &877854858
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 877854857}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.9661981, y: -0.10567675, z: 0.080981016}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &877854859
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 877854857}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecf608067f12f8043ad2464b0dff6cf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mousePositions: []
-  inputWS: []
-  inputAD: []
-  attacks: 
-  originalPos: {x: 0, y: 0, z: 0}
-  next: 0
-  enemyPositions: []
-  enemyObjects: []
-  enemyType: {fileID: 2333462321603042064, guid: b92982cbd8f81634baac1f023efd86da,
-    type: 3}
 --- !u!1 &896283362
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,7 +266,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ca67a103dfbc344a54f0fa6adde99e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentFrame: 0
   nextKey: 0
   replayFrame: 0
   explosion: {fileID: 8889254995952351810, guid: b72112705fc7803438b818afef34e4d6,
@@ -336,7 +282,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1110572290
 PrefabInstance:
@@ -595,6 +541,17 @@ PrefabInstance:
       propertyPath: savedState
       value: 
       objectReference: {fileID: 896283363}
+    - target: {fileID: 7966725424950678422, guid: 6ec4f4445df7f2a4fad8ee54f8c0bba5,
+        type: 3}
+      propertyPath: recorder
+      value: 
+      objectReference: {fileID: 896283363}
+    - target: {fileID: 7966725424950678422, guid: 6ec4f4445df7f2a4fad8ee54f8c0bba5,
+        type: 3}
+      propertyPath: dummyType
+      value: 
+      objectReference: {fileID: 2500465347906140141, guid: ef87751e2cc06dd45ac08afebdcadcae,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ec4f4445df7f2a4fad8ee54f8c0bba5, type: 3}
 --- !u!1001 &1243349018
