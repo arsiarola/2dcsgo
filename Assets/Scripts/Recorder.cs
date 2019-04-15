@@ -2,29 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class RecordableState
+{
+    public Vector3 position;
+    public float rotation;
+    public Vector2 velocity;
+    public List<string> animTriggers;
+
+    public RecordableState()
+    {
+        position = new Vector3(0, 0, 0);
+        rotation = 0;
+        velocity = new Vector2(0, 0);
+        animTriggers = new List<string>();
+    }
+}
+
 public class Recorder : MonoBehaviour
 {
     public int nextKey = 0;
     public Dictionary<int, GameObject> objectRefs = new Dictionary<int, GameObject>();
     public Dictionary<int, GameObject> dummyTypes = new Dictionary<int, GameObject>();
     public Dictionary<int, GameObject> dummyRefs = new Dictionary<int, GameObject>();
-    public Dictionary<int, ObjectState> frame = new Dictionary<int, ObjectState>();
-    public List<Dictionary<int, ObjectState>> frameList = new List<Dictionary<int, ObjectState>>();
+    public Dictionary<int, RecordableState> frame = new Dictionary<int, RecordableState>();
+    public List<Dictionary<int, RecordableState>> frameList = new List<Dictionary<int, RecordableState>>();
     bool replay = false;
     public int replayFrame;
     public GameObject explosion;
-
-    public struct ObjectState
-    {
-        public Vector3 position;
-        public float rotation;
-        public Vector2 velocity;
-        public bool attack;
-    }
+    bool pressed = false;
 
     void Start()
     {
-        frameList.Add(frame);
+        StartCoroutine("InputCheck");
+        //frameList.Add(frame);
     }
 
     void Update()
@@ -51,9 +61,20 @@ public class Recorder : MonoBehaviour
                     if (frameList[replayFrame].ContainsKey(dict.Key)) {
                         dummyRefs[dict.Key].transform.position = frameList[replayFrame][dict.Key].position;
                         dummyRefs[dict.Key].transform.eulerAngles = new Vector3(0, 0, frameList[replayFrame][dict.Key].rotation);
-                        if (frameList[replayFrame][dict.Key].attack == true) {
-                            dummyRefs[dict.Key].GetComponent<Animator>().SetTrigger("Attack");
+                        if (frameList[replayFrame][dict.Key].animTriggers.Count != 0)
+                        {
+                            Debug.Log("We are here");
                         }
+
+                        foreach (string trigger in frameList[replayFrame][dict.Key].animTriggers)
+                        {
+                            
+                            dummyRefs[dict.Key].GetComponent<Animator>().SetTrigger(trigger);
+                        }
+
+                        /*if (frameList[replayFrame][dict.Key].attack == true) {
+                            dummyRefs[dict.Key].GetComponent<Animator>().SetTrigger("Attack");
+                        }*/
                     }
                     else if (dummyRefs[dict.Key] != null) {
                         Instantiate(explosion, frameList[replayFrame - 1][dict.Key].position, Quaternion.identity);
@@ -62,6 +83,11 @@ public class Recorder : MonoBehaviour
                 }
                 replayFrame++;
             }
+        }
+        if (!replay)
+        {
+            frame = new Dictionary<int, RecordableState>();
+            frameList.Add(frame);
         }
     }
 
@@ -85,16 +111,25 @@ public class Recorder : MonoBehaviour
     {
         if (Input.GetKeyDown("space") && !replay)
         {
-            Replay();
+            pressed = true;
         }
-        if (!replay)
-        {
-            frame = new Dictionary<int, ObjectState>();
-            frameList.Add(frame);
-        } 
     }
 
-    public void UpdateFrameState(int key, ObjectState objectState)
+    IEnumerator InputCheck()
+    {
+        while (true)
+        {
+            yield return new WaitForEndOfFrame();
+            if (pressed)
+            {
+                //Debug.Log("pressed");
+                pressed = false;
+                Replay();
+            }
+        }
+    }
+
+    public void FrameAddRecordableState(int key, RecordableState objectState)
     {
         if (!replay)
         {

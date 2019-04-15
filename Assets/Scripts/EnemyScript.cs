@@ -2,32 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyScript : MonoBehaviour
+public class EnemyScript : AnimatedRecordable
 {
     public float speed;
     public Transform player;
 
-    public int replayKey;
-    public Recorder savedState;
-    public GameObject dummy;
-
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         player = GameObject.Find("Player").transform;
-        GameObject gObj = gameObject;
-        replayKey = savedState.GetObjectKey(dummy, ref gObj);
-    }
-
-    private void Update()
-    {
-        Recorder.ObjectState os = new Recorder.ObjectState
-        {
-            position = transform.position,
-            rotation = transform.rotation.eulerAngles.z,
-            velocity = GetComponent<Rigidbody2D>().velocity,
-            attack = false
-        };
-        savedState.UpdateFrameState(replayKey, os);
     }
 
     void FixedUpdate()

@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameController : MonoBehaviour
+namespace Core
 {
-    void Start()
+    public class GameController : MonoBehaviour
     {
+        void Start()
+        {
 
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
+        }
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
     }
 }
+
+
