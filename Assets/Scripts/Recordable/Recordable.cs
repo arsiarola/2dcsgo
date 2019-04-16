@@ -4,6 +4,22 @@ using UnityEngine;
 
 namespace Recordable
 {
+    public class RecordableState
+    {
+        public Vector3 position;
+        public float rotation;
+        public Vector2 velocity;
+        public List<string> animTriggers;
+
+        public RecordableState()
+        {
+            position = new Vector3(0, 0, 0);
+            rotation = 0;
+            velocity = new Vector2(0, 0);
+            animTriggers = new List<string>();
+        }
+    }
+
     public abstract class Recordable : MonoBehaviour
     {
         private int recordingId;
@@ -66,6 +82,18 @@ namespace Recordable
         {
             base.InitRecordableState(recordableState);
             recordableState.velocity = GetComponent<Rigidbody2D>().velocity;
+        }
+    }
+
+    public abstract class SimpleAnimation : Animated
+    {
+        [SerializeField] private string animationName;
+
+        protected virtual void Update()
+        {
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsName(animationName)) {
+                Destroy(gameObject);
+            }
         }
     }
 }

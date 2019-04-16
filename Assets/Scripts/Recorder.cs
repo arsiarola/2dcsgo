@@ -2,21 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RecordableState
-{
-    public Vector3 position;
-    public float rotation;
-    public Vector2 velocity;
-    public List<string> animTriggers;
 
-    public RecordableState()
-    {
-        position = new Vector3(0, 0, 0);
-        rotation = 0;
-        velocity = new Vector2(0, 0);
-        animTriggers = new List<string>();
-    }
-}
 
 public class Recorder : MonoBehaviour
 {
@@ -24,17 +10,15 @@ public class Recorder : MonoBehaviour
     public Dictionary<int, GameObject> objectRefs = new Dictionary<int, GameObject>();
     public Dictionary<int, GameObject> dummyTypes = new Dictionary<int, GameObject>();
     public Dictionary<int, GameObject> dummyRefs = new Dictionary<int, GameObject>();
-    public Dictionary<int, RecordableState> frame = new Dictionary<int, RecordableState>();
-    public List<Dictionary<int, RecordableState>> frameList = new List<Dictionary<int, RecordableState>>();
+    public Dictionary<int, Recordable.RecordableState> frame = new Dictionary<int, Recordable.RecordableState>();
+    public List<Dictionary<int, Recordable.RecordableState>> frameList = new List<Dictionary<int, Recordable.RecordableState>>();
     bool replay = false;
     public int replayFrame;
-    public GameObject explosion;
     bool pressed = false;
 
     void Start()
     {
         StartCoroutine("InputCheck");
-        //frameList.Add(frame);
     }
 
     void Update()
@@ -86,7 +70,7 @@ public class Recorder : MonoBehaviour
         }
         if (!replay)
         {
-            frame = new Dictionary<int, RecordableState>();
+            frame = new Dictionary<int, Recordable.RecordableState>();
             frameList.Add(frame);
         }
     }
@@ -119,16 +103,19 @@ public class Recorder : MonoBehaviour
         while (true)
         {
             yield return new WaitForEndOfFrame();
-            if (pressed)
+            if (Input.GetKeyDown("space") && !replay) {
+                pressed = true;
+            }
+            /*if (pressed)
             {
                 //Debug.Log("pressed");
                 pressed = false;
                 Replay();
-            }
+            }*/
         }
     }
 
-    public void FrameAddRecordableState(int key, RecordableState objectState)
+    public void FrameAddRecordableState(int key, Recordable.RecordableState objectState)
     {
         if (!replay)
         {

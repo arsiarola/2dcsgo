@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Misc
+namespace Recordable
 {
-    static class Constants
+    public class Explosion : SimpleAnimation
     {
-        public const string RecorderName = "Recorder";
+       
     }
 }
-
 
