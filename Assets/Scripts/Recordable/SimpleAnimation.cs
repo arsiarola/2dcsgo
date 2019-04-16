@@ -4,10 +4,6 @@ using UnityEngine;
 
 namespace Recordable
 {
-    public class Explosion : SimpleAnimation
-    {
-
-    }
+    
 }
-
 

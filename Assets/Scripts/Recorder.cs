@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class Recorder : MonoBehaviour
 {
     public int nextKey = 0;
@@ -103,15 +101,12 @@ public class Recorder : MonoBehaviour
         while (true)
         {
             yield return new WaitForEndOfFrame();
-            if (Input.GetKeyDown("space") && !replay) {
-                pressed = true;
-            }
-            /*if (pressed)
+            if (pressed)
             {
                 //Debug.Log("pressed");
                 pressed = false;
                 Replay();
-            }*/
+            }
         }
     }
 
