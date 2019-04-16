@@ -268,7 +268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextKey: 0
   replayFrame: 0
-  explosion: {fileID: 8889254995952351810, guid: b72112705fc7803438b818afef34e4d6,
+  explosion: {fileID: 4819354538216988444, guid: 110c5c73c918f1744996c2c23f7667c7,
     type: 3}
 --- !u!4 &896283364
 Transform:

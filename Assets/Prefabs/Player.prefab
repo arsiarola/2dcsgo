@@ -264,11 +264,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f2becb6e9047424791a1ba4a068fe64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  recorder: {fileID: 0}
+  dummyType: {fileID: 2500465347906140141, guid: ef87751e2cc06dd45ac08afebdcadcae,
+    type: 3}
   speed: 20
   strafeSpeed: 10
-  replayKey: 0
-  savedState: {fileID: 0}
-  dummy: {fileID: 2500465347906140141, guid: ef87751e2cc06dd45ac08afebdcadcae, type: 3}
 --- !u!95 &7966725424950678421
 Animator:
   serializedVersion: 3

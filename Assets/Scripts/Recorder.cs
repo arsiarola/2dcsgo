@@ -50,7 +50,11 @@ public class Recorder : MonoBehaviour
                         dict.Value.SetActive(true);
                         dict.Value.transform.position = frameList[replayFrame - 1][dict.Key].position;
                         dict.Value.transform.eulerAngles = new Vector3(0, 0, frameList[replayFrame - 1][dict.Key].rotation);
-                        dict.Value.GetComponent<Rigidbody2D>().velocity = frameList[replayFrame - 1][dict.Key].velocity;
+
+                        if (dict.Value.GetComponent<Rigidbody2D>() != null)
+                        {
+                            dict.Value.GetComponent<Rigidbody2D>().velocity = frameList[replayFrame - 1][dict.Key].velocity;
+                        }
                     }
                 }
             }
@@ -59,25 +63,21 @@ public class Recorder : MonoBehaviour
                 //Debug.Log(replayFrame + ", " + replay + ", " + frameStream.Count);
                 foreach (KeyValuePair<int, GameObject> dict in objectRefs) {
                     if (frameList[replayFrame].ContainsKey(dict.Key)) {
+                        if (!dummyRefs.ContainsKey(dict.Key))
+                        {
+                            dummyRefs.Add(dict.Key, Instantiate(dummyTypes[dict.Key], new Vector3(0, 0, 0), Quaternion.identity));
+                        }
+
                         dummyRefs[dict.Key].transform.position = frameList[replayFrame][dict.Key].position;
                         dummyRefs[dict.Key].transform.eulerAngles = new Vector3(0, 0, frameList[replayFrame][dict.Key].rotation);
-                        if (frameList[replayFrame][dict.Key].animTriggers.Count != 0)
-                        {
-                            Debug.Log("We are here");
-                        }
 
                         foreach (string trigger in frameList[replayFrame][dict.Key].animTriggers)
                         {
                             
                             dummyRefs[dict.Key].GetComponent<Animator>().SetTrigger(trigger);
                         }
-
-                        /*if (frameList[replayFrame][dict.Key].attack == true) {
-                            dummyRefs[dict.Key].GetComponent<Animator>().SetTrigger("Attack");
-                        }*/
                     }
-                    else if (dummyRefs[dict.Key] != null) {
-                        Instantiate(explosion, frameList[replayFrame - 1][dict.Key].position, Quaternion.identity);
+                    else if (dummyRefs.ContainsKey(dict.Key)) {
                         Destroy(dummyRefs[dict.Key]);
                     }
                 }
@@ -101,7 +101,6 @@ public class Recorder : MonoBehaviour
                 }
                 dict.Value.SetActive(false);
             }
-            dummyRefs.Add(dict.Key, Instantiate(dummyTypes[dict.Key], new Vector3(0, 0, 0), Quaternion.identity));
         }
         replay = true;
         replayFrame = 0;

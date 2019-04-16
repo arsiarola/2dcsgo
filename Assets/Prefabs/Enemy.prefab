@@ -161,5 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a1308b9ddab4a047b012a2b166a31af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  recorder: {fileID: 0}
+  dummyType: {fileID: 4819354538216988444, guid: 110c5c73c918f1744996c2c23f7667c7,
+    type: 3}
   speed: 5
   player: {fileID: 0}

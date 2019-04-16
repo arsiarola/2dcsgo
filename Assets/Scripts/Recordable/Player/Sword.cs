@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwordScript : MonoBehaviour
+public class Sword : MonoBehaviour
 {
     public GameObject explosion;
 
