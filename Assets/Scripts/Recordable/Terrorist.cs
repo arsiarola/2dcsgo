@@ -6,6 +6,10 @@ namespace Recordable
 {
     public class Terrorist : Operator
     {
-
+        protected override void Awake()
+        {
+            base.Awake();
+            side = Side.T;
+        }
     }
 }

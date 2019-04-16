@@ -6,7 +6,7 @@ namespace Misc
 {
     static class Constants
     {
-        public const string RecorderName = "Recorder";
+        public const string GameControllerName = "GameController";
     }
 }
 

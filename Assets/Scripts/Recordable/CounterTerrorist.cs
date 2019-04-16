@@ -6,6 +6,11 @@ namespace Recordable
 {
     public class CounterTerrorist : Operator
     {
+        protected override void Awake()
+        {
+            base.Awake();
+            side = Side.CT;
+        }
         
     }
 }

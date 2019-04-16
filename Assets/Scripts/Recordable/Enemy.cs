@@ -9,9 +9,9 @@ namespace Recordable
         public float speed;
         public Transform player;
 
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
             player = GameObject.Find("Player").transform;
         }
 

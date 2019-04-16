@@ -161,5 +161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ed425e52ed709f4ca590a171ec71997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recorder: {fileID: 0}
-  dummyType: {fileID: 0}
+  gameController: {fileID: 0}
+  dummyType: {fileID: 2500465347906140141, guid: 4c20726d051abbc4c9755ef0509baeb7,
+    type: 3}
+  side: 0
+  ordersType: {fileID: 2500465347906140141, guid: 1bcff7943b3aa874aa733211701c332a,
+    type: 3}

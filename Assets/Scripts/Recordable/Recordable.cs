@@ -17,23 +17,30 @@ namespace Recordable
             rotation = 0;
             velocity = new Vector2(0, 0);
             animTriggers = new List<string>();
+
         }
     }
 
     public abstract class Recordable : MonoBehaviour
     {
-        private int recordingId;
-        [SerializeField] private Recorder recorder;
-        [SerializeField] private GameObject dummyType;
+        private int objectId;
+        [SerializeField] protected Core.GameController gameController;
+        [SerializeField] protected GameObject dummyType;
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
-            if (recorder == null)
+            if (gameController == null)
             {
-                recorder = GameObject.Find(Misc.Constants.RecorderName).GetComponent<Recorder>();
+                gameController = GameObject.Find(Misc.Constants.GameControllerName).GetComponent<Core.GameController>();
             }
             GameObject gObj = gameObject;
-            recordingId = recorder.GetObjectKey(dummyType, ref gObj);
+            objectId = GetObjectId(ref gObj);
+            //objectId = gameController.GetObjectId(ref gObj, dummyType, ordersType);
+        }
+        protected virtual int GetObjectId(ref GameObject gObj)
+        {
+            return gameController.GetObjectId(ref gObj, dummyType);
+
         }
 
         protected virtual void InitRecordableState(RecordableState recordableState)
@@ -46,7 +53,7 @@ namespace Recordable
         {
             RecordableState recordableState = new RecordableState();
             InitRecordableState(recordableState);
-            recorder.FrameAddRecordableState(recordingId, recordableState);
+//            gameController.FrameAddRecordableState(objectId, recordableState);
         }
     }
 
@@ -55,9 +62,9 @@ namespace Recordable
         protected Animator animator;
         private List<string> animTriggers = new List<string>();
 
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
             animator = GetComponent<Animator>();
             GetComponent<Animator>().keepAnimatorControllerStateOnDisable = true;
         }

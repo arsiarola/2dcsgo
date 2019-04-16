@@ -103,7 +103,6 @@ public class Recorder : MonoBehaviour
             yield return new WaitForEndOfFrame();
             if (pressed)
             {
-                //Debug.Log("pressed");
                 pressed = false;
                 Replay();
             }
