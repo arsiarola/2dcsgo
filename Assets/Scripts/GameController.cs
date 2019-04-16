@@ -4,17 +4,19 @@ using UnityEngine;
 
 namespace Core
 {
+    public enum GamePhase
+    {
+        CounterTerroristOrders,
+        TerroristOrders,
+        CounterTerroristReplay,
+        TerroristReplay
+    }
+
     public class GameController : MonoBehaviour
     {
-        void Start()
-        {
+        GamePhase gamePhase = GamePhase.CounterTerroristOrders;
 
-        }
-        // Update is called once per frame
-        void Update()
-        {
 
-        }
     }
 }
 

@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace Recordable
 {
-    
-}
+    public class Terrorist : Operator
+    {
 
+    }
+}
