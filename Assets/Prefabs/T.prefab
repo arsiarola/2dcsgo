@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2333462321603042060}
   - component: {fileID: 2333462321603042066}
   - component: {fileID: 2333462321603042067}
-  - component: {fileID: 1042126881800544359}
   - component: {fileID: 3727297757157782513}
+  - component: {fileID: 4350142135641051537}
   m_Layer: 0
   m_Name: T
   m_TagString: Untagged
@@ -130,24 +130,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.43, y: 0.41}
   m_EdgeRadius: 0
---- !u!114 &1042126881800544359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2333462321603042064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f0c9fd2373e5ad4ba51bb51a4c71881, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameController: {fileID: 0}
-  dummyType: {fileID: 4819354538216988444, guid: 32694445d462f154286878fbc78c07e4,
-    type: 3}
-  side: 0
-  ordersType: {fileID: 2333462321603042064, guid: 021619b41395d814da6e7d123f6784e4,
-    type: 3}
 --- !u!95 &3727297757157782513
 Animator:
   serializedVersion: 3
@@ -167,3 +149,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4350142135641051537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2333462321603042064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13bc4b7c2e29c4f4b8893b3163bd4992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameController: {fileID: 0}
+  dummyType: {fileID: 4819354538216988444, guid: 32694445d462f154286878fbc78c07e4,
+    type: 3}
+  planningType: {fileID: 2333462321603042064, guid: 021619b41395d814da6e7d123f6784e4,
+    type: 3}

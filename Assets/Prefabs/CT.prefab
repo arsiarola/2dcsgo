@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7966725424950678417}
   - component: {fileID: 7966725424950678418}
   - component: {fileID: 7525176473258526141}
-  - component: {fileID: 4421652864855277240}
+  - component: {fileID: 5969782426889685550}
   m_Layer: 0
   m_Name: CT
   m_TagString: Untagged
@@ -149,7 +149,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4421652864855277240
+--- !u!114 &5969782426889685550
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,12 +158,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7966725424950678419}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ed425e52ed709f4ca590a171ec71997, type: 3}
+  m_Script: {fileID: 11500000, guid: 13bc4b7c2e29c4f4b8893b3163bd4992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gameController: {fileID: 0}
   dummyType: {fileID: 2500465347906140141, guid: 4c20726d051abbc4c9755ef0509baeb7,
     type: 3}
-  side: 0
-  ordersType: {fileID: 2500465347906140141, guid: 1bcff7943b3aa874aa733211701c332a,
+  test: {fileID: 2500465347906140141, guid: 4c20726d051abbc4c9755ef0509baeb7, type: 3}
+  planningType: {fileID: 2500465347906140141, guid: 1bcff7943b3aa874aa733211701c332a,
     type: 3}

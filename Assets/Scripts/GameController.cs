@@ -9,42 +9,41 @@ namespace Core
         CTOrders,
         TOrders,
         CTReplay,
-        TReplay
+        TReplay,
+        Record
     }
 
     public class GameController : MonoBehaviour
     {
-        private GameStage gameStage = GameStage.CTOrders;
+        private GameStage gameStage = GameStage.Record;
+        private int NextId { get; set; }
 
-
-        
         [SerializeField] private Recorder recorder;
-        private Dictionary<int, GameObject> ordersTypes = new Dictionary<int, GameObject>();
-        private int nextId = 0;
         private Dictionary<int, GameObject> objectRefs = new Dictionary<int, GameObject>();
+        private Dictionary<int, GameObject> planningTypes = new Dictionary<int, GameObject>();
         private Dictionary<int, GameObject> dummyTypes = new Dictionary<int, GameObject>();
-        private List<Dictionary<int, Recordable.RecordableState>> frameList = new List<Dictionary<int, Recordable.RecordableState>>();
+        private List<Dictionary<int, Recordable.RecordableState>> frames = new List<Dictionary<int, Recordable.RecordableState>>();
+
         private void Start()
         {
-            UpdateStage(); 
+            Time.timeScale = 100.0f;
+            UpdateStage();
         }
 
         private void Update()
         {
-            
+
         }
 
-        private void UpdateStage ()
+        private void UpdateStage()
         {
-            switch (gameStage)
-            {
+            switch (gameStage) {
                 case GameStage.CTOrders:
-                    foreach(KeyValuePair<int, GameObject> pair in objectRefs)
-                    {
+                    foreach (KeyValuePair<int, GameObject> pair in objectRefs) {
                         int id = pair.Key;
                         GameObject gObj = pair.Value;
                         gObj.SetActive(false);
-                        if (gObj.GetComponent<Recordable.Operator>() != null)
+                        /*if (gObj.GetComponent<Recordable.Operator>() != null)
                         {
                             if (gObj.GetComponent<Recordable.Operator>().side == Recordable.Side.CT)
                             {
@@ -55,10 +54,8 @@ namespace Core
                                 //Instantiate(dummyTypes[id]);
                             }
 
-                        }
-
+                        }*/
                     }
-               
                     break;
                 case GameStage.TOrders:
                     break;
@@ -66,30 +63,31 @@ namespace Core
                     break;
                 case GameStage.TReplay:
                     break;
-                    
-                    
-                    
+                case GameStage.Record:
+                    Record();
+                    break;
+
+
+
             }
         }
-        public int GetObjectId(ref GameObject objectRef, GameObject dummyType)
-        {
-            int id = nextId;
-            nextId++;
 
-            objectRefs.Add(id, objectRef);
-            dummyTypes.Add(id, dummyType);
-            return id;
-        } 
-        public int GetObjectId(ref GameObject objectRef, GameObject dummyType, GameObject ordersType)
+        private void Record()
         {
-            int id = nextId;
-            nextId++;
+            recorder.Record(5000);
+        }
 
-            objectRefs.Add(id, objectRef);
-            dummyTypes.Add(id, dummyType);
-            ordersTypes.Add(id, ordersType);
-            return id;
-        } 
+        public void AddRecordable(ref GameObject objectRef, GameObject dummyType)
+        {
+            objectRefs.Add(NextId, objectRef);
+            dummyTypes.Add(NextId, dummyType);
+            NextId++;
+        }
+        public void AddRecordable(ref GameObject objectRef, GameObject dummyType, GameObject planningType)
+        {
+            planningTypes.Add(NextId, planningType);
+            AddRecordable(ref objectRef, dummyType);
+        }
     }
 }
 
