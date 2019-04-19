@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7966725424950678423}
   - component: {fileID: 7966725424950678416}
-  - component: {fileID: 7966725424950678417}
   - component: {fileID: 7966725424950678418}
-  - component: {fileID: 9207282274891662370}
   - component: {fileID: 2214719547414221772}
+  - component: {fileID: 6034990136936438002}
+  - component: {fileID: 1886791417082558063}
   m_Layer: 0
   m_Name: CT testi
   m_TagString: Untagged
@@ -83,27 +83,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &7966725424950678417
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7966725424950678419}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 5
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &7966725424950678418
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -130,7 +109,54 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.45, y: 0.56}
   m_EdgeRadius: 0
---- !u!95 &9207282274891662370
+--- !u!114 &2214719547414221772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7966725424950678419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a552781a5ba90c441a86be4bafcbb97a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mousePositionList: []
+  mousePosition: {x: 0, y: 0, z: 0}
+  spacePressed: 0
+  makePath: 0
+  drawPath: 0
+  destroyPath: 0
+  inAction: 0
+  overallDistance: 0
+  vectorDistance: 0
+  amountOfPoints: 0
+  pointAccuracy: 0
+  lineRenderer: {fileID: 0}
+  gObj: {fileID: 0}
+  rb: {fileID: 0}
+--- !u!50 &6034990136936438002
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7966725424950678419}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!95 &1886791417082558063
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -149,15 +175,3 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2214719547414221772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7966725424950678419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a552781a5ba90c441a86be4bafcbb97a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
