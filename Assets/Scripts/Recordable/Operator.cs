@@ -4,21 +4,26 @@ using UnityEngine;
 
 namespace Recordable
 {
-    public enum Side
+    public class Operator : RigidAnimated
     {
-        T,
-        CT
-    }
+        public GameObject test;
+        [SerializeField] protected GameObject planningType;
+        int count = 0;
 
-    public abstract class Operator : RigidAnimated
-    {
-        public Side side; 
-        [SerializeField] protected GameObject ordersType;
-
-        protected override int GetObjectId(ref GameObject gObj)
+        protected override void SendRecordable(ref GameObject gObj)
         {
-            return gameController.GetObjectId(ref gObj, dummyType, ordersType);
+            gameController.AddRecordable(ref gObj, dummyType, planningType);
+        }
 
+        protected void FixedUpdate()
+        {
+            if (Globals.startCounting) {
+                count++;
+                Debug.Log("Other Fixed: " + count);
+                if (count == 245) {
+                    Instantiate(test);
+                }
+            }
         }
     }
 }
