@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 7966725424950678417}
   - component: {fileID: 7966725424950678418}
   - component: {fileID: 7966725424950678421}
-  - component: {fileID: 7966725424950678422}
+  - component: {fileID: 3178758969416015235}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -271,7 +271,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7966725424950678422
+--- !u!114 &3178758969416015235
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -280,11 +280,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7966725424950678419}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f2becb6e9047424791a1ba4a068fe64, type: 3}
+  m_Script: {fileID: 11500000, guid: 4af7dc950ab1a0b48a7cd6f3e1eb12b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recorder: {fileID: 0}
-  dummyType: {fileID: 2500465347906140141, guid: ef87751e2cc06dd45ac08afebdcadcae,
-    type: 3}
-  speed: 20
-  strafeSpeed: 10

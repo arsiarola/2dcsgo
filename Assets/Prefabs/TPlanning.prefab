@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2333462321603042063}
   - component: {fileID: 2333462321603042060}
-  - component: {fileID: 1042126881800544359}
   - component: {fileID: 2980318909115750810}
+  - component: {fileID: 5156919270140922670}
   m_Layer: 0
-  m_Name: TOrders
+  m_Name: TPlanning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,20 +81,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1042126881800544359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2333462321603042064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f0c9fd2373e5ad4ba51bb51a4c71881, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  recorder: {fileID: 0}
-  dummyType: {fileID: 0}
 --- !u!95 &2980318909115750810
 Animator:
   serializedVersion: 3
@@ -114,3 +100,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5156919270140922670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2333462321603042064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4af7dc950ab1a0b48a7cd6f3e1eb12b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

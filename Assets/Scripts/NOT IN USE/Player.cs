@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 namespace Recordable
 {
-    public class Player : RigidAnimated
+    public class Player : DynamicRecordable
     {
         public float speed;
         public float strafeSpeed;
@@ -14,7 +14,7 @@ namespace Recordable
         {
             if (Input.GetMouseButtonDown(0))
             {
-                ActivateAnimTrigger("Attack");
+                GetComponent<Animator>().SetTrigger("Attack");
             }
         }
 
@@ -30,5 +30,5 @@ namespace Recordable
             GetComponent<Rigidbody2D>().AddForce(transform.right * strafeSpeed * inputAD);
         }
     }
-}
+}*/
 

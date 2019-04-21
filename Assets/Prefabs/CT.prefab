@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 7966725424950678417}
   - component: {fileID: 7966725424950678418}
   - component: {fileID: 7525176473258526141}
-  - component: {fileID: 5969782426889685550}
+  - component: {fileID: 7686429736679553346}
+  - component: {fileID: 8185079784684662269}
   m_Layer: 0
   m_Name: CT
   m_TagString: Untagged
@@ -149,7 +150,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &5969782426889685550
+--- !u!114 &7686429736679553346
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,12 +159,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 7966725424950678419}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13bc4b7c2e29c4f4b8893b3163bd4992, type: 3}
+  m_Script: {fileID: 11500000, guid: ebfa2b6fe1b922945a32f10ac036e0a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gameController: {fileID: 0}
-  dummyType: {fileID: 2500465347906140141, guid: 4c20726d051abbc4c9755ef0509baeb7,
+  replayType: {fileID: 2500465347906140141, guid: 4c20726d051abbc4c9755ef0509baeb7,
     type: 3}
-  test: {fileID: 2500465347906140141, guid: 4c20726d051abbc4c9755ef0509baeb7, type: 3}
   planningType: {fileID: 2500465347906140141, guid: 1bcff7943b3aa874aa733211701c332a,
     type: 3}
+--- !u!114 &8185079784684662269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7966725424950678419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4af7dc950ab1a0b48a7cd6f3e1eb12b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

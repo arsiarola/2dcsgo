@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class RecorderOLD : MonoBehaviour
 {
     public int nextKey = 0;
@@ -127,3 +127,4 @@ public class RecorderOLD : MonoBehaviour
         return key;
     }
 }
+*/

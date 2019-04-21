@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 3159542878733628606}
   - component: {fileID: 511884199171846268}
   - component: {fileID: 9037956053040948146}
-  - component: {fileID: 4502172856828782093}
+  - component: {fileID: 1568883680810484866}
+  - component: {fileID: 7762842821876622824}
   m_Layer: 0
   m_Name: Explosion
   m_TagString: Untagged
@@ -93,14 +94,14 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 887e040709f9d9049bfcb4e35c18215e, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4502172856828782093
+--- !u!114 &1568883680810484866
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,10 +110,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 8889254995952351810}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1aa64b8881535f4ebc1a281279d273f, type: 3}
+  m_Script: {fileID: 11500000, guid: fe294086118ac5d42b8e66a66de93912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recorder: {fileID: 0}
-  dummyType: {fileID: 8889254995952351810, guid: 43873f7e34486904697c63fbeea72c6f,
-    type: 3}
   animationName: ExplosionAnimation
+--- !u!114 &7762842821876622824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8889254995952351810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa5a2800e8f3ce84eb6ad2f1e0fa22f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameController: {fileID: 0}
+  replayType: {fileID: 8889254995952351810, guid: 43873f7e34486904697c63fbeea72c6f,
+    type: 3}
+  planningType: {fileID: 0}

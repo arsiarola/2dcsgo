@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 namespace Recordable
 {
-    public class Enemy : RigidAnimated
+    public class Enemy : DynamicRecordable
     {
         public float speed;
         public Transform player;
@@ -25,5 +25,5 @@ namespace Recordable
 
         }
     }
-}
+}*/
 

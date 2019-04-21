@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Recordable
 {
-    public class RigidAnimated : Animated
+    public class DynamicRecordable : AnimatedRecordable
     {
         protected override void InitRecordableState(RecordableState recordableState)
         {
