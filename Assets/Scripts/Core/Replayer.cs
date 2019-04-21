@@ -15,6 +15,7 @@ namespace Core
         private float currentFrameAsFloat;
         private float replaySpeed;
         private bool pause;
+        private bool isFirstFrame;
 
         private void UpdateReplayObjects()
         {
@@ -106,6 +107,12 @@ namespace Core
                     currentFrameAsFloat += Time.deltaTime / Time.fixedDeltaTime;
                 }
 
+                if (isFirstFrame)
+                {
+                    currentFrameAsFloat = 0;
+                    isFirstFrame = false;
+                }
+
                 if (currentFrameAsFloat < 0)
                 {
                     currentFrameAsFloat = 0;
@@ -115,8 +122,8 @@ namespace Core
                     currentFrameAsFloat = gameController.frames.Count - 1;
                 }
 
-                Debug.Log(replaySpeed);
-                //Debug.Log(currentFrameAsFloat);
+                //Debug.Log(replaySpeed);
+                Debug.Log(currentFrameAsFloat);
 
                 currentFrame = (int)(Mathf.Round(currentFrameAsFloat));
                 frame = gameController.frames[currentFrame];
@@ -145,7 +152,9 @@ namespace Core
             replayRefs = new Dictionary<int, GameObject>();
             play = true;
             replaySpeed = 1f;
+            currentFrameAsFloat = 0;
             pause = false;
+            isFirstFrame = true;
         }
     }
 }

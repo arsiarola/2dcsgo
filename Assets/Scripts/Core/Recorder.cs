@@ -44,10 +44,10 @@ namespace Core
                 currentTime += Time.fixedDeltaTime * 1000;
                 if (currentTime >= recordingLength)
                 {
+                    Time.timeScale = 1.0f;
                     Globals.startCounting = false;
                     gameController.DisableRecordables();
                     gameController.SetFlag(GameFlag.RecordEnd);
-                    Time.timeScale = 1.0f;
                     StopCoroutine("AtFixedUpdateEnd");
                 }
             }
@@ -62,7 +62,7 @@ namespace Core
 
             Globals.startCounting = true;
             gameController.EnableRecordables();
-            Time.timeScale = 100.0f;
+            Time.timeScale = 100f;
             StartCoroutine("AtFixedUpdateEnd");
         }
 

@@ -442,6 +442,11 @@ PrefabInstance:
       propertyPath: gameController
       value: 
       objectReference: {fileID: 1514925048}
+    - target: {fileID: 3727297757157782513, guid: 6e825cc532646f74d98e684cdcde434d,
+        type: 3}
+      propertyPath: m_UpdateMode
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e825cc532646f74d98e684cdcde434d, type: 3}
 --- !u!1001 &1562626232
@@ -580,12 +585,12 @@ PrefabInstance:
     - target: {fileID: 7966725424950678423, guid: 14241dd1d9629a44c9908ae04183af5f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.36
+      value: -4.28
       objectReference: {fileID: 0}
     - target: {fileID: 7966725424950678423, guid: 14241dd1d9629a44c9908ae04183af5f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.264
+      value: -1.6
       objectReference: {fileID: 0}
     - target: {fileID: 7966725424950678423, guid: 14241dd1d9629a44c9908ae04183af5f,
         type: 3}
@@ -641,6 +646,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_UpdateMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966725424950678417, guid: 14241dd1d9629a44c9908ae04183af5f,
+        type: 3}
+      propertyPath: m_GravityScale
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14241dd1d9629a44c9908ae04183af5f, type: 3}
