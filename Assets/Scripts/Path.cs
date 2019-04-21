@@ -9,32 +9,31 @@ public class Path : MonoBehaviour
     public List<Vector3> mousePositionList;
     public Vector3 mousePosition;
 
-    public bool pressed;
+    public bool spacePressed;
     public bool makePath;
     public bool drawPath;
     public bool destroyPath;
     public bool inAction;
 
     public float overallDistance;
-    public float distanceToPoint = 0;
     public float vectorDistance;
-    public float distanceBetweenPoints;
     public float amountOfPoints;
-    public Vector3 point;
+    public float pointAccuracy;
 
     public LineRenderer lineRenderer;
     public GameObject gObj;
-    public IEnumerator coroutine;
+    public Rigidbody2D rb;
 
 
     // Start is called before the first frame update
     void Start()
     {
         gObj = gameObject;
-        coroutine = WaitAndMove(gObj.transform.position, 0.1f);
         StartCoroutine("InputCheck");
-        distanceBetweenPoints = 0.0001f;
-        amountOfPoints = 100000;
+        StartCoroutine("DoAction");
+        rb = gObj.GetComponent<Rigidbody2D>();
+        pointAccuracy = 0.1f;
+        amountOfPoints = 1000;
         mousePositionList = new List<Vector3>();
 
         lineRenderer = gObj.AddComponent<LineRenderer>();
@@ -48,7 +47,7 @@ public class Path : MonoBehaviour
         makePath = false;
         drawPath = false;
         destroyPath = true;
-        pressed = false;
+        spacePressed = false;
         inAction = false;
 
     }
@@ -66,7 +65,6 @@ public class Path : MonoBehaviour
     private void FixedUpdate()
     {
         mousePosition = Misc.Tools.SetZAxisToZero(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-
         if (makePath)
         {
             if (destroyPath)
@@ -77,77 +75,68 @@ public class Path : MonoBehaviour
             MakePath();
         }
     }
-/*    private void AsOftenAsPossible()
-    {
-       mousePosition = Misc.Tools.SetZAxisToZero(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-
-        if (makePath)
-        {
-            if (destroyPath)
-            {
-                lineRenderer.positionCount = 0;
-                lineRenderer.positionCount = 2;
-            }
-            MakePath();
-        } else
-        {
-            CancelInvoke();
-        }
-    }
-*/
+    
     private void LateUpdate()
     {
         if (Input.GetKeyDown("space"))
         {
-            pressed = true;
+            spacePressed = true;
         }
     }
+    
     IEnumerator InputCheck()
+
     {
         while (true)
         {
             yield return new WaitForEndOfFrame();
-            if (pressed)
+            if (spacePressed)
             {
-                pressed = false;
-                //DoAction();
+                spacePressed = false;
+                inAction = true;
             }
         }
     }
 
-    IEnumerator WaitAndMove(Vector3 position, float seconds)
+    IEnumerator DoAction()
     {
-        Debug.Log(mousePositionList.Count);
-        foreach (Vector3 point in mousePositionList)
+        while (true)
         {
-            yield return new WaitForSeconds(seconds);
-            gObj.transform.localPosition = point;
-        }
-    } 
-    private void DoAction()
-    {
-        inAction = true;
-        lineRenderer.positionCount = 0;
-        /*        if (mousePositionList.Count > 0)
-                {
-                        coroutine = WaitAndMove(gObj.transform.position, 0.1f);
-                        StartCoroutine(coroutine);
-               }
-        */
-        for(int i = 1; i < mousePositionList.Count; i++)
-        {
-            distanceToPoint = Vector3.Distance(gObj.transform.position, mousePositionList[i]);
-            while(distanceToPoint > 0)
+            yield return new WaitForFixedUpdate();
+            if (inAction)
             {
-                //liikuta gObj mousePositionList[i] suuntaan
-                distanceToPoint = Vector3.Distance(gObj.transform.position, mousePositionList[i]);
-            }
+                lineRenderer.positionCount = 0;
+                //while(gameState = "Simulator")
+                for (int i = 1; i < mousePositionList.Count; i++)
+                {
+                    while (Vector3.Distance(gObj.transform.position, mousePositionList[i]) != 0)
+                    {
+                        yield return new WaitForSeconds(0.001f);
+                        transform.position = Vector3.MoveTowards(transform.position, mousePositionList[i], Time.deltaTime * 10f);
+/*                      if (enemyInFov) 
+ *                      {
+                           yield return new WaitForSeconds(0.5);
+                           while (enemyInFov)
+                           {
+                                gObj.shoot();
+                           }
+                        }
+ */                   }
+                }
+/*              while(inAction)
+                {
+                  while (enemyInFov)
+                  {
+                      gObj.shoot();   //shoot() would include the calculation which enemy to shoot
+                  }
 
+                }
+*/                mousePositionList = new List<Vector3>();
+                inAction = false;
+                makePath = false;
+                drawPath = false;
+            }
         }
-        
-        inAction = false;
-        makePath = false;
-        drawPath = false;
     }
 
     private void MakePath()
@@ -164,12 +153,11 @@ public class Path : MonoBehaviour
                 overallDistance += vectorDistance;
             }
             overallDistance += Vector3.Distance(mousePositionList[mousePositionList.Count - 1], mousePosition);
-            if (Input.GetMouseButton(0) && lineRenderer.positionCount < amountOfPoints && overallDistance < 10)
+            if (Input.GetMouseButton(0) && lineRenderer.positionCount < amountOfPoints && overallDistance < 100)
             {
-                Debug.Log(overallDistance);
                 vectorDistance = (Vector3.Distance(mousePositionList[mousePositionList.Count - 1], mousePosition));
 
-                if (vectorDistance > distanceBetweenPoints)
+                if (vectorDistance > pointAccuracy)
                 {
                     lineRenderer.positionCount++;
                     mousePositionList.Add(mousePosition);
@@ -199,7 +187,6 @@ public class Path : MonoBehaviour
             lineRenderer.SetPosition(1, mousePosition);
             makePath = true;
             drawPath = false;
-            //InvokeRepeating("AsOftenAsPossible", 0, 0.02f);
 
         }
     }
