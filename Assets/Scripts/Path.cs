@@ -112,10 +112,26 @@ public class Path : MonoBehaviour
                     while (Vector3.Distance(gObj.transform.position, mousePositionList[i]) != 0)
                     {
                         yield return new WaitForSeconds(0.001f);
-                        transform.position = Vector3.MoveTowards(transform.position, mousePositionList[i], 
-                            Time.deltaTime * 10f);
-                    }
+                        transform.position = Vector3.MoveTowards(transform.position, mousePositionList[i], Time.deltaTime * 10f);
+/*                      if (enemyInFov) 
+ *                      {
+                           yield return new WaitForSeconds(0.5);
+                           while (enemyInFov)
+                           {
+                                gObj.shoot();
+                           }
+                        }
+ */                   }
                 }
+/*              while(inAction)
+                {
+                  while (enemyInFov)
+                  {
+                      gObj.shoot();   //shoot() would include the calculation which enemy to shoot
+                  }
+
+                }
+*/                mousePositionList = new List<Vector3>();
                 inAction = false;
                 makePath = false;
                 drawPath = false;
