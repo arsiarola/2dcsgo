@@ -40,10 +40,10 @@ public class FollowPath : MonoBehaviour
 
 
             int lookTowardsPoint = nextPoint;
-            while (lookTowardsPoint < refMousePositionList.Count && lookTowardsPoint < nextPoint + 2) {
+            while (lookTowardsPoint + 1 < refMousePositionList.Count && lookTowardsPoint < nextPoint + 2) {
                 lookTowardsPoint++;
             }
-            Vector3 relativePos = refMousePositionList[nextPoint] - transform.position;
+            Vector3 relativePos = refMousePositionList[lookTowardsPoint] - transform.position;
             Quaternion target = Quaternion.LookRotation(Vector3.forward, relativePos);
             transform.rotation = target;
             transform.position = Vector3.Lerp(transform.position, refMousePositionList[nextPoint], t);
