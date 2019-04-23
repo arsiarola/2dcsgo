@@ -16,11 +16,14 @@ public class FollowPath : MonoBehaviour
     {
         if (nextPoint < refMousePositionList.Count)
         {
-            if (gameObject.transform.position != refMousePositionList[nextPoint])
-            {
-                transform.position = Vector3.MoveTowards(gameObject.transform.position, refMousePositionList[nextPoint], 10f);
-            }
-            else
+            //transform.position = Vector3.MoveTowards(gameObject.transform.position, refMousePositionList[nextPoint], 10f);
+            float speed = 20f;
+            Vector3 relativePos = refMousePositionList[nextPoint] - transform.position;
+            Quaternion target = Quaternion.LookRotation(Vector3.forward, relativePos);
+            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.fixedDeltaTime * speed);
+            GetComponent<Rigidbody2D>().AddForce(transform.up * speed);
+
+            if (Vector3.Distance(gameObject.transform.position, refMousePositionList[nextPoint]) < 0.5f)
             {
                 nextPoint++;
             }
@@ -29,7 +32,7 @@ public class FollowPath : MonoBehaviour
 
     public void SetMousePositionList(List<Vector3> list)
     {
-        Debug.Log("in fixed update");
+        //Debug.Log("in fixed update");
         refMousePositionList = list;
     }
 }

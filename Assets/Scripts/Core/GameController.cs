@@ -130,14 +130,21 @@ namespace Core
 
         public void DisableRecordables()
         {
+            List<int> removeIds = new List<int>();
             foreach (KeyValuePair<int, GameObject> pair in recordableRefs)
             {
+                int id = pair.Key;
                 GameObject obj = pair.Value;
                 if (obj != null)
                 {
                     DisableRecordableChildren(ref obj);
                     obj.SetActive(false);
+                } else {
+                    removeIds.Add(id);
                 }
+            }
+            foreach (int id in removeIds) {
+                recordableRefs.Remove(id);
             }
         }
 

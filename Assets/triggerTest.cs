@@ -35,7 +35,11 @@ public class triggerTest : MonoBehaviour
 
                 }
             }
-            GetComponent<Rigidbody2D>().AddForce(transform.up * 5 * 1);
+            float smooth = 5.0f;
+            Vector3 relativePos = new Vector3(0,0,0) - transform.position;
+            Quaternion target = Quaternion.LookRotation(Vector3.forward, relativePos);
+            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.fixedDeltaTime * smooth);
+            GetComponent<Rigidbody2D>().AddForce(transform.up * 5);
         }
         
     }

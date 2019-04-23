@@ -64,7 +64,15 @@ namespace Core
 
             Globals.startCounting = true;
             gameController.EnableRecordables();
-            Time.timeScale = 1f;
+            foreach (KeyValuePair<int, GameObject> pair in gameController.recordableRefs) {
+                int id = pair.Key;
+                GameObject obj = pair.Value;
+
+                if (obj.GetComponent<Rigidbody2D>() != null) {
+                    obj.GetComponent<Rigidbody2D>().velocity = gameController.Frames[gameController.Frames.Count - 1][id].velocity;
+                }
+            }
+            Time.timeScale = 100f;
             StartCoroutine("AtFixedUpdateEnd");
         }
 
