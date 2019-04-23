@@ -37,7 +37,7 @@ namespace Core
         [SerializeField] private Planning planning;
         private Planning Planning { get { return planning; } }
         public Dictionary<int, GameObject> recordableRefs = new Dictionary<int, GameObject>();
-        private Dictionary<int, GameObject> recordablePlanningTypes = new Dictionary<int, GameObject>();
+        public Dictionary<int, GameObject> recordablePlanningTypes = new Dictionary<int, GameObject>();
         public Dictionary<int, GameObject> recordableReplayTypes = new Dictionary<int, GameObject>();
         
 
@@ -115,7 +115,7 @@ namespace Core
         {
             recordableRefs.Add(NextId, reference);
             recordableReplayTypes.Add(NextId, replayType);
-            recordablePlanningTypes.Add(NextId, planningType);
+            if (planningType != null) recordablePlanningTypes.Add(NextId, planningType);
             NextId++;
         }
 

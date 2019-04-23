@@ -123,7 +123,7 @@ namespace Core
                 }
 
                 //Debug.Log(replaySpeed);
-                Debug.Log(currentFrameAsFloat);
+                //Debug.Log(currentFrameAsFloat);
 
                 currentFrame = (int)(Mathf.Round(currentFrameAsFloat));
                 frame = gameController.Frames[currentFrame];

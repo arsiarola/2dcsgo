@@ -13,17 +13,17 @@ namespace Animation
         protected override void Awake()
         {
             base.Awake();
-            Debug.Log("Awake: " + gameObject.transform.position); // TESTING
+            //Debug.Log("Awake: " + gameObject.transform.position); // TESTING
         }
 
         private void Start()
         {
-            Debug.Log("Start: " + gameObject.transform.position); // TESTING
+            //Debug.Log("Start: " + gameObject.transform.position); // TESTING
         }
 
         private void FixedUpdate()
         { 
-            Debug.Log("FixedUpdate: " + gameObject.transform.position);   // TESTING
+            //Debug.Log("FixedUpdate: " + gameObject.transform.position);   // TESTING
             DestroyOnAnimationEnd();
         }
     }
