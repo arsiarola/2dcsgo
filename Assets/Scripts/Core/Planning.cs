@@ -10,14 +10,16 @@ namespace Core
         private GameController GameController { get { return gameController; } }
 
         private Dictionary<int, Recordable.RecordableState> LastFrame { get; set; }
-        private List<GameObject> objects;
+        public Dictionary<int, GameObject> idObjects;
+        public Dictionary<GameObject, int> objectsId;
         private bool plan;
 
         public void Plan()
         {
             // init variables
             plan = true;
-            objects = new List<GameObject>();
+            idObjects = new Dictionary<int, GameObject>();
+            objectsId = new Dictionary<GameObject, int>();
             LastFrame = GameController.Frames[GameController.Frames.Count - 1];
             CreateObjects();
             Time.timeScale = 0;
@@ -57,13 +59,15 @@ namespace Core
                     obj.GetComponent<Animator>().Play(anim.StateHash, anim.Layer, anim.Time);
                 }
 
-                objects.Add(obj);
+                idObjects.Add(id, obj);
+                objectsId.Add(obj, id);
             }
         }
 
         private void DestroyObjects()
         {
-            foreach (GameObject obj in objects) {
+            foreach (KeyValuePair<int, GameObject> pair in idObjects) {
+                GameObject obj = pair.Value;
                 Destroy(obj);
             }
         }
