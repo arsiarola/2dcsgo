@@ -12,8 +12,8 @@ public class MakePath : MonoBehaviour
     public bool drawPath;
     public bool destroyPath;
     public bool inAction;
+    public bool enableDrag = true;
 
-    public float overallDistance;
     public float vectorDistance;
     public float amountOfPoints;
     public float pointAccuracy;
@@ -73,22 +73,22 @@ public class MakePath : MonoBehaviour
         {
             drawPath = true;
             destroyPath = false;
-            overallDistance = 0;
             
             for(int i = 1; i < mousePositionList.Count; i++)
             {
                 vectorDistance = Vector3.Distance(mousePositionList[i], mousePositionList[i - 1]);
-                overallDistance += vectorDistance;
             }
-            overallDistance += Vector3.Distance(mousePositionList[mousePositionList.Count - 1], mousePosition);
-            if (Input.GetMouseButton(0) && lineRenderer.positionCount < amountOfPoints && overallDistance < 100)
+            if (Input.GetMouseButton(0) && lineRenderer.positionCount < amountOfPoints)
             {
                 vectorDistance = (Vector3.Distance(mousePositionList[mousePositionList.Count - 1], mousePosition));
 
                 if (vectorDistance > pointAccuracy)
                 {
-                    lineRenderer.positionCount++;
-                    mousePositionList.Add(mousePosition);
+                    if (enableDrag)
+                    {
+                        lineRenderer.positionCount++;
+                        mousePositionList.Add(mousePosition);
+                    }
                 }
             }
             else
@@ -101,6 +101,14 @@ public class MakePath : MonoBehaviour
                     lineRenderer.SetPosition(i, mousePositionList[i]);
                 }
             }
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "Obstacle")
+        {
+            enableDrag = false;
         }
     }
 
