@@ -1,37 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Threading;
 
-public class Path : MonoBehaviour
+public class MakePath : MonoBehaviour
 {
+    private List<Vector3> mousePositionList;
+    private Vector3 mousePosition;
 
-    public List<Vector3> mousePositionList;
-    public Vector3 mousePosition;
+    private bool spacePressed;
+    private bool makePath;
+    private bool drawPath;
+    private bool destroyPath;
+    private bool inAction;
 
-    public bool spacePressed;
-    public bool makePath;
-    public bool drawPath;
-    public bool destroyPath;
-    public bool inAction;
+    private float overallDistance;
+    private float vectorDistance;
+    private float amountOfPoints;
+    private float pointAccuracy;
 
-    public float overallDistance;
-    public float vectorDistance;
-    public float amountOfPoints;
-    public float pointAccuracy;
+    private LineRenderer lineRenderer;
+    private GameObject gObj;
 
-    public LineRenderer lineRenderer;
-    public GameObject gObj;
-    public Rigidbody2D rb;
-
-
-    // Start is called before the first frame update
-    void Start()
+    private Core.GameController gameController;
+    private void Start()
     {
+        gameController = GameObject.Find(Misc.Constants.GameControllerName).GetComponent<Core.GameController>();   
         gObj = gameObject;
         StartCoroutine("InputCheck");
-        StartCoroutine("DoAction");
-        rb = gObj.GetComponent<Rigidbody2D>();
         pointAccuracy = 0.1f;
         amountOfPoints = 1000;
         mousePositionList = new List<Vector3>();
@@ -49,7 +44,6 @@ public class Path : MonoBehaviour
         destroyPath = true;
         spacePressed = false;
         inAction = false;
-
     }
 
     void Update()
@@ -62,6 +56,7 @@ public class Path : MonoBehaviour
             }
         }
     }
+
     private void FixedUpdate()
     {
         mousePosition = Misc.Tools.SetZAxisToZero(Camera.main.ScreenToWorldPoint(Input.mousePosition));
@@ -72,74 +67,11 @@ public class Path : MonoBehaviour
                 lineRenderer.positionCount = 0;
                 lineRenderer.positionCount = 2;
             }
-            MakePath();
-        }
-    }
-    
-    private void LateUpdate()
-    {
-        if (Input.GetKeyDown("space"))
-        {
-            spacePressed = true;
-        }
-    }
-    
-    IEnumerator InputCheck()
-
-    {
-        while (true)
-        {
-            yield return new WaitForEndOfFrame();
-            if (spacePressed)
-            {
-                spacePressed = false;
-                inAction = true;
-            }
+            CreatePath();
         }
     }
 
-    IEnumerator DoAction()
-    {
-        while (true)
-        {
-            yield return new WaitForFixedUpdate();
-            if (inAction)
-            {
-                lineRenderer.positionCount = 0;
-                //while(gameState = "Simulator")
-                for (int i = 1; i < mousePositionList.Count; i++)
-                {
-                    while (gObj.transform.position != mousePositionList[i]) 
-                    {
-                        yield return new WaitForSeconds(0.001f);
-                        transform.position = Vector3.MoveTowards(gObj.transform.position, mousePositionList[i], 1f*Time.deltaTime); 
-                      /*if (enemyInFov) 
-                      {
-                           yield return new WaitForSeconds(0.5);
-                           while (enemyInFov)
-                           {
-                                gObj.shoot();
-                           }
-                        }
-                     */}
-                }
-              /*while(inAction)
-                {
-                  while (enemyInFov)
-                  {
-                      gObj.shoot();   //shoot() would include the calculation which enemy to shoot
-                  }
-
-                }
-                */mousePositionList = new List<Vector3>();
-                inAction = false;
-                makePath = false;
-                drawPath = false;
-            }
-        }
-    }
-
-    private void MakePath()
+    private void CreatePath()
     {
         if (!inAction)
         {
@@ -175,6 +107,7 @@ public class Path : MonoBehaviour
             }
         }
     }
+
     private void OnMouseOver()
     {
         if (Input.GetMouseButtonDown(0))
@@ -189,6 +122,10 @@ public class Path : MonoBehaviour
             drawPath = false;
 
         }
+    }
+    public void SendMousePositionList() 
+    {
+        //int id = gObj.GetComponent<Id>().id; 
     }
 
 }
