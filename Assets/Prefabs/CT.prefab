@@ -99,7 +99,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 5
-  m_AngularDrag: 0.05
+  m_AngularDrag: 10
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -192,3 +192,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a90ffcd1e1e424db13fd2edb739c84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  refMousePositionList: []
+  nextPoint: 1

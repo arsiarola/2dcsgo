@@ -40,10 +40,9 @@ namespace Core
         public Dictionary<int, GameObject> recordablePlanningTypes = new Dictionary<int, GameObject>();
         public Dictionary<int, GameObject> recordableReplayTypes = new Dictionary<int, GameObject>();
         
-
+        // Before start in Recordable Awake methods, their references have been sent to GameController
         private void Start()
         {
-            Time.timeScale = 1f;
             Frames.Add(recorder.GetRecordableStates()); // get start frame. Not sure if necessary for the replay, but we do need to get the objects starting positions at least (then again these can be gained by other means)
             DisableRecordables();
         }
@@ -98,7 +97,7 @@ namespace Core
 
         private void Record()
         {
-            recorder.Record(5000);
+            recorder.Record(10000);
         }
 
         private void Replay()
