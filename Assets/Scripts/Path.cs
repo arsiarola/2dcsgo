@@ -109,21 +109,21 @@ public class Path : MonoBehaviour
                 //while(gameState = "Simulator")
                 for (int i = 1; i < mousePositionList.Count; i++)
                 {
-                    while (Vector3.Distance(gObj.transform.position, mousePositionList[i]) != 0)
+                    while (gObj.transform.position != mousePositionList[i]) 
                     {
                         yield return new WaitForSeconds(0.001f);
-                        transform.position = Vector3.MoveTowards(transform.position, mousePositionList[i], Time.deltaTime * 10f);
-/*                      if (enemyInFov) 
- *                      {
+                        transform.position = Vector3.MoveTowards(gObj.transform.position, mousePositionList[i], 1f*Time.deltaTime); 
+                      /*if (enemyInFov) 
+                      {
                            yield return new WaitForSeconds(0.5);
                            while (enemyInFov)
                            {
                                 gObj.shoot();
                            }
                         }
- */                   }
+                     */}
                 }
-/*              while(inAction)
+              /*while(inAction)
                 {
                   while (enemyInFov)
                   {
@@ -131,7 +131,7 @@ public class Path : MonoBehaviour
                   }
 
                 }
-*/                mousePositionList = new List<Vector3>();
+                */mousePositionList = new List<Vector3>();
                 inAction = false;
                 makePath = false;
                 drawPath = false;
