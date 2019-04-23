@@ -11,8 +11,8 @@ public class MakePath : MonoBehaviour
     public bool makePath;
     public bool drawPath;
     public bool destroyPath;
-    public bool inAction;
     public bool enableDrag = true;
+    public bool mouseInWall = false;
 
     public float vectorDistance;
     public float amountOfPoints;
@@ -42,7 +42,6 @@ public class MakePath : MonoBehaviour
         drawPath = false;
         destroyPath = true;
         spacePressed = false;
-        inAction = false;
     }
 
     private void Update()
@@ -69,48 +68,43 @@ public class MakePath : MonoBehaviour
 
     private void CreatePath()
     {
-        if (!inAction)
+
+        drawPath = true;
+        destroyPath = false;
+
+        if (Input.GetMouseButton(0) && lineRenderer.positionCount < amountOfPoints)
         {
-            drawPath = true;
-            destroyPath = false;
-            
-            for(int i = 1; i < mousePositionList.Count; i++)
+            if (Physics2D.OverlapPoint(mousePosition, 1 << 8))
+                mouseInWall = true;
+            if (mouseInWall == true && Vector3.Distance(mousePositionList[mousePositionList.Count - 1], mousePosition) < pointAccuracy)
             {
-                vectorDistance = Vector3.Distance(mousePositionList[i], mousePositionList[i - 1]);
+                mouseInWall = false;
             }
-            if (Input.GetMouseButton(0) && lineRenderer.positionCount < amountOfPoints)
+
+            if (mouseInWall == false)
             {
                 vectorDistance = (Vector3.Distance(mousePositionList[mousePositionList.Count - 1], mousePosition));
-
                 if (vectorDistance > pointAccuracy)
                 {
-                    if (enableDrag)
-                    {
-                        lineRenderer.positionCount++;
-                        mousePositionList.Add(mousePosition);
-                    }
+                    lineRenderer.positionCount++;
+                    mousePositionList.Add(mousePosition);
                 }
             }
-            else
-            {
-                makePath = false;
-                drawPath = false;
-                destroyPath = true;
-                for (int i = 0; i < lineRenderer.positionCount; i++)
-                {
-                    lineRenderer.SetPosition(i, mousePositionList[i]);
-                }
-            }
+        
         }
-    }
-
-    void OnCollisionEnter2D(Collision2D coll)
-    {
-        if (coll.gameObject.tag == "Obstacle")
+        else
         {
-            enableDrag = false;
+            makePath = false;
+            drawPath = false;
+            destroyPath = true;
+            for (int i = 0; i < lineRenderer.positionCount; i++)
+            {
+                lineRenderer.SetPosition(i, mousePositionList[i]);
+            }
         }
-    }
+    } 
+    
+
 
     private void MouseOver()
     {
@@ -127,9 +121,6 @@ public class MakePath : MonoBehaviour
             drawPath = false;
 
         }
-    }
-    public void SendMousePositionList() 
-    {
     }
 
 }
