@@ -6,54 +6,99 @@ namespace Core
 {
     public enum GameStage
     {
-        CTOrders,
-        TOrders,
+        CTPlanning,
+        TPlanning,
         CTReplay,
         TReplay,
-        Record
+        Record,
+        Replay,
+        Planning
     }
 
     public enum GameFlag
     {
         RecordEnd,
-        Null
+        ReplayEnd,
+        PlanningEnd
     }
 
     public class GameController : MonoBehaviour
     {
-        private GameStage gameStage = GameStage.Record;
-        private int NextId { get; set; }
-        private GameFlag flag = GameFlag.Null;
+        private GameStage stage = GameStage.Record;
+        private GameStage Stage { get { return stage; } set { stage = value; IsStageChanged = true; } }
+        private bool IsStageChanged { get; set; } = true;
+        private int NextId { get; set; } = 0;
+        public GameFlag? Flag { get; set; } = null;
+        public List<Dictionary<int, Recordable.RecordableState>> Frames { get; private set; } = new List<Dictionary<int, Recordable.RecordableState>>();
+
 
         [SerializeField] private Recorder recorder;
         [SerializeField] private Replayer replayer;
+        [SerializeField] private Planning planning;
+        private Planning Planning { get { return planning; } }
         public Dictionary<int, GameObject> recordableRefs = new Dictionary<int, GameObject>();
         private Dictionary<int, GameObject> recordablePlanningTypes = new Dictionary<int, GameObject>();
         public Dictionary<int, GameObject> recordableReplayTypes = new Dictionary<int, GameObject>();
-        public List<Dictionary<int, Recordable.RecordableState>> frames = new List<Dictionary<int, Recordable.RecordableState>>();
+        
 
         private void Start()
         {
             Time.timeScale = 1f;
+            Frames.Add(recorder.GetRecordableStates()); // get start frame. Not sure if necessary for the replay, but we do need to get the objects starting positions at least (then again these can be gained by other means)
             DisableRecordables();
-            Record();
-        }
-
-        public void SetFlag(GameFlag flag)
-        {
-            this.flag = flag;
         }
 
         private void HandleFlags()
         {
-            switch (flag)
+            switch (Flag)
             {
                 case GameFlag.RecordEnd:
-                    frames.AddRange(recorder.GetFrames());
-                    Replay();
+                    Frames.AddRange(recorder.GetFrames());
+                    Stage = GameStage.Replay;
+                    break;
+                case GameFlag.ReplayEnd:
+                    Stage = GameStage.Planning;
+                    break;
+                case GameFlag.PlanningEnd:
+                    Stage = GameStage.Record;
                     break;
             }
-            flag = GameFlag.Null;
+            Flag = null;
+        }
+
+        private void HandleStages()
+        {
+            switch (Stage)
+            {
+                case GameStage.Record:
+                    Record();
+                    break;
+                case GameStage.Replay:
+                    Replay();
+                    break;
+                case GameStage.Planning:
+                    Plan();
+                    break;
+            }
+            IsStageChanged = false;
+        }
+
+        private void Update()
+        {
+            if (Flag != null)
+            {
+                HandleFlags();
+            }
+            if (IsStageChanged)
+            {
+                HandleStages();
+            }
+            
+        }
+
+        private void Record()
+        {
+            recorder.Record(5000);
         }
 
         private void Replay()
@@ -61,35 +106,9 @@ namespace Core
             replayer.Replay();
         }
 
-        private void Update()
+        private void Plan()
         {
-            if (flag != GameFlag.Null)
-            {
-                HandleFlags();
-            }
-            
-        }
-
-        private void UpdateStage()
-        {
-            switch (gameStage) {
-                case GameStage.CTOrders:
-                    break;
-                case GameStage.TOrders:
-                    break;
-                case GameStage.CTReplay:
-                    break;
-                case GameStage.TReplay:
-                    break;
-                case GameStage.Record:
-                    Record();
-                    break;
-            }
-        }
-
-        private void Record()
-        {
-            recorder.Record(5000);
+            Planning.Plan();
         }
 
         public void AddRecordable(ref GameObject reference, GameObject replayType, GameObject planningType)

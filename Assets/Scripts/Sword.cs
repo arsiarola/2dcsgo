@@ -8,6 +8,7 @@ public class Sword : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("Hit");   // TESTING
         Instantiate(explosion, collision.transform.position, Quaternion.identity);
         Destroy(collision.gameObject);
     }

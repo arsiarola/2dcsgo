@@ -92,7 +92,7 @@ namespace Core
                 if (replaySpeed < 0)
                 {
                     replaySpeed = 0;
-                } 
+                }
 
                 if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
@@ -117,20 +117,20 @@ namespace Core
                 {
                     currentFrameAsFloat = 0;
                 }
-                else if (gameController.frames.Count - 1 < currentFrameAsFloat)
+                else if (gameController.Frames.Count - 1 < currentFrameAsFloat)
                 {
-                    currentFrameAsFloat = gameController.frames.Count - 1;
+                    currentFrameAsFloat = gameController.Frames.Count - 1;
                 }
 
                 //Debug.Log(replaySpeed);
                 Debug.Log(currentFrameAsFloat);
 
                 currentFrame = (int)(Mathf.Round(currentFrameAsFloat));
-                frame = gameController.frames[currentFrame];
+                frame = gameController.Frames[currentFrame];
                 UpdateReplayObjects();
                 RemoveDeadReplayObjects();
 
-                if (currentFrameAsFloat >= gameController.frames.Count - 1)
+                if (currentFrameAsFloat >= gameController.Frames.Count - 1)
                 {
                     Time.timeScale = 0f;
                 }
@@ -142,6 +142,23 @@ namespace Core
                 {
                     Time.timeScale = replaySpeed;
                 }
+
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    play = false;
+                    Time.timeScale = 1f;
+                    DestroyReplayObjects();
+                    gameController.Flag = GameFlag.ReplayEnd;
+                }
+            }
+        }
+
+        public void DestroyReplayObjects()
+        {
+            foreach (KeyValuePair<int, GameObject> pair in replayRefs)
+            {
+                GameObject obj = pair.Value;
+                Destroy(obj);
             }
         }
 

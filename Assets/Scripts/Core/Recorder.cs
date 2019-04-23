@@ -13,12 +13,13 @@ namespace Core
     {
         [SerializeField] private GameController gameController;
 
+        private int count = 0;  // TESTING
+
         private int recordingLength;    // in milliseconds
         private float currentTime;  // time in milliseconds since the recording started
         private List<Dictionary<int, Recordable.RecordableState>> frames;
-        private Dictionary<int, Recordable.RecordableState> frame = new Dictionary<int, Recordable.RecordableState>();
 
-        private void SaveRecordableStates()
+        private void SaveRecordableStates(Dictionary<int, Recordable.RecordableState> frame)
         {
             foreach (KeyValuePair<int, GameObject> pair in gameController.recordableRefs)
             {
@@ -37,19 +38,20 @@ namespace Core
             while (true)
             {
                 yield return new WaitForFixedUpdate();
-                frame = new Dictionary<int, Recordable.RecordableState>();
+                //Debug.Log(count);   // TESTING
+                Dictionary<int, Recordable.RecordableState> frame = new Dictionary<int, Recordable.RecordableState>();
                 frames.Add(frame);
-
-                SaveRecordableStates();
+                SaveRecordableStates(frame);
                 currentTime += Time.fixedDeltaTime * 1000;
                 if (currentTime >= recordingLength)
                 {
                     Time.timeScale = 1.0f;
                     Globals.startCounting = false;
                     gameController.DisableRecordables();
-                    gameController.SetFlag(GameFlag.RecordEnd);
+                    gameController.Flag = GameFlag.RecordEnd;
                     StopCoroutine("AtFixedUpdateEnd");
                 }
+                count++;    // TESTING
             }
         }
 
@@ -69,6 +71,13 @@ namespace Core
         public List<Dictionary<int, Recordable.RecordableState>> GetFrames()
         {
             return frames;
+        }
+
+        public Dictionary<int, Recordable.RecordableState> GetRecordableStates()
+        {
+            Dictionary<int, Recordable.RecordableState> frame = new Dictionary<int, Recordable.RecordableState>();
+            SaveRecordableStates(frame);
+            return frame;
         }
     }
 }

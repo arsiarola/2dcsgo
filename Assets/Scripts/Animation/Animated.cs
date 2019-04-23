@@ -11,7 +11,7 @@ namespace Animation
     {
         protected Animator animator;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             animator = GetComponent<Animator>();
             animator.keepAnimatorControllerStateOnDisable = true;   // the animator state is saved on object/animator disable, so that we can continue from that state when the object/animator is enabled again

@@ -10,8 +10,20 @@ namespace Animation
 
     public class SimpleAnimationPhysics : SimpleAnimation
     {
-        private void FixedUpdate()
+        protected override void Awake()
         {
+            base.Awake();
+            Debug.Log("Awake: " + gameObject.transform.position); // TESTING
+        }
+
+        private void Start()
+        {
+            Debug.Log("Start: " + gameObject.transform.position); // TESTING
+        }
+
+        private void FixedUpdate()
+        { 
+            Debug.Log("FixedUpdate: " + gameObject.transform.position);   // TESTING
             DestroyOnAnimationEnd();
         }
     }
