@@ -24,7 +24,7 @@ namespace Core
 
     public class GameController : MonoBehaviour
     {
-        private GameStage stage = GameStage.Record;
+        private GameStage stage = GameStage.Planning;
         private GameStage Stage { get { return stage; } set { stage = value; IsStageChanged = true; } }
         private bool IsStageChanged { get; set; } = true;
         private int NextId { get; set; } = 0;
@@ -32,9 +32,9 @@ namespace Core
         public List<Dictionary<int, Recordable.RecordableState>> Frames { get; private set; } = new List<Dictionary<int, Recordable.RecordableState>>();
 
 
-        [SerializeField] private Recorder recorder;
-        [SerializeField] private Replayer replayer;
-        [SerializeField] private Planning planning;
+        [SerializeField] public Recorder recorder;
+        [SerializeField] public Replayer replayer;
+        [SerializeField] public Planning planning;
         private Planning Planning { get { return planning; } }
         public Dictionary<int, GameObject> recordableRefs = new Dictionary<int, GameObject>();
         public Dictionary<int, GameObject> recordablePlanningTypes = new Dictionary<int, GameObject>();

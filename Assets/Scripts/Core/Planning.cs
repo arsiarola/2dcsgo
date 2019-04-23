@@ -10,16 +10,14 @@ namespace Core
         private GameController GameController { get { return gameController; } }
 
         private Dictionary<int, Recordable.RecordableState> LastFrame { get; set; }
-        public Dictionary<int, GameObject> idObjects;
-        public Dictionary<GameObject, int> objectsId;
+        public Dictionary<int, GameObject> objects;
         private bool plan;
 
         public void Plan()
         {
             // init variables
             plan = true;
-            idObjects = new Dictionary<int, GameObject>();
-            objectsId = new Dictionary<GameObject, int>();
+            objects = new Dictionary<int, GameObject>();
             LastFrame = GameController.Frames[GameController.Frames.Count - 1];
             CreateObjects();
             Time.timeScale = 0;
@@ -30,9 +28,20 @@ namespace Core
             if (plan) {
                 if (Input.GetKeyDown(KeyCode.Space)) {
                     plan = false;
+                    foreach (KeyValuePair<int, GameObject> pair in objects)
+                    {
+                        int id = pair.Key;
+                        GameObject obj = pair.Value;
+                        if (obj.GetComponent<MakePath>() != null)
+                        {
+                            List<Vector3> list = obj.GetComponent<MakePath>().mousePositionList;
+                            gameController.recordableRefs[id].GetComponent<FollowPath>().SetMousePositionList(list);
+                        }
+                    }
                     DestroyObjects();
                     Time.timeScale = 1f;
                     gameController.Flag = GameFlag.PlanningEnd;
+                    
                 }
             }
         }
@@ -59,14 +68,13 @@ namespace Core
                     obj.GetComponent<Animator>().Play(anim.StateHash, anim.Layer, anim.Time);
                 }
 
-                idObjects.Add(id, obj);
-                objectsId.Add(obj, id);
+                objects.Add(id, obj);
             }
         }
 
         private void DestroyObjects()
         {
-            foreach (KeyValuePair<int, GameObject> pair in idObjects) {
+            foreach (KeyValuePair<int, GameObject> pair in objects) {
                 GameObject obj = pair.Value;
                 Destroy(obj);
             }

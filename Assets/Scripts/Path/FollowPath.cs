@@ -14,7 +14,6 @@ public class FollowPath : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(nextPoint); 
         if (nextPoint < refMousePositionList.Count)
         {
             if (gameObject.transform.position != refMousePositionList[nextPoint])
@@ -28,9 +27,9 @@ public class FollowPath : MonoBehaviour
         }
     }
 
-    public void GetMousePositionList(List<Vector3> list)
+    public void SetMousePositionList(List<Vector3> list)
     {
+        Debug.Log("in fixed update");
         refMousePositionList = list;
-
     }
 }

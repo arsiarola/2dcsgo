@@ -64,7 +64,7 @@ namespace Core
 
             Globals.startCounting = true;
             gameController.EnableRecordables();
-            Time.timeScale = 100f;
+            Time.timeScale = 1f;
             StartCoroutine("AtFixedUpdateEnd");
         }
 
