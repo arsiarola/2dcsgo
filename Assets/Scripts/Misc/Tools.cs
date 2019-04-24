@@ -10,6 +10,16 @@ namespace Misc
         {
             return v + new Vector3(0, 0, -v.z);
         }   
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="seconds">Time in seconds</param>
+        /// <returns></returns>
+        public static float SecondsToMilliSeconds(float seconds)
+        {
+            return seconds * 1000;
+        }
     }
 }
 

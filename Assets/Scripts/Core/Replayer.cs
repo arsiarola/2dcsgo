@@ -40,7 +40,6 @@ namespace Core
         /// </summary>
         public void Replay()
         {
-            // init variables
             gameObject.SetActive(true); // activate the replayer object in order to activate the update of this script. Update is executed only if the script is enabled
             InitVariables();
         }
