@@ -19,6 +19,7 @@ namespace Recordable
 
         /// <summary>
         /// Constructor: zeroes on all the values and creates an empty List(AnimationState)
+        /// Does this need to exist?? t. hena
         /// </summary>
         public RecordableState()
         {
