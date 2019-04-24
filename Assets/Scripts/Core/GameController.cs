@@ -97,7 +97,7 @@ namespace Core
 
         private void Record()
         {
-            recorder.Record(10000);
+            recorder.Record(5000);
         }
 
         private void Replay()

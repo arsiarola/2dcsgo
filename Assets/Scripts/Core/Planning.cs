@@ -61,7 +61,7 @@ namespace Core
                 }
 
                 obj.transform.position = state.position;
-                obj.transform.rotation = new Quaternion(0, 0, state.rotation, 0);
+                obj.transform.eulerAngles = new Vector3(0, 0, state.rotation);
 
                 foreach (Recordable.AnimationState anim in state.animations) {
                     Animator animator = obj.GetComponent<Animator>();

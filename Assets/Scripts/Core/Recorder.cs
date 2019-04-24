@@ -72,7 +72,7 @@ namespace Core
                     obj.GetComponent<Rigidbody2D>().velocity = gameController.Frames[gameController.Frames.Count - 1][id].velocity;
                 }
             }
-            Time.timeScale = 100f;
+            Time.timeScale = 1f;
             StartCoroutine("AtFixedUpdateEnd");
         }
 
