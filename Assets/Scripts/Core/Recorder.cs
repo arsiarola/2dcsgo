@@ -80,8 +80,10 @@ namespace Core
                 }
             }
         }
-
-
+        /// <summary>
+        /// Get the list of frames.
+        /// </summary>
+        /// <returns>List of dictionaries with in a key-value pair of ID-RecordableState.</returns>
         public List<Dictionary<int, Recordable.RecordableState>> GetFrames()
         {
             return RecordedFrames;

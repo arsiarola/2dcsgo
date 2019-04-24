@@ -11,7 +11,9 @@ namespace Core
 
         private Dictionary<int, Recordable.RecordableState> LastFrame { get; set; }
         public Dictionary<int, GameObject> objects;
-
+        /// <summary>
+        /// Start the planning process.
+        /// </summary>
         public void Plan()
         {
             // init variables
@@ -21,7 +23,9 @@ namespace Core
             CreateObjects();
             Time.timeScale = 0;
         }
-
+        /// <summary>
+        /// Check if space is pressed and end planning phase if true.
+        /// </summary>
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space)) {
