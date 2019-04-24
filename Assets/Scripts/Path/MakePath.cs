@@ -22,13 +22,17 @@ public class MakePath : MonoBehaviour
 
     private LineRenderer lineRenderer;
     private GameObject gObj;
-
     private Core.GameController gameController;
+    private GameObject alus;
+    private Rigidbody2D rbAlus;
 
     private void Start()
     {
         gameController = GameObject.Find(Misc.Constants.GameControllerName).GetComponent<Core.GameController>();   
         gObj = gameObject;
+        alus = gObj.transform.Find("CT testi").gameObject;
+        rbAlus = alus.GetComponent<Rigidbody2D>();
+        alus.SetActive(false);
 
         pointAccuracy = 0.1f;
         amountOfPoints = 1000;
@@ -75,13 +79,17 @@ public class MakePath : MonoBehaviour
         /// </summary>
         if (Input.GetMouseButton(0) && lineRenderer.positionCount < amountOfPoints) 
         {
-            if (Physics2D.OverlapPoint(mousePosition, 1 << 8)) //check if mouse is on a wall layermask 
+            /*if (Physics2D.OverlapPoint(mousePosition, 1 << 8)) //check if mouse is on a wall layermask 
                 mouseInWall = true;
             
             if (mouseInWall == true && Vector3.Distance(mousePositionList[mousePositionList.Count - 1], mousePosition) < pointAccuracy) //if mouse was inside wall check if it has come back
                 mouseInWall = false;
 
-            if (mouseInWall == false) 
+            if (mouseInWall == false)*/
+            //rbAlus.velocity = mousePosition;
+            Debug.Log(rbAlus.velocity);
+            //rbAlus.transform.position = Vector3.MoveTowards(rbAlus.transform.position, mousePosition, 1f);
+
             {
                 vectorDistance = (Vector3.Distance(mousePositionList[mousePositionList.Count - 1], mousePosition));
                 if (vectorDistance > pointAccuracy) // checking if the mousePositon is far enough to add the point
@@ -90,13 +98,13 @@ public class MakePath : MonoBehaviour
                     mousePositionList.Add(mousePosition);
                 }
             }
-        
         }
         ///<summary>
         ///     if mouse is not held down stop creating and drawing the path and 
         /// </summary>
         else 
         {       
+            alus.SetActive(false);
             createPath = false;
             drawPath = false;
             for (int i = 0; i < lineRenderer.positionCount; i++) //draw the line for the last time just incase
@@ -120,7 +128,8 @@ public class MakePath : MonoBehaviour
             lineRenderer.SetPosition(1, mousePosition);
             createPath = true;
             drawPath = false;
-
+            alus.SetActive(true);
+            alus.transform.position = gObj.transform.position;
         }
     }
 }
