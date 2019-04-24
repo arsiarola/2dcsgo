@@ -205,3 +205,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fe66bb03b1f4d34c9fcdf5b3a04f647, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mousePositionList: []
+  mousePosition: {x: 0, y: 0, z: 0}
+  spacePressed: 0
+  makePath: 0
+  drawPath: 0
+  destroyPath: 0
+  enableDrag: 1
+  mouseInWall: 0
+  vectorDistance: 0
+  amountOfPoints: 0
+  pointAccuracy: 0
