@@ -36,6 +36,109 @@ namespace Core
         private bool IsExit { get; set; }
 
         /// <summary>
+        /// Starts the Replay process
+        /// </summary>
+        public void Replay()
+        {
+            // init variables
+            gameObject.SetActive(true); // activate the replayer object in order to activate the update of this script. Update is executed only if the script is enabled
+            InitVariables();
+        }
+
+        /// <summary>
+        /// Sets all variables to their default values
+        /// </summary>
+        private void InitVariables()
+        {
+            ReplayRefs = new Dictionary<int, GameObject>();
+            ReplaySpeed = 1f;
+            CurrentFrameAsFloat = 0;
+            IsPause = false;
+            IsExit = false;
+            IsFirstFrame = true;
+        }
+
+        private void Update()
+        {
+            HandleInput();
+
+            // update the current frame
+            UpdateCurrentFrameAsFloat();
+            int currentFrameAsInt = (int)(Mathf.Round(CurrentFrameAsFloat));    // round the float value, to get a specific frame
+            CurrentFrame = GameController.Frames[currentFrameAsInt];
+
+            // update and remove replay objects
+            UpdateReplayObjects();
+            RemoveReplayObjects();
+
+            UpdateReplaySpeed();
+
+            // exit the replayer
+            if (IsExit) {
+                Exit();
+            }
+        }
+
+        /// <summary>
+        /// Handles all input that is specific to the replayer
+        /// </summary>
+        private void HandleInput()
+        {
+            // pause
+            if (Input.GetKeyDown(KeyCode.Space)) {
+                IsPause = !IsPause;
+            }
+
+            // replay speed
+            if (Input.GetKeyDown(KeyCode.UpArrow)) {
+                ReplaySpeed += 0.1f;
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow)) {
+                ReplaySpeed -= 0.1f;
+            }
+            else if (Input.GetKeyDown(KeyCode.Backspace)) {
+                ReplaySpeed = 1f;
+            }
+
+            // rewind/fastforward
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+                CurrentFrameAsFloat -= 1f / Time.fixedDeltaTime;
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+                CurrentFrameAsFloat += 1f / Time.fixedDeltaTime;
+            }
+
+            // exit
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                IsExit = true;
+            }
+        }
+
+        /// <summary>
+        /// Updates the current frames float value
+        /// </summary>
+        private void UpdateCurrentFrameAsFloat()
+        {
+            // update current frame's float value
+            if (IsFirstFrame)   // if first frame make sure the float is 0. Can cause bugs if not
+            {
+                CurrentFrameAsFloat = 0;
+                IsFirstFrame = false;
+            }
+            else {
+                CurrentFrameAsFloat += Time.deltaTime / Time.fixedDeltaTime;
+            }
+
+            // dont let current frame go below 0 or over the last frame element
+            if (CurrentFrameAsFloat < 0) {
+                CurrentFrameAsFloat = 0;
+            }
+            else if (GameController.Frames.Count - 1 < CurrentFrameAsFloat) {
+                CurrentFrameAsFloat = GameController.Frames.Count - 1;
+            }
+        }
+
+        /// <summary>
         /// Updates and creates replay objects to match the frame state.
         /// </summary>
         private void UpdateReplayObjects()
@@ -92,41 +195,6 @@ namespace Core
         }
 
         /// <summary>
-        /// Handles all input that is specific to the replayer
-        /// </summary>
-        private void HandleInput()
-        {
-            // pause
-            if (Input.GetKeyDown(KeyCode.Space)) {
-                IsPause = !IsPause;
-            }
-
-            // replay speed
-            if (Input.GetKeyDown(KeyCode.UpArrow)) {
-                ReplaySpeed += 0.1f;
-            }
-            else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-                ReplaySpeed -= 0.1f;
-            }
-            else if (Input.GetKeyDown(KeyCode.Backspace)) {
-                ReplaySpeed = 1f;
-            }
-
-            // rewind/fastforward
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-                CurrentFrameAsFloat -= 1f / Time.fixedDeltaTime;
-            }
-            else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-                CurrentFrameAsFloat += 1f / Time.fixedDeltaTime;
-            }
-
-            // exit
-            if (Input.GetKeyDown(KeyCode.Escape)) {
-                IsExit = true;
-            }
-        }
-
-        /// <summary>
         /// Update the replay speed, which is the same as timeScale
         /// </summary>
         private void UpdateReplaySpeed()
@@ -145,51 +213,6 @@ namespace Core
             }
             else {
                 Time.timeScale = ReplaySpeed;
-            }
-        }
-
-        /// <summary>
-        /// Updates the current frames float value
-        /// </summary>
-        private void UpdateCurrentFrameAsFloat()
-        {
-            // update current frame's float value
-            if (IsFirstFrame)   // if first frame make sure the float is 0. Can cause bugs if not
-            {
-                CurrentFrameAsFloat = 0;
-                IsFirstFrame = false;
-            }
-            else {
-                CurrentFrameAsFloat += Time.deltaTime / Time.fixedDeltaTime;
-            }
-
-            // dont let current frame go below 0 or over the last frame element
-            if (CurrentFrameAsFloat < 0) {
-                CurrentFrameAsFloat = 0;
-            }
-            else if (GameController.Frames.Count - 1 < CurrentFrameAsFloat) {
-                CurrentFrameAsFloat = GameController.Frames.Count - 1;
-            }
-        }
-
-        private void Update()
-        {
-            HandleInput();
-
-            // update the current frame
-            UpdateCurrentFrameAsFloat();
-            int currentFrameAsInt = (int)(Mathf.Round(CurrentFrameAsFloat));    // round the float value, to get a specific frame
-            CurrentFrame = GameController.Frames[currentFrameAsInt];
-
-            // update and remove replay objects
-            UpdateReplayObjects();
-            RemoveReplayObjects();
-
-            UpdateReplaySpeed();
-
-            // exit the replayer
-            if (IsExit) {
-                Exit();
             }
         }
 
@@ -216,28 +239,9 @@ namespace Core
             }
         }
 
-        /// <summary>
-        /// Sets all variables to their default values
-        /// </summary>
-        private void InitVariables()
-        {
-            ReplayRefs = new Dictionary<int, GameObject>();
-            ReplaySpeed = 1f;
-            CurrentFrameAsFloat = 0;
-            IsPause = false;
-            IsExit = false;
-            IsFirstFrame = true;
-        }
+        
 
-        /// <summary>
-        /// Starts the Replay process
-        /// </summary>
-        public void Replay()
-        {
-            // init variables
-            gameObject.SetActive(true); // activate the replayer object in order to activate the update of this script. Update is executed only if the script is enabled
-            InitVariables();
-        }
+        
     }
 }
 
