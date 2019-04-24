@@ -6,6 +6,7 @@ public class FollowPath : MonoBehaviour
 {
     public List<Vector3> refMousePositionList = new List<Vector3>();
     public int nextPoint = 1;
+    private float rot = 0;
     void Start()
     {
         //StartCoroutine("DoAction");
@@ -16,36 +17,39 @@ public class FollowPath : MonoBehaviour
     {
         if (nextPoint < refMousePositionList.Count)
         {
-            //transform.position = Vector3.MoveTowards(gameObject.transform.position, refMousePositionList[nextPoint], 10f);
-            //transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.fixedDeltaTime * speed);
-            //Vector3 newDir = Vector3.RotateTowards(transform.up, relativePos, step, 2f);
-            //transform.rotation = Quaternion.RotateTowards(transform.rotation, target, step);
+            // calculate position
             float speed = 2.5f * Time.fixedDeltaTime;
-            float distance;
-            float t;
-            distance = Vector3.Distance(transform.position, refMousePositionList[nextPoint]);
-            
+            float distance = Vector3.Distance(transform.position, refMousePositionList[nextPoint]);
             while (distance < speed && nextPoint + 1 < refMousePositionList.Count) {
-                Debug.Log("True");
                 nextPoint++;
                 distance = Vector3.Distance(transform.position, refMousePositionList[nextPoint]);
             }
-            Debug.Log(nextPoint + ", " + refMousePositionList.Count);
-            t = speed / distance;
-            /*do {
-                if (nextPoint + 1 < refMousePositionList.Count) nextPoint++;
-                distance = Vector3.Distance(transform.position, refMousePositionList[nextPoint]);
-                t = speed / distance;
-            } while (t > 1 && nextPoint + 1 < refMousePositionList.Count);*/
+            float t = speed / distance;
 
-
+            // calculate rotation
             int lookTowardsPoint = nextPoint;
             while (lookTowardsPoint + 1 < refMousePositionList.Count && lookTowardsPoint < nextPoint + 2) {
                 lookTowardsPoint++;
+                rot = 0;
             }
-            Vector3 relativePos = refMousePositionList[lookTowardsPoint] - transform.position;
-            Quaternion target = Quaternion.LookRotation(Vector3.forward, relativePos);
-            transform.rotation = target;
+            Vector3 vectorToTarget = refMousePositionList[lookTowardsPoint] - transform.position;
+            float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90;
+            Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+            if (rot < 0.75f)
+            {
+                rot += 0.25f;
+            }
+            else if (rot < 1f)
+            {
+                rot += 0.25f / 4;
+            }
+            else
+            {
+                rot = 0;
+            }
+
+            // transform
+            transform.rotation = Quaternion.Slerp(transform.rotation, q, rot);
             transform.position = Vector3.Lerp(transform.position, refMousePositionList[nextPoint], t);
         }
     }
@@ -55,5 +59,6 @@ public class FollowPath : MonoBehaviour
         //Debug.Log("in fixed update");
         refMousePositionList = list;
         nextPoint = 1;
+        rot = 0;
     }
 }

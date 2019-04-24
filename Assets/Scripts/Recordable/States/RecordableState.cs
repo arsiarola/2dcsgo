@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace Recordable
 {
+    /// <summary>
+    /// Stores information about a game object during the recording phase.
+    /// </summary>
+    /// <remarks>
+    /// Vector3 position, float rotation, Vector2 velocity, List(AnimationState) animations.
+    /// </remarks>
     public class RecordableState
     {
         public Vector3 position;
