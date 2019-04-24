@@ -56,7 +56,7 @@ namespace Core
             switch (Flag)
             {
                 case GameFlag.RecordEnd:
-                    Frames.AddRange(recorder.GetFrames());
+                    Frames.AddRange(recorder.GetRecordedFrames());
                     Stage = GameStage.Replay;
                     break;
                 case GameFlag.ReplayEnd:

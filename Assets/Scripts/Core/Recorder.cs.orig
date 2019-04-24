@@ -11,8 +11,14 @@ namespace Core
     {
         [SerializeField] private GameController gameController;
 
+<<<<<<< HEAD
         /// <summary> Reference to the GameController Script </summary>
         private GameController GameController { get { return gameController; } }
+=======
+        private int recordingLength;    // in milliseconds
+        private float currentTime;  // time in milliseconds since the recording started
+        private List<Dictionary<int, Recordable.RecordableState>> frames; // list of all the frames in the replay.
+>>>>>>> 7ad45e5f6ce5977b252af99ce747f13bd62b0081
 
         /// <summary> Time to be recorded in milliseconds </summary>
         private int RecordingLength { get; set; }
@@ -26,12 +32,11 @@ namespace Core
         /// <summary>
         /// Starts the recording/simulation process
         /// </summary>
-        /// <param name="milliSeconds">The amount of time in milliseconds to be recorded</param>
         public void Record(int milliSeconds)
         {
             gameObject.SetActive(true); // enables the Recorder object
             InitVariables(milliSeconds);
-            GameController.EnableRecordables(); // enable recordables for simulation
+            GameController.EnableRecordables();
             Time.timeScale = 100f;  // simulate as fast as possible
             StartCoroutine("AtFixedUpdateEnd"); // start coroutine that runs at the end of every fixed update
         }
@@ -53,56 +58,61 @@ namespace Core
         {
             while (true) {
                 yield return new WaitForFixedUpdate();
-                RecordedFrames.Add(GetRecordableStates());   // get states and add the created dictionary of id-state to the list of frames
+                Dictionary<int, Recordable.RecordableState> currentFrame = new Dictionary<int, Recordable.RecordableState>();   // create a new frame where to store object states
+                RecordedFrames.Add(currentFrame);   // add the frame to the list of recorded frames
+                SaveRecordableStates(currentFrame); // save recordable states to that frame
 
-                CurrentTime += Misc.Tools.SecondsToMilliSeconds(Time.fixedDeltaTime);  // expired time is the same as the fixed time step
-                if (CurrentTime >= RecordingLength) {   // if we have recorded for the given time
-                    Exit();
+                CurrentTime += Time.fixedDeltaTime * 1000;  // fixedDeltaTime, which is in seconds is converted to milliSeconds by multiplying it by 1000
+                if (CurrentTime >= RecordingLength) {
+                    Time.timeScale = 1.0f;
+                    GameController.DisableRecordables();
+                    GameController.Flag = GameFlag.RecordEnd;
+                    StopCoroutine("AtFixedUpdateEnd");
+                    gameObject.SetActive(false);
                 }
             }
         }
+<<<<<<< HEAD
 
+        private void SaveRecordableStates(Dictionary<int, Recordable.RecordableState> frame)
+=======
         /// <summary>
-        /// Get the current state of every recordable
+        /// Starts the recording of the replay.
         /// </summary>
-        /// <returns>The current state of every recordable stored in a Id-State dictionary </returns>
-        public Dictionary<int, Recordable.RecordableState> GetRecordableStates()
+        /// <param name="milliSeconds">Amount of time to record.</param>
+        public void Record(int milliSeconds)
+>>>>>>> 7ad45e5f6ce5977b252af99ce747f13bd62b0081
         {
-            Dictionary<int, Recordable.RecordableState> frame = new Dictionary<int, Recordable.RecordableState>();  // create a new frame where to store object states
-            // goes through the all of the recordables and saves their state
             foreach (KeyValuePair<int, GameObject> pair in GameController.recordableRefs)
             {
                 int id = pair.Key;
                 GameObject obj = pair.Value;
-                // if the recordable has not been destroyed, get its state and add it to the frame
                 if (obj != null)
                 {
-                    Recordable.RecordableState state = obj.GetComponent<Recordable.Recordable>().GetRecordableState();  // gets the state by calling its getRecordableState method from the Recordable script
+                    Recordable.RecordableState state = obj.GetComponent<Recordable.Recordable>().GetRecordableState();
                     frame.Add(id, state);
                 }
             }
-            return frame;
         }
+<<<<<<< HEAD
 
-        /// <summary>
-        /// Resets timescale, disables simulation objects, sends exit flag to gameController and etc.
-        /// </summary>
-        private void Exit()
-        {
-            Time.timeScale = 1.0f;  // reset time scale to normal
-            GameController.DisableRecordables();    // disable recordables now that the simulating is complete
-            GameController.Flag = GameFlag.RecordEnd;   // change the game controller flag
-            StopCoroutine("AtFixedUpdateEnd");  // important to stop the coroutine so it doesn't keep running in the background
-            gameObject.SetActive(false);    // disable the Recorder gameObject for claritys sake
-        }
 
+=======
         /// <summary>
-        /// Get the list of recorded frames.
+        /// Get the list of frames.
         /// </summary>
         /// <returns>List of dictionaries with in a key-value pair of ID-RecordableState.</returns>
-        public List<Dictionary<int, Recordable.RecordableState>> GetRecordedFrames()
+>>>>>>> 7ad45e5f6ce5977b252af99ce747f13bd62b0081
+        public List<Dictionary<int, Recordable.RecordableState>> GetFrames()
         {
             return RecordedFrames;
+        }
+
+        public Dictionary<int, Recordable.RecordableState> GetRecordableStates()
+        {
+            Dictionary<int, Recordable.RecordableState> frame = new Dictionary<int, Recordable.RecordableState>();
+            SaveRecordableStates(frame);
+            return frame;
         }
     }
 }
