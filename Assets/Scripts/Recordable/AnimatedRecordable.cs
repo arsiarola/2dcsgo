@@ -4,6 +4,13 @@ using UnityEngine;
 
 namespace Recordable
 {
+    /// <summary>
+    ///     Inherits recordable class and extends it to include the Animator component.
+    /// </summary>
+    /// <remarks>
+    ///      protected animator = getComponent(animator)
+    ///      overrides InitRecordableState() to allow the addition of animationstates.
+    /// </remarks>
     public class AnimatedRecordable : Recordable
     {
         protected Animator animator;
@@ -13,7 +20,10 @@ namespace Recordable
             base.Awake();
             animator = GetComponent<Animator>();
         }
-
+        /// <summary>
+        /// Base method + adds the animations to the param recordableState.
+        /// </summary>
+        /// <param name="recordableState">RecordableState which needs AnimationStates added to it.</param>
         protected override void InitRecordableState(RecordableState recordableState)
         {
             base.InitRecordableState(recordableState);

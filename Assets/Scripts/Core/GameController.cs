@@ -45,7 +45,6 @@ namespace Core
         {
             Frames.Add(recorder.GetRecordableStates()); // get start frame. Not sure if necessary for the replay, but we do need to get the objects starting positions at least (then again these can be gained by other means)
             DisableRecordables();
-            Debug.Log("We are here");
             recorder.gameObject.SetActive(false);
             replayer.gameObject.SetActive(false);
             planning.gameObject.SetActive(false);
@@ -56,7 +55,7 @@ namespace Core
             switch (Flag)
             {
                 case GameFlag.RecordEnd:
-                    Frames.AddRange(recorder.GetFrames());
+                    Frames.AddRange(recorder.GetRecordedFrames());
                     Stage = GameStage.Replay;
                     break;
                 case GameFlag.ReplayEnd:

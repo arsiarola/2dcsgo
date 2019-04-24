@@ -23,7 +23,7 @@ namespace Core
         /// <summary> The value of the current frame as a float </summary>
         private float CurrentFrameAsFloat { get; set; }
 
-        /// <summary> Is used to modify the timeScale. Is between [0, inf[ </summary>
+        /// <summary> Is used to modify the timeScale. Is between [0, inf[. 1 is normal and 0 is paused </summary>
         private float ReplaySpeed { get; set; }
 
         /// <summary> Has pause key been pressed </summary>
@@ -49,9 +49,9 @@ namespace Core
         /// </summary>
         private void InitVariables()
         {
-            ReplayRefs = new Dictionary<int, GameObject>();
-            ReplaySpeed = 1f;
-            CurrentFrameAsFloat = 0;
+            ReplayRefs = new Dictionary<int, GameObject>(); // we will create the replay objects from scratch
+            ReplaySpeed = 1f;   // set speed to normal
+            CurrentFrameAsFloat = 0;    // we start with frame zero (placeholder)
             IsPause = false;
             IsExit = false;
             IsFirstFrame = true;
@@ -100,6 +100,7 @@ namespace Core
             }
 
             // rewind/fastforward
+            // it's rewind time! t. will smith
             if (Input.GetKeyDown(KeyCode.LeftArrow)) {
                 CurrentFrameAsFloat -= 1f / Time.fixedDeltaTime;
             }

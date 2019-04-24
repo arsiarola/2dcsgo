@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Recordable
 {
     /// <summary>
-    /// Stores information about a game object during the recording phase.
+    /// Stores information about a game object during the recording phase. A RecordableState stores the state of a game object in a single frame.
     /// </summary>
     /// <remarks>
     /// Vector3 position, float rotation, Vector2 velocity, List(AnimationState) animations.
