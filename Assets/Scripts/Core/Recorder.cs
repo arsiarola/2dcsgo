@@ -10,7 +10,7 @@ namespace Core
 
         private int recordingLength;    // in milliseconds
         private float currentTime;  // time in milliseconds since the recording started
-        private List<Dictionary<int, Recordable.RecordableState>> frames;
+        private List<Dictionary<int, Recordable.RecordableState>> frames; // list of all the frames in the replay.
 
         private void SaveRecordableStates(Dictionary<int, Recordable.RecordableState> frame)
         {
@@ -45,7 +45,10 @@ namespace Core
                 }
             }
         }
-
+        /// <summary>
+        /// Starts the recording of the replay.
+        /// </summary>
+        /// <param name="milliSeconds">Amount of time to record.</param>
         public void Record(int milliSeconds)
         {
             // initialize variables
@@ -66,7 +69,10 @@ namespace Core
             Time.timeScale = 100f;
             StartCoroutine("AtFixedUpdateEnd");
         }
-
+        /// <summary>
+        /// Get the list of frames.
+        /// </summary>
+        /// <returns>List of dictionaries with in a key-value pair of ID-RecordableState.</returns>
         public List<Dictionary<int, Recordable.RecordableState>> GetFrames()
         {
             return frames;

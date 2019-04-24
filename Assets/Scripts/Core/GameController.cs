@@ -129,7 +129,9 @@ namespace Core
                 DisableRecordableChildren(ref child);
             }
         }
-
+        /// <summary>
+        /// Sets all recordables and their children to inactive.
+        /// </summary>
         public void DisableRecordables()
         {
             List<int> removeIds = new List<int>();
