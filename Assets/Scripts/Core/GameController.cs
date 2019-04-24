@@ -45,6 +45,9 @@ namespace Core
         {
             Frames.Add(recorder.GetRecordableStates()); // get start frame. Not sure if necessary for the replay, but we do need to get the objects starting positions at least (then again these can be gained by other means)
             DisableRecordables();
+            recorder.gameObject.SetActive(false);
+            replayer.gameObject.SetActive(false);
+            planning.gameObject.SetActive(false);
         }
 
         private void HandleFlags()

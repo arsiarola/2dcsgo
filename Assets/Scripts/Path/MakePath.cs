@@ -110,7 +110,6 @@ public class MakePath : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && Vector3.Distance(mousePosition, gObj.transform.position) < 0.5) 
         {
-            Debug.Log("in if");
             mousePositionList = new List<Vector3>();
             mousePositionList.Add(gObj.transform.position);
             mousePositionList.Add(mousePosition);

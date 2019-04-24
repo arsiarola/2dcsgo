@@ -11,12 +11,11 @@ namespace Core
 
         private Dictionary<int, Recordable.RecordableState> LastFrame { get; set; }
         public Dictionary<int, GameObject> objects;
-        private bool plan;
 
         public void Plan()
         {
             // init variables
-            plan = true;
+            gameObject.SetActive(true);
             objects = new Dictionary<int, GameObject>();
             LastFrame = GameController.Frames[GameController.Frames.Count - 1];
             CreateObjects();
@@ -25,24 +24,22 @@ namespace Core
 
         private void Update()
         {
-            if (plan) {
-                if (Input.GetKeyDown(KeyCode.Space)) {
-                    plan = false;
-                    foreach (KeyValuePair<int, GameObject> pair in objects)
+            if (Input.GetKeyDown(KeyCode.Space)) {
+                gameObject.SetActive(false);
+                foreach (KeyValuePair<int, GameObject> pair in objects)
+                {
+                    int id = pair.Key;
+                    GameObject obj = pair.Value;
+                    if (obj.GetComponent<MakePath>() != null)
                     {
-                        int id = pair.Key;
-                        GameObject obj = pair.Value;
-                        if (obj.GetComponent<MakePath>() != null)
-                        {
-                            List<Vector3> list = obj.GetComponent<MakePath>().mousePositionList;
-                            gameController.recordableRefs[id].GetComponent<FollowPath>().SetMousePositionList(list);
-                        }
+                        List<Vector3> list = obj.GetComponent<MakePath>().mousePositionList;
+                        gameController.recordableRefs[id].GetComponent<FollowPath>().SetMousePositionList(list);
                     }
-                    DestroyObjects();
-                    Time.timeScale = 1f;
-                    gameController.Flag = GameFlag.PlanningEnd;
-                    
                 }
+                DestroyObjects();
+                Time.timeScale = 1f;
+                gameController.Flag = GameFlag.PlanningEnd;
+                    
             }
         }
 

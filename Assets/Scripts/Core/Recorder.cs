@@ -2,18 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class Globals
-{
-    public static bool startCounting = false;
-}
-
 namespace Core
 {
     public class Recorder : MonoBehaviour
     {
         [SerializeField] private GameController gameController;
-
-        private int count = 0;  // TESTING
 
         private int recordingLength;    // in milliseconds
         private float currentTime;  // time in milliseconds since the recording started
@@ -38,7 +31,6 @@ namespace Core
             while (true)
             {
                 yield return new WaitForFixedUpdate();
-                //Debug.Log(count);   // TESTING
                 Dictionary<int, Recordable.RecordableState> frame = new Dictionary<int, Recordable.RecordableState>();
                 frames.Add(frame);
                 SaveRecordableStates(frame);
@@ -46,23 +38,22 @@ namespace Core
                 if (currentTime >= recordingLength)
                 {
                     Time.timeScale = 1.0f;
-                    Globals.startCounting = false;
                     gameController.DisableRecordables();
                     gameController.Flag = GameFlag.RecordEnd;
                     StopCoroutine("AtFixedUpdateEnd");
+                    gameObject.SetActive(false);
                 }
-                count++;    // TESTING
             }
         }
 
         public void Record(int milliSeconds)
         {
             // initialize variables
+            gameObject.SetActive(true);
             currentTime = 0;
             recordingLength = milliSeconds;
             frames = new List<Dictionary<int, Recordable.RecordableState>>();
 
-            Globals.startCounting = true;
             gameController.EnableRecordables();
             foreach (KeyValuePair<int, GameObject> pair in gameController.recordableRefs) {
                 int id = pair.Key;
@@ -72,7 +63,7 @@ namespace Core
                     obj.GetComponent<Rigidbody2D>().velocity = gameController.Frames[gameController.Frames.Count - 1][id].velocity;
                 }
             }
-            Time.timeScale = 1f;
+            Time.timeScale = 100f;
             StartCoroutine("AtFixedUpdateEnd");
         }
 
