@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///     create the path and draw it
+/// </summary>
 public class MakePath : MonoBehaviour
 {
     public List<Vector3> mousePositionList;
@@ -31,7 +34,6 @@ public class MakePath : MonoBehaviour
         amountOfPoints = 1000;
         mousePositionList = new List<Vector3>();
 
-        //basic settings for linderenderer, important one is positionCount = 0, so we are not drawing anything at the beginning
         lineRenderer = gObj.AddComponent<LineRenderer>();
         lineRenderer.positionCount = 0;
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
@@ -45,14 +47,14 @@ public class MakePath : MonoBehaviour
         spacePressed = false;
     }
 
-    //Adds a point to mousePostionList if conditions are right and after that draw the path
+    ///<summary>Adds a point to mousePostionList if conditions are right and after that draw the path</summary>
     private void Update()
     {
         mousePosition = Misc.Tools.SetZAxisToZero(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         MouseOver();
         if (createPath)
         {
-            CreatePath(); //includes  the point adding
+            CreatePath(); //includes the point adding to the pointList
         }
         if (drawPath)
         {
@@ -68,28 +70,31 @@ public class MakePath : MonoBehaviour
 
         drawPath = true; // now that we have starterd creating the path, afterward its okay to draw the path
 
-        // if mouse down 
+        ///<summary> 
+        ///     if mouse is held down, mouseposition is far enough and the mouseposition is not inside a wall add a point to mousePositionList
+        /// </summary>
         if (Input.GetMouseButton(0) && lineRenderer.positionCount < amountOfPoints) 
         {
-            if (Physics2D.OverlapPoint(mousePosition, 1 << 8)) //check if mouse is on wall layermask set mouseInWall to true
+            if (Physics2D.OverlapPoint(mousePosition, 1 << 8)) //check if mouse is on a wall layermask 
                 mouseInWall = true;
             
             if (mouseInWall == true && Vector3.Distance(mousePositionList[mousePositionList.Count - 1], mousePosition) < pointAccuracy) //if mouse was inside wall check if it has come back
                 mouseInWall = false;
 
-            //if mouse is not in wall and the distance from last point to current mousePosition is  far enough to add vector point to mousePositionList
             if (mouseInWall == false) 
             {
                 vectorDistance = (Vector3.Distance(mousePositionList[mousePositionList.Count - 1], mousePosition));
-                if (vectorDistance > pointAccuracy)
+                if (vectorDistance > pointAccuracy) // checking if the mousePositon is far enough to add the point
                 {
-                    lineRenderer.positionCount++; // the length of the path can now also increase since we have one more point to draw
+                    lineRenderer.positionCount++; // the length of the drawn path can now also increase since we have one more point to draw
                     mousePositionList.Add(mousePosition);
                 }
             }
         
         }
-        //if mouse is not held down stop creating and drawing the path and next time we try to create path destroy the old path
+        ///<summary>
+        ///     if mouse is not held down stop creating and drawing the path and 
+        /// </summary>
         else 
         {       
             createPath = false;
@@ -102,8 +107,8 @@ public class MakePath : MonoBehaviour
     } 
     
 
-
-    private void MouseOver() //when mouse is moved close enough to the player and held down reset the mousePositionList and the drawn path
+    ///<summary>when mouse is moved close enough to the player and held down reset the mousePositionList and the previously drawn path, enable creating path</summary>
+    private void MouseOver() 
     {
         if (Input.GetMouseButtonDown(0) && Vector3.Distance(mousePosition, gObj.transform.position) < 0.5) 
         {
@@ -118,5 +123,4 @@ public class MakePath : MonoBehaviour
 
         }
     }
-
 }
