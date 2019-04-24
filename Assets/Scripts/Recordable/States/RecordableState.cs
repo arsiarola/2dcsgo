@@ -17,10 +17,6 @@ namespace Recordable
         public Vector2 velocity;
         public List<AnimationState> animations;
 
-        /// <summary>
-        /// Constructor: zeroes on all the values and creates an empty List(AnimationState)
-        /// Does this need to exist?? t. hena
-        /// </summary>
         public RecordableState()
         {
             position = new Vector3(0, 0, 0);
