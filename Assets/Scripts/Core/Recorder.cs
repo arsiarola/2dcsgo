@@ -99,7 +99,7 @@ namespace Core
         /// <summary>
         /// Get the list of recorded frames.
         /// </summary>
-        /// <returns>List of dictionaries with in a key-value pair of ID-RecordableState.</returns>
+        /// <returns>List of dictionaries with a key-value pair of ID-RecordableState.</returns>
         public List<Dictionary<int, Recordable.RecordableState>> GetRecordedFrames()
         {
             return RecordedFrames;
