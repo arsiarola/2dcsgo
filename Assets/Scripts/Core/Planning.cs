@@ -114,7 +114,7 @@ namespace Core
                 GameObject obj = pair.Value;
                 if (obj.GetComponent<MakePath>() != null) { // if obj has makePath script
                     List<Vector3> list = obj.GetComponent<MakePath>().mousePositionList;    // get path list
-                    gameController.recordableRefs[id].GetComponent<FollowPath>().SetMousePositionList(list) // send it to the recordable
+                    gameController.recordableRefs[id].GetComponent<FollowPath>().SetMousePositionList(list); // send it to the recordable
                 }
             }
         }

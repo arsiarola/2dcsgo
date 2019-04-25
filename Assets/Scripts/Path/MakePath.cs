@@ -23,16 +23,16 @@ public class MakePath : MonoBehaviour
     private LineRenderer lineRenderer;
     private GameObject gObj;
     private Core.GameController gameController;
-    private GameObject alus;
-    private Rigidbody2D rbAlus;
+    private GameObject circle;
+    private Rigidbody2D rbCircle;
 
     private void Start()
     {
         gameController = GameObject.Find(Misc.Constants.GameControllerName).GetComponent<Core.GameController>();   
         gObj = gameObject;
-        alus = gObj.transform.Find("CT testi").gameObject;
-        rbAlus = alus.GetComponent<Rigidbody2D>();
-        alus.SetActive(false);
+        circle = gObj.transform.Find("Sphere").gameObject;
+        rbCircle = circle.GetComponent<Rigidbody2D>();
+        circle.SetActive(false);
 
         pointAccuracy = 0.1f;
         amountOfPoints = 1000;
@@ -77,34 +77,35 @@ public class MakePath : MonoBehaviour
         ///<summary> 
         ///     if mouse is held down, mouseposition is far enough and the mouseposition is not inside a wall add a point to mousePositionList
         /// </summary>
-        if (Input.GetMouseButton(0) && lineRenderer.positionCount < amountOfPoints) 
-        {
-            /*if (Physics2D.OverlapPoint(mousePosition, 1 << 8)) //check if mouse is on a wall layermask 
-                mouseInWall = true;
-            
-            if (mouseInWall == true && Vector3.Distance(mousePositionList[mousePositionList.Count - 1], mousePosition) < pointAccuracy) //if mouse was inside wall check if it has come back
-                mouseInWall = false;
-
-            if (mouseInWall == false)*/
-            //rbAlus.velocity = mousePosition;
-            Debug.Log(rbAlus.velocity);
+        if (Input.GetMouseButton(0) && lineRenderer.positionCount < amountOfPoints) {
+            Debug.Log(rbCircle.velocity);
             //rbAlus.transform.position = Vector3.MoveTowards(rbAlus.transform.position, mousePosition, 1f);
-
-            {
-                vectorDistance = (Vector3.Distance(mousePositionList[mousePositionList.Count - 1], mousePosition));
-                if (vectorDistance > pointAccuracy) // checking if the mousePositon is far enough to add the point
-                {
-                    lineRenderer.positionCount++; // the length of the drawn path can now also increase since we have one more point to draw
-                    mousePositionList.Add(mousePosition);
-                }
+            //rbAlus.AddForce(mousePosition );
+            float distance = Vector3.Distance(mousePosition, rbCircle.transform.position);
+            Vector3 relativeMousePosition = mousePosition - rbCircle.transform.position;
+            bool nearWall = Physics2D.CircleCast(rbCircle.transform.position, 0.5f, relativeMousePosition, distance, 1<<8);
+            Debug.Log(nearWall);
+            if (nearWall) {
+                //rbCircle.velocity = relativeMousePosition * 100;
+            } else {
+                //rbCircle.velocity = new Vector3(0,0,0);
+                rbCircle.transform.position = mousePosition;
             }
+                
+            vectorDistance = (Vector3.Distance(mousePositionList[mousePositionList.Count - 1], mousePosition));
+            if (vectorDistance > pointAccuracy) // checking if the mousePositon is far enough to add the point
+            {
+                lineRenderer.positionCount++; // the length of the drawn path can now also increase since we have one more point to draw
+                mousePositionList.Add(rbCircle.transform.position);
+            } 
+            
         }
         ///<summary>
         ///     if mouse is not held down stop creating and drawing the path and 
         /// </summary>
         else 
         {       
-            alus.SetActive(false);
+            circle.SetActive(false);
             createPath = false;
             drawPath = false;
             for (int i = 0; i < lineRenderer.positionCount; i++) //draw the line for the last time just incase
@@ -128,8 +129,8 @@ public class MakePath : MonoBehaviour
             lineRenderer.SetPosition(1, mousePosition);
             createPath = true;
             drawPath = false;
-            alus.SetActive(true);
-            alus.transform.position = gObj.transform.position;
+            circle.SetActive(true);
+            circle.transform.position = gObj.transform.position;
         }
     }
 }
