@@ -99,14 +99,15 @@ public class MakePath : MonoBehaviour
                 float magnitude = direction.magnitude * Mathf.Cos(radian);
                 Vector3 glide = normalNormal * magnitude;
                 Debug.Log(glide + " || " + magnitude);
-                /*Vector3 glideOrigin = rbCircle.transform.position + glide.normalized * offset;
+                Vector3 glideOrigin = rbCircle.transform.position + glide.normalized * offset;
                 RaycastHit2D glideHit = Physics2D.CircleCast(glideOrigin, raycastCircleRadius, glide, magnitude, 1 << 8);
-                
+                Debug.Log(glide);
+                float d = hit.distance;
                 if (glideHit.collider != null) {
                     glide = glide.normalized * glideHit.distance;
-                }*/
+                    d = glideHit.distance;
+                }
 
-                float d = hit.distance;
                 Vector3 newPos = rbCircle.transform.position + direction.normalized * d + glide;
                 rbCircle.transform.position = newPos;
             }  else {
