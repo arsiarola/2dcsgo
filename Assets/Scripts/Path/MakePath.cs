@@ -72,23 +72,44 @@ public class MakePath : MonoBehaviour
     private void CreatePath()
     {
 
+                /*if (normal == new Vector3(1, 0, 0) || normal == new Vector3(-1, 0, 0)) {
+
+                }*/
         drawPath = true; // now that we have starterd creating the path, afterward its okay to draw the path
 
         ///<summary> 
         ///     if mouse is held down, mouseposition is far enough and the mouseposition is not inside a wall add a point to mousePositionList
         /// </summary>
         if (Input.GetMouseButton(0) && lineRenderer.positionCount < amountOfPoints) {
-            Debug.Log(rbCircle.velocity);
-            //rbAlus.transform.position = Vector3.MoveTowards(rbAlus.transform.position, mousePosition, 1f);
-            //rbAlus.AddForce(mousePosition );
-            float distance = Vector3.Distance(mousePosition, rbCircle.transform.position);
-            Vector3 relativeMousePosition = mousePosition - rbCircle.transform.position;
-            bool nearWall = Physics2D.CircleCast(rbCircle.transform.position, 0.5f, relativeMousePosition, distance, 1<<8);
-            Debug.Log(nearWall);
-            if (nearWall) {
-                //rbCircle.velocity = relativeMousePosition * 100;
-            } else {
-                //rbCircle.velocity = new Vector3(0,0,0);
+            float raycastCircleRadius = 0.4f;
+            float offset = 0.025f;
+            Vector3 direction = mousePosition - rbCircle.transform.position;
+            float distance = Vector3.Distance(rbCircle.transform.position, mousePosition);
+            Vector3 raycastOrigin = rbCircle.transform.position + direction.normalized * offset;
+            RaycastHit2D hit = Physics2D.CircleCast(raycastOrigin, raycastCircleRadius , direction, distance, 1<<8);
+
+            //If something was hit.
+            if (hit.collider != null) {
+                Vector3 normal = hit.normal;
+                //float angleA = Vector3.Angle(-normal, direction);
+                //float angleB = 90f - angleA;
+                //float magnitude = direction.magnitude * Mathf.Cos(angleB);
+                Vector3 normalNormal = Misc.Tools.GetVectorNormal(normal);
+                float radian = Mathf.Deg2Rad * Vector3.Angle(normalNormal, direction);
+                float magnitude = direction.magnitude * Mathf.Cos(radian);
+                Vector3 glide = normalNormal * magnitude;
+                Debug.Log(glide + " || " + magnitude);
+                /*Vector3 glideOrigin = rbCircle.transform.position + glide.normalized * offset;
+                RaycastHit2D glideHit = Physics2D.CircleCast(glideOrigin, raycastCircleRadius, glide, magnitude, 1 << 8);
+                
+                if (glideHit.collider != null) {
+                    glide = glide.normalized * glideHit.distance;
+                }*/
+
+                float d = hit.distance;
+                Vector3 newPos = rbCircle.transform.position + direction.normalized * d + glide;
+                rbCircle.transform.position = newPos;
+            }  else {
                 rbCircle.transform.position = mousePosition;
             }
                 
