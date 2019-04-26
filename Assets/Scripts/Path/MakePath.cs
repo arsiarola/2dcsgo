@@ -91,24 +91,40 @@ public class MakePath : MonoBehaviour
             //If something was hit.
             if (hit.collider != null) {
                 Vector3 normal = hit.normal;
-                //float angleA = Vector3.Angle(-normal, direction);
-                //float angleB = 90f - angleA;
-                //float magnitude = direction.magnitude * Mathf.Cos(angleB);
                 Vector3 normalNormal = Misc.Tools.GetVectorNormal(normal);
                 float radian = Mathf.Deg2Rad * Vector3.Angle(normalNormal, direction);
                 float magnitude = direction.magnitude * Mathf.Cos(radian);
-                Vector3 glide = normalNormal * magnitude;
+                float d = hit.distance;
+                Vector3 newPos = rbCircle.transform.position;
+                /*Vector3 glide = normalNormal * magnitude;
                 Debug.Log(glide + " || " + magnitude);
                 Vector3 glideOrigin = rbCircle.transform.position + glide.normalized * offset;
                 RaycastHit2D glideHit = Physics2D.CircleCast(glideOrigin, raycastCircleRadius, glide, magnitude, 1 << 8);
                 Debug.Log(glide);
-                float d = hit.distance;
                 if (glideHit.collider != null) {
                     glide = glide.normalized * glideHit.distance;
                     d = glideHit.distance;
+                }*/
+                Vector3 yComponent = new Vector3(0, direction.y);
+                Vector3 xComponent = new Vector3(direction.x, 0);
+
+                Vector3 yRaycastOrigin = rbCircle.transform.position + yComponent.normalized * offset;
+                Vector3 xRaycastOrigin = rbCircle.transform.position + xComponent.normalized * offset;
+
+                RaycastHit2D yHit = Physics2D.CircleCast(yRaycastOrigin, raycastCircleRadius, yComponent, yComponent.magnitude, 1 << 8);
+                RaycastHit2D xHit = Physics2D.CircleCast(xRaycastOrigin, raycastCircleRadius, xComponent, xComponent.magnitude, 1 << 8);
+
+                if (yHit.collider != null) {
+                    newPos += yComponent.normalized * yHit.distance;
+                } else {
+                    newPos += yComponent;
+                }
+                if (xHit.collider != null) {
+                    newPos += xComponent.normalized * xHit.distance;
+                } else {
+                    newPos += xComponent;
                 }
 
-                Vector3 newPos = rbCircle.transform.position + direction.normalized * d + glide;
                 rbCircle.transform.position = newPos;
             }  else {
                 rbCircle.transform.position = mousePosition;
