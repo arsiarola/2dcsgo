@@ -9,19 +9,12 @@ public class ChangeScene : MonoBehaviour {
     void Start() {
         play = GameObject.Find("Play").GetComponent<Button>();
         exit = GameObject.Find("Exit").GetComponent<Button>();
-
-        play.onClick.AddListener(delegate { CheckScene("GameControl"); });
+        play.onClick.AddListener(delegate {SceneManager.LoadScene("GameControl"); });
         exit.onClick.AddListener(delegate { Application.Quit(); });
     }
 
     // Update is called once per frame
     void Update() {
-
-    }
-
-    private void CheckScene(string sceneName) {
-        SceneManager.LoadScene(sceneName);
-
 
     }
 }
