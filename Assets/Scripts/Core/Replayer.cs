@@ -9,10 +9,9 @@ namespace Core
     /// </summary>
     public class Replayer : MonoBehaviour
     {
-        [SerializeField] private GameController gameController;
-
         /// <summary> Reference to the GameController Script </summary>
         private GameController GameController { get { return gameController; } }
+        [SerializeField] private GameController gameController;
 
         /// <summary> Id / replayObject ref. Contains the objects that have been created for the replay </summary>
         private Dictionary<int, GameObject> ReplayRefs { get; set; }
@@ -57,11 +56,14 @@ namespace Core
             IsFirstFrame = true;
         }
 
+        /// <summary>
+        /// Handles input as well as updating the replay objects every frame
+        /// </summary>
         private void Update()
         {
             HandleInput();
 
-            // update the current frame
+            // change the current frame
             UpdateCurrentFrameAsFloat();
             int currentFrameAsInt = (int)(Mathf.Round(CurrentFrameAsFloat));    // round the float value, to get a specific frame
             CurrentFrame = GameController.Frames[currentFrameAsInt];
