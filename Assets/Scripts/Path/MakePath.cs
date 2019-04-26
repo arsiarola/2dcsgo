@@ -101,8 +101,8 @@ public class MakePath : MonoBehaviour
                 Debug.Log(glide + " || " + magnitude);
                 Vector3 glideOrigin = rbCircle.transform.position + glide.normalized * offset;
                 RaycastHit2D glideHit = Physics2D.CircleCast(glideOrigin, raycastCircleRadius, glide, magnitude, 1 << 8);
-                Debug.Log(glide);
                 float d = hit.distance;
+                //If something was hit in the glide direction
                 if (glideHit.collider != null) {
                     glide = glide.normalized * glideHit.distance;
                     d = glideHit.distance;
@@ -135,8 +135,7 @@ public class MakePath : MonoBehaviour
                 lineRenderer.SetPosition(i, mousePositionList[i]);
             }
         }
-    } 
-    
+    }
 
     ///<summary>when mouse is moved close enough to the player and held down reset the mousePositionList and the previously drawn path, enable creating path</summary>
     private void MouseOver() 
