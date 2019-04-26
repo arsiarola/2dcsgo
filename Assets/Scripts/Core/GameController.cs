@@ -44,7 +44,7 @@ namespace Core
         [SerializeField] public Planning planning;
 
         /// <summary> The current game stage. If the value is changed, IsStateChanged is also set to true</summary>
-        private GameStage Stage { get { return stage; } set { stage = value; IsStageChanged = true; } }
+        public GameStage Stage { get { return stage; } set { stage = value; IsStageChanged = true; } }
         private GameStage stage = GameStage.Planning;
 
         /// <summary> Has the stage been changed, and not handled yet </summary>
