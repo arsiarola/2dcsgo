@@ -9,10 +9,9 @@ namespace Core
     /// </summary>
     public class Planning : MonoBehaviour
     {
-        [SerializeField] private GameController gameController;
-
         /// <summary> Reference to the GameController Script </summary>
         private GameController GameController { get { return gameController; } }
+        [SerializeField] private GameController gameController;
 
         /// <summary> Contains the state of every recordable in the last frame </summary>
         private Dictionary<int, Recordable.RecordableState> LastFrame { get; set; }

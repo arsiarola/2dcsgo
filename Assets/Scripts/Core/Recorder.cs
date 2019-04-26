@@ -9,10 +9,9 @@ namespace Core
     /// </summary>
     public class Recorder : MonoBehaviour
     {
-        [SerializeField] private GameController gameController;
-
         /// <summary> Reference to the GameController Script </summary>
         private GameController GameController { get { return gameController; } }
+        [SerializeField] private GameController gameController;
 
         /// <summary> Time to be recorded in milliseconds </summary>
         private int RecordingLength { get; set; }

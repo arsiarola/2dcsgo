@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Core
 {
+    /// <summary>
+    /// The stage of the game
+    /// </summary>
     public enum GameStage
     {
         CTPlanning,
@@ -15,6 +18,9 @@ namespace Core
         Planning
     }
 
+    /// <summary>
+    /// Flag that represents the end of a stage
+    /// </summary>
     public enum GameFlag
     {
         RecordEnd,
@@ -22,20 +28,39 @@ namespace Core
         PlanningEnd
     }
 
+    /// <summary>
+    /// Controls the game stage as well as key collections and variables
+    /// </summary>
     public class GameController : MonoBehaviour
     {
-        private GameStage stage = GameStage.Planning;
+        /// <summary>  </summary>
+        private Recorder Recorder { get { return recorder; } }
+        [SerializeField] private Recorder recorder;
+
+        private Replayer Replayer { get { return replayer; } }
+        [SerializeField] private Replayer replayer;
+
+        private Planning Planning { get { return planning; } }
+        [SerializeField] public Planning planning;
+
+        /// <summary> The current game stage. If the value is changed, IsStateChanged is also set to true</summary>
         private GameStage Stage { get { return stage; } set { stage = value; IsStageChanged = true; } }
-        private bool IsStageChanged { get; set; } = true;
-        private int NextId { get; set; } = 0;
-        public GameFlag? Flag { get; set; } = null;
+        private GameStage stage = GameStage.Planning;
+
+        /// <summary> Has the stage been changed, and not handled yet </summary>
+        private bool IsStageChanged { get; set; } = true;   // stage has been changed because we go to the first stage
+
+        /// <summary> What is the next available id for recordables </summary>
+        private int NextId { get; set; } = 0;   // start from zero
+
+        /// <summary> Current flag that needs to be handled </summary>
+        public GameFlag? Flag { get; set; } = null; // the question mark means that it can be null
+
+        /// <summary> Current flag that needs to be handled </summary>
         public List<Dictionary<int, Recordable.RecordableState>> Frames { get; private set; } = new List<Dictionary<int, Recordable.RecordableState>>();
 
-
-        [SerializeField] public Recorder recorder;
-        [SerializeField] public Replayer replayer;
-        [SerializeField] public Planning planning;
-        private Planning Planning { get { return planning; } }
+        
+        
         public Dictionary<int, GameObject> recordableRefs = new Dictionary<int, GameObject>();
         public Dictionary<int, GameObject> recordablePlanningTypes = new Dictionary<int, GameObject>();
         public Dictionary<int, GameObject> recordableReplayTypes = new Dictionary<int, GameObject>();
@@ -43,10 +68,10 @@ namespace Core
         // Before start every Recordable that has been put to scene, execute their Awake method. These send a reference to the GameController
         private void Start()
         {
-            Frames.Add(recorder.GetRecordableStates()); // get start frame. Not sure if necessary for the replay, but we do need to get the objects starting positions at least (then again these can be gained by other means)
+            Frames.Add(Recorder.GetRecordableStates()); // get start frame. Not sure if necessary for the replay, but we do need to get the objects starting positions at least (then again these can be gained by other means)
             DisableRecordables();
-            recorder.gameObject.SetActive(false);
-            replayer.gameObject.SetActive(false);
+            Recorder.gameObject.SetActive(false);
+            Replayer.gameObject.SetActive(false);
             planning.gameObject.SetActive(false);
         }
 
@@ -55,7 +80,7 @@ namespace Core
             switch (Flag)
             {
                 case GameFlag.RecordEnd:
-                    Frames.AddRange(recorder.GetRecordedFrames());
+                    Frames.AddRange(Recorder.GetRecordedFrames());
                     Stage = GameStage.Replay;
                     break;
                 case GameFlag.ReplayEnd:
@@ -100,12 +125,12 @@ namespace Core
 
         private void Record()
         {
-            recorder.Record(5000);
+            Recorder.Record(5000);
         }
 
         private void Replay()
         {
-            replayer.Replay();
+            Replayer.Replay();
         }
 
         private void Plan()
