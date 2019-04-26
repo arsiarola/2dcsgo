@@ -5,17 +5,17 @@ using UnityEngine;
 namespace Recordable
 {
     /// <summary>
-    /// Communicates with GameController/Simulator/Recorder.
+    ///     Communicates with GameController/Simulator/Recorder.
     /// </summary>
     /// <remarks>
-    /// Initially it sends the gameObject's reference and possible replayType and/or
-    /// planningType. During the simulation/recording process and at the end of every FixedUpdate cycle, 
-    /// the Recorder calls some function(s) from this script to get a recordable object's state for that
-    /// cycle/frame. Even though the recordable gameObject may have many scripts, everything that is recorded
-    /// must be called by the recorder from this class or it's childs (depending on what type of recordable is in
-    /// question). This means that, for example, an instance variable that is saved in a different script, but 
-    /// should be recorded every frame, must be called by the Recordable script when it is asked to give the object's
-    /// state to the Recorder.
+    ///     Initially it sends the gameObject's reference and possible replayType and/or
+    ///     planningType. During the simulation/recording process and at the end of every FixedUpdate cycle, 
+    ///     the Recorder calls some function(s) from this script to get a recordable object's state for that
+    ///     cycle/frame. Even though the recordable gameObject may have many scripts, everything that is recorded
+    ///     must be called by the recorder from this class or it's childs (depending on what type of recordable is in
+    ///     question). This means that, for example, an instance variable that is saved in a different script, but 
+    ///     should be recorded every frame, must be called by the Recordable script when it is asked to give the object's
+    ///     state to the Recorder.
     /// </remarks>
 
     public class Recordable : MonoBehaviour

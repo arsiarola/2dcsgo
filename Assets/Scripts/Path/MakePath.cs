@@ -22,13 +22,17 @@ public class MakePath : MonoBehaviour
 
     private LineRenderer lineRenderer;
     private GameObject gObj;
-
     private Core.GameController gameController;
+    private GameObject circle;
+    private Rigidbody2D rbCircle;
 
     private void Start()
     {
         gameController = GameObject.Find(Misc.Constants.GameControllerName).GetComponent<Core.GameController>();   
         gObj = gameObject;
+        circle = gObj.transform.Find("Sphere").gameObject;
+        rbCircle = circle.GetComponent<Rigidbody2D>();
+        circle.SetActive(false);
 
         pointAccuracy = 0.1f;
         amountOfPoints = 1000;
@@ -68,35 +72,62 @@ public class MakePath : MonoBehaviour
     private void CreatePath()
     {
 
+                /*if (normal == new Vector3(1, 0, 0) || normal == new Vector3(-1, 0, 0)) {
+
+                }*/
         drawPath = true; // now that we have starterd creating the path, afterward its okay to draw the path
 
         ///<summary> 
         ///     if mouse is held down, mouseposition is far enough and the mouseposition is not inside a wall add a point to mousePositionList
         /// </summary>
-        if (Input.GetMouseButton(0) && lineRenderer.positionCount < amountOfPoints) 
-        {
-            if (Physics2D.OverlapPoint(mousePosition, 1 << 8)) //check if mouse is on a wall layermask 
-                mouseInWall = true;
-            
-            if (mouseInWall == true && Vector3.Distance(mousePositionList[mousePositionList.Count - 1], mousePosition) < pointAccuracy) //if mouse was inside wall check if it has come back
-                mouseInWall = false;
+        if (Input.GetMouseButton(0) && lineRenderer.positionCount < amountOfPoints) {
+            float raycastCircleRadius = 0.4f;
+            float offset = 0.025f;
+            Vector3 direction = mousePosition - rbCircle.transform.position;
+            float distance = Vector3.Distance(rbCircle.transform.position, mousePosition);
+            Vector3 raycastOrigin = rbCircle.transform.position + direction.normalized * offset;
+            RaycastHit2D hit = Physics2D.CircleCast(raycastOrigin, raycastCircleRadius , direction, distance, 1<<8);
 
-            if (mouseInWall == false) 
-            {
-                vectorDistance = (Vector3.Distance(mousePositionList[mousePositionList.Count - 1], mousePosition));
-                if (vectorDistance > pointAccuracy) // checking if the mousePositon is far enough to add the point
-                {
-                    lineRenderer.positionCount++; // the length of the drawn path can now also increase since we have one more point to draw
-                    mousePositionList.Add(mousePosition);
+            //If something was hit.
+            if (hit.collider != null) {
+                Vector3 normal = hit.normal;
+                //float angleA = Vector3.Angle(-normal, direction);
+                //float angleB = 90f - angleA;
+                //float magnitude = direction.magnitude * Mathf.Cos(angleB);
+                Vector3 normalNormal = Misc.Tools.GetVectorNormal(normal);
+                float radian = Mathf.Deg2Rad * Vector3.Angle(normalNormal, direction);
+                float magnitude = direction.magnitude * Mathf.Cos(radian);
+                Vector3 glide = normalNormal * magnitude;
+                Debug.Log(glide + " || " + magnitude);
+                Vector3 glideOrigin = rbCircle.transform.position + glide.normalized * offset;
+                RaycastHit2D glideHit = Physics2D.CircleCast(glideOrigin, raycastCircleRadius, glide, magnitude, 1 << 8);
+                Debug.Log(glide);
+                float d = hit.distance;
+                if (glideHit.collider != null) {
+                    glide = glide.normalized * glideHit.distance;
+                    d = glideHit.distance;
                 }
+
+                Vector3 newPos = rbCircle.transform.position + direction.normalized * d + glide;
+                rbCircle.transform.position = newPos;
+            }  else {
+                rbCircle.transform.position = mousePosition;
             }
-        
+                
+            vectorDistance = (Vector3.Distance(mousePositionList[mousePositionList.Count - 1], mousePosition));
+            if (vectorDistance > pointAccuracy) // checking if the mousePositon is far enough to add the point
+            {
+                lineRenderer.positionCount++; // the length of the drawn path can now also increase since we have one more point to draw
+                mousePositionList.Add(rbCircle.transform.position);
+            } 
+            
         }
         ///<summary>
         ///     if mouse is not held down stop creating and drawing the path and 
         /// </summary>
         else 
         {       
+            circle.SetActive(false);
             createPath = false;
             drawPath = false;
             for (int i = 0; i < lineRenderer.positionCount; i++) //draw the line for the last time just incase
@@ -120,7 +151,8 @@ public class MakePath : MonoBehaviour
             lineRenderer.SetPosition(1, mousePosition);
             createPath = true;
             drawPath = false;
-
+            circle.SetActive(true);
+            circle.transform.position = gObj.transform.position;
         }
     }
 }

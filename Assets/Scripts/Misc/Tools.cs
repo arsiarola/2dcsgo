@@ -15,6 +15,10 @@ namespace Misc
         {
             return v + new Vector3(0, 0, -v.z);
         }   
+        
+        public static Vector3 GetVectorNormal(Vector3 original) {
+            return new Vector3(-original.y, original.x, 0);
+        }
 
         /// <summary>
         /// Converts seconds to milliSeconds

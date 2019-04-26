@@ -31,7 +31,7 @@ public class FollowPath : MonoBehaviour
             while (lookTowardsPoint + 1 < refMousePositionList.Count && lookTowardsPoint < nextPoint + 2) {
                 lookTowardsPoint++;
                 rot = 0;
-            }
+            }  
             Vector3 vectorToTarget = refMousePositionList[lookTowardsPoint] - transform.position;
             float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90;
             Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
