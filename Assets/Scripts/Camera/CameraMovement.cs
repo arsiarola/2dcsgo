@@ -19,6 +19,10 @@ public class CameraMovement : MonoBehaviour
         
     }
     private void MoveCamera() {
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            spacing = 60f;
+        else
+            spacing = 20f;
         if (Input.GetKey(KeyCode.W))
             pos.y += spacing * Time.unscaledDeltaTime;
         else if (Input.GetKey(KeyCode.A))
