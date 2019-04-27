@@ -431,7 +431,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1296,6 +1296,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameController
       objectReference: {fileID: 0}
+    - target: {fileID: 4476875421940944314, guid: 66bd6bcd54957d84891928fa011e35a9,
+        type: 3}
+      propertyPath: recorder
+      value: 
+      objectReference: {fileID: 1892798513}
+    - target: {fileID: 4476875421940944314, guid: 66bd6bcd54957d84891928fa011e35a9,
+        type: 3}
+      propertyPath: replayer
+      value: 
+      objectReference: {fileID: 8556354553115937089}
+    - target: {fileID: 4476875421940944314, guid: 66bd6bcd54957d84891928fa011e35a9,
+        type: 3}
+      propertyPath: planning
+      value: 
+      objectReference: {fileID: 4388835803831369239}
     - target: {fileID: 4476875421940944293, guid: 66bd6bcd54957d84891928fa011e35a9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1351,21 +1366,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4476875421940944314, guid: 66bd6bcd54957d84891928fa011e35a9,
-        type: 3}
-      propertyPath: recorder
-      value: 
-      objectReference: {fileID: 1892798513}
-    - target: {fileID: 4476875421940944314, guid: 66bd6bcd54957d84891928fa011e35a9,
-        type: 3}
-      propertyPath: replayer
-      value: 
-      objectReference: {fileID: 8556354553115937089}
-    - target: {fileID: 4476875421940944314, guid: 66bd6bcd54957d84891928fa011e35a9,
-        type: 3}
-      propertyPath: planning
-      value: 
-      objectReference: {fileID: 4388835803831369239}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66bd6bcd54957d84891928fa011e35a9, type: 3}
 --- !u!114 &1514925048 stripped

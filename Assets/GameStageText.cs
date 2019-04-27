@@ -12,7 +12,6 @@ public class GameStageText : MonoBehaviour
         gameStageText = (Text)GameObject.Find("DisplayGameStage").GetComponent<Text>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         DisplayGameStage();

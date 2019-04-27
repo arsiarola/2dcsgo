@@ -56,10 +56,6 @@ public class PauseMenuScript : MonoBehaviour
         isGamePaused = false;
     }
 
-    private void SwitchScene (string sceneName){
-        SceneManager.LoadScene(sceneName);
-    }
-
     private void BringAreYouSureMenu() { 
         pauseMenu.SetActive(false);
         areYouSureMenu.SetActive(true);
