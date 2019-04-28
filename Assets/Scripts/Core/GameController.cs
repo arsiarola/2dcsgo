@@ -171,13 +171,13 @@ namespace Core
                 if (obj != null)
                 {
                     DisableRecordableChildren(ref obj); // disable children first
-                    obj.SetActive(false);
+                    
                 }
             }
         }
 
         /// <summary>
-        /// DOESN'T WORK!!! Disables a recordable's children before disabling the recordable itself. This prevents some bugs
+        /// Disables a recordable's children before disabling the recordable itself. This prevents some bugs
         /// </summary>
         /// <param name="obj">The Recordable/child to be disabled</param>
         private void DisableRecordableChildren(ref GameObject obj)
@@ -187,7 +187,7 @@ namespace Core
                 GameObject child = obj.transform.GetChild(i).gameObject;
                 DisableRecordableChildren(ref child);
             }
-            
+            obj.SetActive(false);
         }
 
         /// <summary>

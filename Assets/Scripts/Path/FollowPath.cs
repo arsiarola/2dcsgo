@@ -7,11 +7,6 @@ public class FollowPath : MonoBehaviour
     public List<Vector3> refMousePositionList = new List<Vector3>();
     public int nextPoint = 1;
     private float rot = 0;
-    void Start()
-    {
-        //StartCoroutine("DoAction");
-    }
-
 
     private void FixedUpdate()
     {
