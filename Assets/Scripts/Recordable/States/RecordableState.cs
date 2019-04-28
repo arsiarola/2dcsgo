@@ -12,17 +12,23 @@ namespace Recordable
     /// </remarks>
     public class RecordableState
     {
-        public Vector3 position;
-        public float rotation;
-        public Vector2 velocity;
-        public List<AnimationState> animations;
+        /// <summary>The position</summary>
+        public Vector3 Position { get; set; } = new Vector3(0, 0, 0);
+        
+        /// <summary>The Z-Axis rotation</summary>
+        public float Rotation { get; set; } = 0;
 
+        /// <summary>The Velocity</summary>
+        public Vector2 Velocity { get; set; } = new Vector2(0, 0);
+
+        /// <summary>The state of each animation layer</summary>
+        public List<AnimationState> AnimationLayers { get; set; } = new List<AnimationState>();
+
+        /// <summary>
+        /// Create a new recordable state. All values are default
+        /// </summary>
         public RecordableState()
         {
-            position = new Vector3(0, 0, 0);
-            rotation = 0;
-            velocity = new Vector2(0, 0);
-            animations = new List<AnimationState>();
         }
     }
 }

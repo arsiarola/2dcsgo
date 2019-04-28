@@ -132,10 +132,10 @@ namespace Core
             }
 
             // dont let current frame go below 0 or over the last frame element
-            if (CurrentFrameAsFloat < 0) {
+            if (CurrentFrameAsFloat < 0) {  // below
                 CurrentFrameAsFloat = 0;
             }
-            else if (GameController.Frames.Count - 1 < CurrentFrameAsFloat) {
+            else if (GameController.Frames.Count - 1 < CurrentFrameAsFloat) {   // going over
                 CurrentFrameAsFloat = GameController.Frames.Count - 1;
             }
         }
@@ -152,7 +152,7 @@ namespace Core
                 // if replay object doesn't exist: create one
                 if (!ReplayRefs.ContainsKey(id))
                 {
-                    ReplayRefs.Add(id, Instantiate(GameController.recordableReplayTypes[id]));
+                    ReplayRefs.Add(id, Instantiate(GameController.RecordableReplayTypes[id]));
                 }
 
                 // init reference variables
@@ -160,11 +160,11 @@ namespace Core
                 Recordable.RecordableState state = CurrentFrame[id];
 
                 // update position and rotation
-                obj.transform.position = state.position;
-                obj.transform.eulerAngles = new Vector3(0, 0, state.rotation);
+                obj.transform.position = state.Position;
+                obj.transform.eulerAngles = new Vector3(0, 0, state.Rotation);
 
                 // update animations
-                foreach (Recordable.AnimationState anim in state.animations)
+                foreach (Recordable.AnimationState anim in state.AnimationLayers)
                 {
                     Animator animator = obj.GetComponent<Animator>();
                     obj.GetComponent<Animator>().Play(anim.StateHash, anim.Layer, anim.Time);

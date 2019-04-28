@@ -17,29 +17,47 @@ namespace Recordable
     ///     should be recorded every frame, must be called by the Recordable script when it is asked to give the object's
     ///     state to the Recorder.
     /// </remarks>
-
     public class Recordable : MonoBehaviour
     {
-        [SerializeField] protected Core.GameController gameController;
-        [SerializeField] protected GameObject replayType;
-        [SerializeField] protected GameObject planningType;
+        /// <summary>Reference to the GameController script of the GameController object</summary>
+        protected Core.GameController GameController { get { return gameController; } set { gameController = value; } }
+        [SerializeField] private Core.GameController gameController;
 
+        /// <summary>Reference to the recordable's replay type prefab</summary>
+        protected GameObject ReplayType { get { return replayType; } set { replayType = value; } }
+        [SerializeField] private GameObject replayType;
+
+        /// <summary>Reference to the recordable's planning type prefab</summary>
+        protected GameObject PlanningType { get { return planningType; } set { planningType = value; } }
+        [SerializeField] private GameObject planningType;
+
+        /// <summary>
+        /// Add a reference of the Recordable to the GameController
+        /// </summary>
         protected virtual void Awake()
         {
-            if (gameController == null) // find the gameController if it isn't initialized using the unity inspector
+            if (GameController == null) // find the gameController if it isn't initialized using the unity inspector
             {
-                gameController = GameObject.Find(Misc.Constants.GameControllerName).GetComponent<Core.GameController>();
+                GameController = GameObject.Find(Misc.Constants.GAME_CONTROLLER_NAME).GetComponent<Core.GameController>();
             }
             GameObject gObj = gameObject;   // the gameObject property must be put to a variable so that we can send a reference of the object
-            gameController.AddRecordable(ref gObj, replayType, planningType);
+            GameController.AddRecordable(ref gObj, ReplayType, PlanningType);
         }
 
+        /// <summary>
+        /// Initializes the recordable state variables
+        /// </summary>
+        /// <param name="recordableState">Reference of the state we are modifying</param>
         protected virtual void InitRecordableState(RecordableState recordableState)
         {
-            recordableState.position = transform.position;
-            recordableState.rotation = transform.rotation.eulerAngles.z;
+            recordableState.Position = transform.position;
+            recordableState.Rotation = transform.rotation.eulerAngles.z;
         }
 
+        /// <summary>
+        /// Get the recordable's current state
+        /// </summary>
+        /// <returns>Returns the recordable's state</returns>
         public RecordableState GetRecordableState()
         {
             RecordableState recordableState = new RecordableState();

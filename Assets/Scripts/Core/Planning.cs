@@ -52,19 +52,19 @@ namespace Core
 
                 // create the object
                 GameObject obj;
-                if (GameController.recordablePlanningTypes.ContainsKey(id)) {   // has planning type
-                    obj = Instantiate(GameController.recordablePlanningTypes[id]);  // create planning type
+                if (GameController.RecordablePlanningTypes.ContainsKey(id)) {   // has planning type
+                    obj = Instantiate(GameController.RecordablePlanningTypes[id]);  // create planning type
                 }
                 else {  // no planning type
-                    obj = Instantiate(GameController.recordableReplayTypes[id]);    // create replay type
+                    obj = Instantiate(GameController.RecordableReplayTypes[id]);    // create replay type
                 }
 
                 // set rotation and position for object
-                obj.transform.position = state.position;
-                obj.transform.eulerAngles = new Vector3(0, 0, state.rotation);
+                obj.transform.position = state.Position;
+                obj.transform.eulerAngles = new Vector3(0, 0, state.Rotation);
 
                 // set animations
-                foreach (Recordable.AnimationState anim in state.animations) {
+                foreach (Recordable.AnimationState anim in state.AnimationLayers) {
                     Animator animator = obj.GetComponent<Animator>();
                     obj.GetComponent<Animator>().Play(anim.StateHash, anim.Layer, anim.Time);
                 }
@@ -113,7 +113,7 @@ namespace Core
                 GameObject obj = pair.Value;
                 if (obj.GetComponent<MakePath>() != null) { // if obj has makePath script
                     List<Vector3> list = obj.GetComponent<MakePath>().mousePositionList;    // get path list
-                    gameController.recordableRefs[id].GetComponent<FollowPath>().SetMousePositionList(list); // send it to the recordable
+                    gameController.RecordableRefs[id].GetComponent<FollowPath>().SetMousePositionList(list); // send it to the recordable
                 }
             }
         }

@@ -13,13 +13,20 @@ namespace Recordable
     /// </remarks>
     public class AnimatedRecordable : Recordable
     {
-        protected Animator animator;
+        /// <summary>
+        /// Reference to the object's animator component
+        /// </summary>
+        protected Animator Animator { get; set; }
 
+        /// <summary>
+        /// Base method + gets the animator component
+        /// </summary>
         protected override void Awake()
         {
             base.Awake();
-            animator = GetComponent<Animator>();
+            Animator = GetComponent<Animator>();
         }
+
         /// <summary>
         /// Base method + adds the animations to the param recordableState.
         /// </summary>
@@ -27,9 +34,9 @@ namespace Recordable
         protected override void InitRecordableState(RecordableState recordableState)
         {
             base.InitRecordableState(recordableState);
-            for (int i = 0; i < animator.layerCount; i++)
+            for (int i = 0; i < Animator.layerCount; i++)
             {
-                recordableState.animations.Add(new AnimationState(animator, i));
+                recordableState.AnimationLayers.Add(new AnimationState(Animator, i));
             }
         }
     }

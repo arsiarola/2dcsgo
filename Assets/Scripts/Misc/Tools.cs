@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Misc
 {
+    /// <summary>
+    /// Simple tools that are somewhat universal
+    /// </summary>
     static class Tools
     {
         /// <summary>
@@ -16,6 +19,11 @@ namespace Misc
             return v + new Vector3(0, 0, -v.z);
         }   
         
+        /// <summary>
+        /// Returns the normal of a vector
+        /// </summary>
+        /// <param name="original">Original vector</param>
+        /// <returns></returns>
         public static Vector3 GetVectorNormal(Vector3 original) {
             return new Vector3(-original.y, original.x, 0);
         }

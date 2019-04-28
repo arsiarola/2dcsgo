@@ -4,16 +4,24 @@ using UnityEngine;
 
 namespace Animation
 {
-    /* An object that plays a single animation and then disappears. Use either the frame updated or physics
-     * updated child class. This is just an abstract class. */
-
+    /// <summary>
+    /// Plays a single animation and then disappear. Use either the frame updated or physics updated child class because is just an abstract class
+    /// </summary>
     public abstract class SimpleAnimation : Animated
     {
-        [SerializeField] private string animationName;  // the name of the animation state
+        /// <summary>
+        /// The name of the animation state to be played
+        /// </summary>
+        private string AnimationName { get { return animationName; } set { animationName = value; } }
+        [SerializeField] private string animationName; 
+       
 
-        protected void DestroyOnAnimationEnd()  // destroy the object once the animation has played
+        /// <summary>
+        /// Destroy the object once the animation has played
+        /// </summary>
+        protected void DestroyOnAnimationEnd()
         {
-            if (!animator.GetCurrentAnimatorStateInfo(0).IsName(animationName))
+            if (!Animator.GetCurrentAnimatorStateInfo(0).IsName(animationName)) // current animator state is not the one specified
             {
                 Destroy(gameObject);
             }

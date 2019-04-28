@@ -28,7 +28,7 @@ public class MakePath : MonoBehaviour
 
     private void Start()
     {
-        gameController = GameObject.Find(Misc.Constants.GameControllerName).GetComponent<Core.GameController>();   
+        gameController = GameObject.Find(Misc.Constants.GAME_CONTROLLER_NAME).GetComponent<Core.GameController>();   
         gObj = gameObject;
         circle = gObj.transform.Find("Sphere").gameObject;
         rbCircle = circle.GetComponent<Rigidbody2D>();
@@ -69,6 +69,86 @@ public class MakePath : MonoBehaviour
         }
     }
 
+    private void CalculatePosition(Vector3 lastPos)
+    {
+        bool bothHit;
+        float raycastCircleRadius = 0.4f;
+        float offset = 0.025f;
+        Vector3 direction = mousePosition - rbCircle.transform.position;
+        float distance = Vector3.Distance(rbCircle.transform.position, mousePosition);
+        Vector3 originalPos = rbCircle.transform.position;
+        Vector3 raycastOrigin = rbCircle.transform.position + direction.normalized * offset;
+        RaycastHit2D hit = Physics2D.CircleCast(raycastOrigin, raycastCircleRadius, direction, distance, 1 << 8);
+
+        //If something was hit.
+        if (hit.collider != null)
+        {
+
+            Vector3 newPos = rbCircle.transform.position;
+
+            Vector3 yComponent = new Vector3(0, direction.y);
+            Vector3 xComponent = new Vector3(direction.x, 0);
+
+            Vector3 yRaycastOrigin = rbCircle.transform.position + yComponent.normalized * offset;
+            Vector3 xRaycastOrigin = rbCircle.transform.position + xComponent.normalized * offset;
+
+            RaycastHit2D yHit = Physics2D.CircleCast(yRaycastOrigin, raycastCircleRadius, yComponent, yComponent.magnitude, 1 << 8);
+            RaycastHit2D xHit = Physics2D.CircleCast(xRaycastOrigin, raycastCircleRadius, xComponent, xComponent.magnitude, 1 << 8);
+
+            if (yHit.collider != null)
+            {
+                newPos += yComponent.normalized * (yHit.distance - offset);
+            }
+            else
+            {
+                newPos += yComponent;
+            }
+            if (xHit.collider != null)
+            {
+                newPos += xComponent.normalized * (xHit.distance - offset);
+            }
+            else
+            {
+                newPos += xComponent;
+            }
+            rbCircle.transform.position = newPos;
+
+            if (yHit.collider != null && xHit.collider != null)
+            {
+                bothHit = true;
+            }
+            else
+            {
+                bothHit = false;
+            }
+
+            /*if (bothHit && lastPos != rbCircle.transform.position)
+            {
+                Debug.Log("Diagonal slide");
+                CalculatePosition(rbCircle.transform.position);
+            }*/
+
+            RaycastHit2D lateHit = Physics2D.CircleCast(rbCircle.transform.position, raycastCircleRadius, direction, 0, 1 << 8);
+            while (lateHit.collider != null)
+            {
+                lateHit = Physics2D.CircleCast(rbCircle.transform.position + direction.normalized * offset, raycastCircleRadius, direction, 0, 1 << 8);
+                rbCircle.transform.position -= direction.normalized * offset;
+            }
+
+            Vector3 changeVector = -originalPos + rbCircle.transform.position;
+            RaycastHit2D testCast = Physics2D.Raycast(originalPos, changeVector, changeVector.magnitude, 1 << 8);
+            if (testCast.collider != null)
+            {
+                Debug.Log("Error");
+                rbCircle.transform.position = originalPos + changeVector.normalized * (testCast.distance - raycastCircleRadius);
+            }
+        }
+        else
+        {
+            rbCircle.transform.position = mousePosition;
+        }
+    }
+
     private void CreatePath()
     {
 
@@ -81,64 +161,7 @@ public class MakePath : MonoBehaviour
         ///     if mouse is held down, mouseposition is far enough and the mouseposition is not inside a wall add a point to mousePositionList
         /// </summary>
         if (Input.GetMouseButton(0) && lineRenderer.positionCount < amountOfPoints) {
-            float raycastCircleRadius = 0.4f;
-            float offset = 0.025f;
-            Vector3 direction = mousePosition - rbCircle.transform.position;
-            float distance = Vector3.Distance(rbCircle.transform.position, mousePosition);
-            Vector3 originalPos = rbCircle.transform.position;
-            Vector3 raycastOrigin = rbCircle.transform.position + direction.normalized * offset;
-            RaycastHit2D hit = Physics2D.CircleCast(raycastOrigin, raycastCircleRadius , direction, distance, 1<<8);
-
-            //If something was hit.
-            if (hit.collider != null) {
-                Vector3 normal = hit.normal;
-                
-                Vector3 newPos = rbCircle.transform.position;
-                /*if (hit.normal.x == 0f || hit.normal.y == 0) {
-                    
-                } else {
-                    newPos += direction.normalized * hit.distance;
-                }*/
-
-                Vector3 yComponent = new Vector3(0, direction.y);
-                Vector3 xComponent = new Vector3(direction.x, 0);
-
-                Vector3 yRaycastOrigin = rbCircle.transform.position + yComponent.normalized * offset;
-                Vector3 xRaycastOrigin = rbCircle.transform.position + xComponent.normalized * offset;
-
-                RaycastHit2D yHit = Physics2D.CircleCast(yRaycastOrigin, raycastCircleRadius, yComponent, yComponent.magnitude, 1 << 8);
-                RaycastHit2D xHit = Physics2D.CircleCast(xRaycastOrigin, raycastCircleRadius, xComponent, xComponent.magnitude, 1 << 8);
-
-                if (yHit.collider != null) {
-                    newPos += yComponent.normalized * (yHit.distance - offset);
-                }
-                else {
-                    newPos += yComponent;
-                }
-                if (xHit.collider != null) {
-                    newPos += xComponent.normalized * (xHit.distance - offset);
-                }
-                else {
-                    newPos += xComponent;
-                }
-                rbCircle.transform.position = newPos;
-
-                RaycastHit2D lateHit = Physics2D.CircleCast(rbCircle.transform.position, raycastCircleRadius, direction, 0, 1 << 8);
-                while (lateHit.collider != null) {
-                    lateHit = Physics2D.CircleCast(rbCircle.transform.position + direction.normalized * offset, raycastCircleRadius, direction, 0, 1 << 8);
-                    rbCircle.transform.position -= direction.normalized * offset;
-                }
-
-                Vector3 changeVector = -originalPos + rbCircle.transform.position;
-                RaycastHit2D testCast = Physics2D.Raycast(originalPos, changeVector, changeVector.magnitude, 1 << 8);
-                if (testCast.collider != null) {
-                    Debug.Log("Error");
-                    rbCircle.transform.position = originalPos + changeVector.normalized * (testCast.distance - raycastCircleRadius);
-                }
-
-            }  else {
-                rbCircle.transform.position = mousePosition;
-            }
+            CalculatePosition(rbCircle.transform.position);
                 
             vectorDistance = (Vector3.Distance(mousePositionList[mousePositionList.Count - 1], mousePosition));
             if (vectorDistance > pointAccuracy) // checking if the mousePositon is far enough to add the point

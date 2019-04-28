@@ -69,7 +69,7 @@ namespace Core
         {
             Dictionary<int, Recordable.RecordableState> frame = new Dictionary<int, Recordable.RecordableState>();  // create a new frame where to store object states
             // goes through the all of the recordables and saves their state
-            foreach (KeyValuePair<int, GameObject> pair in GameController.recordableRefs)
+            foreach (KeyValuePair<int, GameObject> pair in GameController.RecordableRefs)
             {
                 int id = pair.Key;
                 GameObject obj = pair.Value;
