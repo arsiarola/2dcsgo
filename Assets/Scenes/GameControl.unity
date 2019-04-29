@@ -442,8 +442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58c5b9c42de74254984f548dab593d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameController: {fileID: 4476875421940944314, guid: 66bd6bcd54957d84891928fa011e35a9,
-    type: 3}
+  gameController: {fileID: 1514925048}
 --- !u!114 &925486644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1729,6 +1728,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.b
       value: 0.03529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 3884864348157491889, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.037475586
+      objectReference: {fileID: 0}
+    - target: {fileID: 3884864348157491889, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.027496338
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dd0c16211bbd75439b724610a7815d0, type: 3}
