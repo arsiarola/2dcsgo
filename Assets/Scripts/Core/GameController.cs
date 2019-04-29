@@ -207,7 +207,7 @@ namespace Core
                     obj.SetActive(true);
                 }
             }
-            Simulation.SetActive(true); // enable simulation
+            //Simulation.SetActive(true); // enable simulation
         }
     }
 }
