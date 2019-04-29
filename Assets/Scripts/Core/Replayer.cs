@@ -207,10 +207,7 @@ namespace Core
             }
 
             // pausing
-            if (CurrentFrameAsFloat >= GameController.Frames.Count - 1) {
-                Time.timeScale = 0f;
-            }
-            else if (IsPause) {
+            if (CurrentFrameAsFloat >= GameController.Frames.Count - 1 || IsPause) {
                 Time.timeScale = 0f;
             }
             else {
