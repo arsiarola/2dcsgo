@@ -88,7 +88,7 @@ namespace Core
             // for clarity's sake disable these objects when they are not active, and also prevent them from executing their update methods
             Recorder.gameObject.SetActive(false);
             Replayer.gameObject.SetActive(false);
-            planning.gameObject.SetActive(false);
+            Planning.gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace Core
                     DisableRecordableChildren(ref obj); // disable children first
                 }
             }
-            Simulation.SetActive(false);    // disable simulation
+            //Simulation.SetActive(false);    // disable simulation
         }
 
         /// <summary>
