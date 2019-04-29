@@ -5,11 +5,26 @@ using UnityEngine.UI;
 
 public class GameStageText : MonoBehaviour
 {
+    /*
+    public class MyComponent<T>
+    {
+        public T obj;
+
+        public MyComponent(T t)
+        {
+            obj = t;
+        }
+    }
+
+    List<MyComponent<string>> listOfComponents = new List<MyComponent<string>>();
+    */
     [SerializeField] private Core.GameController gameController;
     Text gameStageText;
     void Start()
     {
         gameStageText = (Text)GameObject.Find("DisplayGameStage").GetComponent<Text>();
+        /*string s = "asfdsf";
+        listOfComponents.Add(new MyComponent<string>(s));*/
     }
 
     void Update()

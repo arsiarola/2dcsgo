@@ -89,6 +89,14 @@ namespace Core
             Recorder.gameObject.SetActive(false);
             Replayer.gameObject.SetActive(false);
             Planning.gameObject.SetActive(false);
+
+            RecordableState.RecordableState state = new RecordableState.RecordableState();
+            if (state.GetProperty<RecordableState.Position>() != null) {
+                Debug.Log("Toimii");
+                Debug.Log(state.GetProperty<RecordableState.Position>().GetValue());
+            } else {
+                Debug.Log("Ei toimi");
+            }
         }
 
         /// <summary>
