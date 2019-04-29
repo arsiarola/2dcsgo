@@ -15,7 +15,6 @@ public class GameStageText : MonoBehaviour
     void Update()
     {
         DisplayGameStage();
-        //Debug.Log(gameController.Stage);
     }
 
     void DisplayGameStage() {
