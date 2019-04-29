@@ -8,6 +8,15 @@ public class FollowPath : MonoBehaviour
     public int nextPoint = 1;
     private float rot = 0;
 
+    //shooting
+    bool isMoving;
+    bool enemySpotted;
+    public System.Random random = new System.Random();
+    int reactiontime;
+    int fov;
+    int segments = 10;
+
+
     private void FixedUpdate()
     {
         if (nextPoint < refMousePositionList.Count)
@@ -46,6 +55,7 @@ public class FollowPath : MonoBehaviour
             // transform
             transform.rotation = Quaternion.Slerp(transform.rotation, q, rot);
             transform.position = Vector3.Lerp(transform.position, refMousePositionList[nextPoint], t);
+            CheckFov();
         }
     }
 
@@ -56,4 +66,35 @@ public class FollowPath : MonoBehaviour
         nextPoint = 1;
         rot = 0;
     }
+
+    public void Shoot() {
+        if (isMoving) {
+            reactiontime = random.Next(300, 400);
+        } else {
+            reactiontime = random.Next(200, 300);
+        }
+    }
+
+    public void CheckFov() {
+        Vector3 startPos = transform.position;
+        Vector3 endPos;
+
+        int startAngle = -fov/2;
+        int finishAngle = fov / 2;
+
+        int increment = fov / segments;
+
+        RaycastHit hit;
+
+        for(int i = startAngle; i < finishAngle; i+= increment) {
+            endPos = (Quaternion.Euler(0, i, 0) * transform.forward).normalized * 100;
+
+            if(Physics.Linecast(startPos, endPos, out hit)) {
+                Debug.Log(hit.point);
+            }
+            Debug.DrawLine(startPos, endPos, Color.blue);
+        }
+
+    }
 }
+
