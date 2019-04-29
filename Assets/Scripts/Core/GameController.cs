@@ -43,7 +43,7 @@ namespace Core
 
         /// <summary> Reference to the Planning script of a Planning object</summary>
         private Planning Planning { get { return planning; } }
-        [SerializeField] public Planning planning;
+        [SerializeField] private Planning planning;
 
         /// <summary> The current game stage. If the value is changed, IsStateChanged is also set to true</summary>
         public GameStage Stage { get { return stage; } set { stage = value; IsStageChanged = true; } }
@@ -69,6 +69,10 @@ namespace Core
 
         /// <summary> Contains the reference to every recordable's replay type prefab. The replay type of a given recordable can be accessed with it's id</summary>
         public Dictionary<int, GameObject> RecordableReplayTypes { get; private set; } = new Dictionary<int, GameObject>();
+
+        /// <summary> This game object contains both sides, as well as, every terrorist and counter terrorist. It also handles the simulation loop</summary>
+        private GameObject Simulation { get { return simulation; } set { simulation = Simulation; } }
+        [SerializeField] private GameObject simulation;
 
         /// <summary>
         /// Gets the starting frame from Recorder, disables every recordable, and disables the Recorder, the Replayer and the Planning objects
@@ -160,7 +164,7 @@ namespace Core
 
         
         /// <summary>
-        /// Disables every alive recordable by first disabling it's children
+        /// Disables every alive recordable by first disabling it's children. Also disables the simulation object
         /// </summary>
         public void DisableRecordables()
         {
@@ -171,9 +175,9 @@ namespace Core
                 if (obj != null)
                 {
                     DisableRecordableChildren(ref obj); // disable children first
-                    
                 }
             }
+            Simulation.SetActive(false);    // disable simulation
         }
 
         /// <summary>
@@ -191,7 +195,7 @@ namespace Core
         }
 
         /// <summary>
-        /// Enables every recordable that is alive
+        /// Enables every recordable that is alive, and enables the simulation object
         /// </summary>
         public void EnableRecordables()
         {
@@ -203,6 +207,7 @@ namespace Core
                     obj.SetActive(true);
                 }
             }
+            Simulation.SetActive(true); // enable simulation
         }
     }
 }
