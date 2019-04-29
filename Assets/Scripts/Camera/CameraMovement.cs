@@ -32,9 +32,9 @@ public class CameraMovement : MonoBehaviour
         else if (Input.GetKey(KeyCode.D))
             pos.x += spacing * Time.unscaledDeltaTime;
 
-        else if (Input.GetKey(KeyCode.Comma) &&  Camera.main.orthographicSize + spacing*Time.unscaledDeltaTime < 20) 
+         if (Input.GetKey(KeyCode.Comma) &&  Camera.main.orthographicSize + spacing*Time.unscaledDeltaTime < 20) 
             Camera.main.orthographicSize += spacing * Time.unscaledDeltaTime;
-        else if (Input.GetKey(KeyCode.Period) && Camera.main.orthographicSize - spacing*Time.unscaledDeltaTime > 5 )
+         else if (Input.GetKey(KeyCode.Period) && Camera.main.orthographicSize - spacing*Time.unscaledDeltaTime > 5 )
             Camera.main.orthographicSize -= spacing * Time.unscaledDeltaTime;
 
     transform.position = pos;
