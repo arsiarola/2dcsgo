@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PauseMenuScript : MonoBehaviour
 {
     public bool isGamePaused = false;
+    public bool isAreYouSure = false;
     public bool quitMenu;
     public GameObject pauseMenu;
     public GameObject areYouSureMenu;
@@ -38,9 +39,10 @@ public class PauseMenuScript : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q)) {
-            if (isGamePaused) {
+            if (isGamePaused && !isAreYouSure) {
                 Resume();
-            }else {
+            }
+            else {
                 Pause();
             }
         } 
@@ -48,6 +50,9 @@ public class PauseMenuScript : MonoBehaviour
 
      void Pause() {
         pauseMenu.SetActive(true);
+        areYouSureMenu.SetActive(false);
+        areYouSureQuit.SetActive(false);
+        isAreYouSure = false;
         isGamePaused = true;
     }
 
@@ -56,12 +61,14 @@ public class PauseMenuScript : MonoBehaviour
         isGamePaused = false;
     }
 
-    private void BringAreYouSureMenu() { 
+    private void BringAreYouSureMenu() {
+        isAreYouSure = true;
         pauseMenu.SetActive(false);
         areYouSureMenu.SetActive(true);
     }
 
     private void BringAreYouSureQuit() {
+        isAreYouSure = true;
         pauseMenu.SetActive(false);
         areYouSureQuit.SetActive(true);
     }
@@ -70,6 +77,7 @@ public class PauseMenuScript : MonoBehaviour
         areYouSureMenu.SetActive(false);
         areYouSureQuit.SetActive(false);
 
+        isAreYouSure = false;
         pauseMenu.SetActive(true);
     }
 }
