@@ -6,27 +6,38 @@ namespace RecordableState
 {
     public class RecordableState
     {
-        List<RecordableProperty> components = new List<RecordableProperty>();
+        private List<RecordableProperty> properties = new List<RecordableProperty>();
 
-        public RecordableState()
-        {
-            components.Add(new Position(new Vector3(0, 0, 0)));
-        }
+        public RecordableState() {}
 
-        public T GetProperty<T>()
+        public T GetProperty<T>() where T : RecordableProperty
         {
-            foreach (RecordableProperty component in components) {
-                if (component.GetType() == typeof(T)) {
-                    Debug.Log(component.GetType());
-                    return (T)System.Convert.ChangeType(component, typeof(T));
+            foreach (RecordableProperty property in properties) {
+                if (property.GetType() == typeof(T)) {
+                    Debug.Log(property.GetType());
+                    return (T)System.Convert.ChangeType(property, typeof(T));
                 }
             }
             return (T)System.Convert.ChangeType(null, typeof(T)); ;
         }
 
-        public void AddComponent(RecordableProperty component)
+        public void AddProperty<T>() where T : RecordableProperty, new()
         {
-            components.Add(component);
+            if (GetProperty<T>() != null)
+            {
+                Debug.Log("Cannot add an already existing property");
+                return;
+            }
+            properties.Add(new T());
+        }
+
+        public void AddProperty<T>(T property) where T : RecordableProperty
+        {
+            if (GetProperty<T>() != null) {
+                Debug.Log("Cannot add an already existing property");
+                return;
+            }
+            properties.Add(property);
         }
     }
 }

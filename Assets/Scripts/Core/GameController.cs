@@ -90,13 +90,17 @@ namespace Core
             Replayer.gameObject.SetActive(false);
             Planning.gameObject.SetActive(false);
 
+            
             RecordableState.RecordableState state = new RecordableState.RecordableState();
+            RecordableState.Position pos = new RecordableState.Position(new Vector3(1, 1, 1));
+            state.AddProperty(pos);
             if (state.GetProperty<RecordableState.Position>() != null) {
-                Debug.Log("Toimii");
-                Debug.Log(state.GetProperty<RecordableState.Position>().GetValue());
+                Debug.Log("Has");
+                Debug.Log(state.GetProperty<RecordableState.Position>().pos);
             } else {
-                Debug.Log("Ei toimi");
+                Debug.Log("Doesn't Have");
             }
+            state.AddProperty<RecordableState.Position>();
         }
 
         /// <summary>
