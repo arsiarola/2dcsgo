@@ -4,34 +4,72 @@ using UnityEngine;
 
 namespace RecordableState
 {
+    interface ISettable
+    {
+        void SetToObject(GameObject obj);
+    }
+
+    interface IInitializable
+    {
+        void InitToObject(GameObject obj);
+    }
+
     public abstract class RecordableProperty
     {
-
+        public abstract void GetVariablesFrom(GameObject obj);
     }
 
-    public class Position : RecordableProperty
+    public class Transform : RecordableProperty, ISettable
     {
-        public Vector3 pos;
-        public Position()
+        public Vector3 Position { get; private set; } = new Vector3(0, 0, 0);
+        public Vector3 Rotation { get; private set; } = new Vector3(0, 0, 0);
+
+        public override void GetVariablesFrom(GameObject recordable)
         {
-            this.pos = new Vector3(0, 0, 0);
+            Position = recordable.transform.position;
+            Rotation = recordable.transform.rotation.eulerAngles;
         }
-        public Position(Vector3 pos)
+
+        public void SetToObject(GameObject obj)
         {
-            this.pos = pos;
+            obj.transform.position = Position;
+            obj.transform.eulerAngles = Rotation;
         }
     }
 
-    public class Velocity : RecordableProperty
+    public class Dynamics : RecordableProperty, IInitializable
     {
-        public Vector3 velocity;
-        public Velocity()
+        public Vector3 Velocity { get; private set; } = new Vector3(0, 0, 0);
+
+        public override void GetVariablesFrom(GameObject recordable)
         {
-            this.velocity = new Vector3(0, 0, 0);
+            Velocity = recordable.GetComponent<Rigidbody2D>().velocity;
         }
-        public Velocity(Vector3 velocity)
+
+        public void InitToObject(GameObject obj)
         {
-            this.velocity = velocity;
+            obj.GetComponent<Rigidbody2D>().velocity = Velocity;
+        }
+    }
+
+    public class Animations : RecordableProperty, ISettable
+    {
+        public List<AnimationState> AnimationStates { get; private set; } = new List<AnimationState>();
+
+        public override void GetVariablesFrom(GameObject recordable)
+        {
+            Animator animator = recordable.GetComponent<Animator>();
+            for (int i = 0; i < animator.layerCount; i++) {
+                AnimationStates.Add(new AnimationState(animator, i));
+            }
+        }
+
+        public void SetToObject(GameObject obj)
+        {
+            foreach (AnimationState anim in AnimationStates) {
+                Animator animator = obj.GetComponent<Animator>();
+                obj.GetComponent<Animator>().Play(anim.StateNameHash, anim.Layer, anim.Stage);
+            }
         }
     }
 }

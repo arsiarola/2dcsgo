@@ -7,17 +7,13 @@ namespace Core
     /// <summary>
     /// Handles the replaying stage
     /// </summary>
-    public class Replayer : MonoBehaviour
+    public class Replayer : Task
     {
-        /// <summary> Reference to the GameController Script </summary>
-        private GameController GameController { get { return gameController; } }
-        [SerializeField] private GameController gameController;
-
         /// <summary> Id / replayObject ref. Contains the objects that have been created for the replay </summary>
         private Dictionary<int, GameObject> ReplayRefs { get; set; }
 
         /// <summary> Id / state. Contains the state of the recordables in the current frame </summary>
-        private Dictionary<int, Recordable.RecordableState> CurrentFrame { get; set; }
+        private Dictionary<int, RecordableState.RecordableState> CurrentFrame { get; set; }
 
         /// <summary> The value of the current frame as a float </summary>
         private float CurrentFrameAsFloat { get; set; }
@@ -37,9 +33,8 @@ namespace Core
         /// <summary>
         /// Starts the Replay process
         /// </summary>
-        public void Replay()
-        {
-            gameObject.SetActive(true); // activate the replayer object in order to activate the update of this script. Update is executed only if the script is enabled
+        private void OnEnable()
+        { 
             InitVariables();
         }
 
@@ -145,7 +140,7 @@ namespace Core
         /// </summary>
         private void UpdateReplayObjects()
         {
-            foreach (KeyValuePair<int, Recordable.RecordableState> pair in CurrentFrame)
+            foreach (KeyValuePair<int, RecordableState.RecordableState> pair in CurrentFrame)
             {
                 int id = pair.Key;
 
@@ -157,18 +152,8 @@ namespace Core
 
                 // init reference variables
                 GameObject obj = ReplayRefs[id];
-                Recordable.RecordableState state = CurrentFrame[id];
-
-                // update position and rotation
-                obj.transform.position = state.Position;
-                obj.transform.eulerAngles = new Vector3(0, 0, state.Rotation);
-
-                // update animations
-                foreach (Recordable.AnimationState anim in state.AnimationLayers)
-                {
-                    Animator animator = obj.GetComponent<Animator>();
-                    obj.GetComponent<Animator>().Play(anim.StateHash, anim.Layer, anim.Time);
-                }
+                RecordableState.RecordableState state = CurrentFrame[id];
+                state.SetToObject(obj);
             }
         }
 
@@ -220,10 +205,8 @@ namespace Core
         /// </summary>
         private void Exit()
         {
-            Time.timeScale = 1f;    // reset timescale
             DestroyReplayObjects();
-            GameController.Flag = GameFlag.ReplayEnd;
-            gameObject.SetActive(false);
+            GameController.SendMessage(GameMessage.ReplayEnd);
         }
 
         /// <summary>

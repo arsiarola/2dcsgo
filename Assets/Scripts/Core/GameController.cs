@@ -21,7 +21,7 @@ namespace Core
     /// <summary>
     /// Flag that represents the end of a stage
     /// </summary>
-    public enum GameFlag
+    public enum GameMessage
     {
         RecordEnd,
         ReplayEnd,
@@ -45,8 +45,12 @@ namespace Core
         private Planning Planning { get { return planning; } }
         [SerializeField] private Planning planning;
 
+        /// <summary> This script handles the simulation loop</summary>
+        private Simulation Simulation { get { return simulation; } set { simulation = Simulation; } }
+        [SerializeField] private Simulation simulation;
+
         /// <summary> The current game stage. If the value is changed, IsStateChanged is also set to true</summary>
-        public GameStage Stage { get { return stage; } set { stage = value; IsStageChanged = true; } }
+        public GameStage Stage { get { return stage; } private set { stage = value; IsStageChanged = true; } }
         private GameStage stage = GameStage.Planning;
 
         /// <summary> Has the stage been changed, and not handled yet </summary>
@@ -55,11 +59,8 @@ namespace Core
         /// <summary> What is the next available id for recordables </summary>
         private int NextId { get; set; } = 0;   // start from zero
 
-        /// <summary> Current flag that needs to be handled </summary>
-        public GameFlag? Flag { get; set; } = null; // the question mark means that it can be null
-
         /// <summary> List of frames with each frame containing a dictionary of type Id-State which specifies every recordable's state at that frame. The time between consecutive frames is determined by the fixed timestep</summary>
-        public List<Dictionary<int, Recordable.RecordableState>> Frames { get; private set; } = new List<Dictionary<int, Recordable.RecordableState>>();
+        public List<Dictionary<int, RecordableState.RecordableState>> Frames { get; private set; } = new List<Dictionary<int, RecordableState.RecordableState>>();
 
         /// <summary> Contains the references to every recordable. These are contained in a dictionary of type id-recordable. Value is the reference to a recordable while the key is it's id. </summary>
         public Dictionary<int, GameObject> RecordableRefs { get; private set; } = new Dictionary<int, GameObject>();
@@ -70,9 +71,7 @@ namespace Core
         /// <summary> Contains the reference to every recordable's replay type prefab. The replay type of a given recordable can be accessed with it's id</summary>
         public Dictionary<int, GameObject> RecordableReplayTypes { get; private set; } = new Dictionary<int, GameObject>();
 
-        /// <summary> This game object contains both sides, as well as, every terrorist and counter terrorist. It also handles the simulation loop</summary>
-        private GameObject Simulation { get { return simulation; } set { simulation = Simulation; } }
-        [SerializeField] private GameObject simulation;
+        
 
         /// <summary>
         /// Gets the starting frame from Recorder, disables every recordable, and disables the Recorder, the Replayer and the Planning objects
@@ -84,44 +83,42 @@ namespace Core
         {
             Frames.Add(Recorder.GetRecordableStates()); // get start frame. Not sure if necessary for the replay, but we do need to get the objects starting positions at least (then again these can be gained by other means)
             DisableRecordables();       // disable recordables before they can execute their FixedUpdate or update methods
-
-            // for clarity's sake disable these objects when they are not active, and also prevent them from executing their update methods
-            Recorder.gameObject.SetActive(false);
-            Replayer.gameObject.SetActive(false);
-            Planning.gameObject.SetActive(false);
-
-            
-            RecordableState.RecordableState state = new RecordableState.RecordableState();
-            RecordableState.Position pos = new RecordableState.Position(new Vector3(1, 1, 1));
-            state.AddProperty(pos);
-            if (state.GetProperty<RecordableState.Position>() != null) {
-                Debug.Log("Has");
-                Debug.Log(state.GetProperty<RecordableState.Position>().pos);
-            } else {
-                Debug.Log("Doesn't Have");
-            }
-            state.AddProperty<RecordableState.Position>();
         }
 
         /// <summary>
-        /// Handles a flag and once handled sets it to null
+        /// Handles flags and stage changes
         /// </summary>
-        private void HandleFlags()
+        private void Update()
         {
-            switch (Flag)
+            if (IsStageChanged) {
+                HandleStageChange();
+            }
+        }
+
+        /// <summary>
+        /// Handles messages that have been sent to the GameController
+        /// </summary>
+        public void SendMessage(GameMessage message)
+        {
+            Time.timeScale = 1f;  // reset time scale to normal
+            switch (message)
             {
-                case GameFlag.RecordEnd:
+                case GameMessage.RecordEnd:
+                    DisableRecordables();    // disable recordables now that the simulating is complete
                     Frames.AddRange(Recorder.GetRecordedFrames());  // add the recorded frames to the frames list
+                    Recorder.gameObject.SetActive(false);    // disable the Recorder gameObject for claritys sake
+                    Simulation.gameObject.SetActive(false); // disables simulation
                     Stage = GameStage.Replay;   // after recording the stage is replay
                     break;
-                case GameFlag.ReplayEnd:
+                case GameMessage.ReplayEnd:
+                    Replayer.gameObject.SetActive(false);
                     Stage = GameStage.Planning; // after replay the stage is planning
                     break;
-                case GameFlag.PlanningEnd:
+                case GameMessage.PlanningEnd:
+                    Planning.gameObject.SetActive(false);    // stops the update loop for this script
                     Stage = GameStage.Record;   // after planning the stage is record
                     break;
             }
-            Flag = null;    // reset flag to null after it has been handled
         }
 
         /// <summary>
@@ -132,32 +129,23 @@ namespace Core
             switch (Stage)
             {
                 case GameStage.Record:
-                    Recorder.Record(5000);
+                    EnableRecordables(); // enable recordables for simulation
+                    Time.timeScale = Misc.Constants.SIMULATION_SPEED;  // simulate as fast as possible
+                    Recorder.gameObject.SetActive(true); // enables the Recorder object
+                    Simulation.gameObject.SetActive(true);  // enables simulation
                     break;
                 case GameStage.Replay:
-                    Replayer.Replay();
+                    Replayer.gameObject.SetActive(true); // activate the replayer object in order to activate the update of this script. Update is executed only if the script is enabled
                     break;
                 case GameStage.Planning:
-                    Planning.Plan();
+                    Time.timeScale = 0; // pause time for the duration of the planning
+                    Planning.gameObject.SetActive(true); // activating the Planning object also activates this scripts Update method
                     break;
             }
             IsStageChanged = false; // stage change has been handled
         }
 
-        /// <summary>
-        /// Handles flags and stage changes
-        /// </summary>
-        private void Update()
-        {
-            if (Flag != null)
-            {
-                HandleFlags();
-            }
-            if (IsStageChanged)
-            {
-                HandleStageChange();
-            }
-        }
+        
 
         /// <summary>
         /// Add a recordable's reference, replayType and planningType to the dictionaries. The new recordable is given its unique id
@@ -177,7 +165,7 @@ namespace Core
         /// <summary>
         /// Disables every alive recordable by first disabling it's children. Also disables the simulation object
         /// </summary>
-        public void DisableRecordables()
+        private void DisableRecordables()
         {
             foreach (KeyValuePair<int, GameObject> pair in RecordableRefs)
             {
@@ -208,17 +196,20 @@ namespace Core
         /// <summary>
         /// Enables every recordable that is alive, and enables the simulation object
         /// </summary>
-        public void EnableRecordables()
+        private void EnableRecordables()
         {
             foreach (KeyValuePair<int, GameObject> pair in RecordableRefs)
             {
+                int id = pair.Key;
                 GameObject obj = pair.Value;
-                if (obj != null)
-                {
+                if (obj != null) {
                     obj.SetActive(true);
+                    RecordableState.RecordableState lastState = Frames[Frames.Count - 1][id];
+                    lastState.InitOwner();
                 }
             }
             //Simulation.SetActive(true); // enable simulation
+            //Init recordable state
         }
     }
 }

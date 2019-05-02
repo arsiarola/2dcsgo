@@ -47,22 +47,21 @@ namespace Recordable
         /// <summary>
         /// Initializes the recordable state variables
         /// </summary>
-        /// <param name="recordableState">Reference of the state we are modifying</param>
-        protected virtual void InitRecordableState(RecordableState recordableState)
+        /// <param name="state">Reference of the state we are modifying</param>
+        protected virtual void AddProperties(RecordableState.RecordableState state)
         {
-            recordableState.Position = transform.position;
-            recordableState.Rotation = transform.rotation.eulerAngles.z;
+            state.AddProperty<RecordableState.Transform>();
         }
 
         /// <summary>
         /// Get the recordable's current state
         /// </summary>
         /// <returns>Returns the recordable's state</returns>
-        public RecordableState GetRecordableState()
+        public RecordableState.RecordableState GetState()
         {
-            RecordableState recordableState = new RecordableState();
-            InitRecordableState(recordableState);
-            return recordableState;
+            RecordableState.RecordableState state = new RecordableState.RecordableState(gameObject);
+            AddProperties(state);
+            return state;
         }
     }
 }

@@ -12,11 +12,11 @@ namespace Recordable
         /// <summary>
         /// Base method + adds the velocity to the recordableState
         /// </summary>
-        /// <param name="recordableState">RecordableState which needs velocity added to it</param>
-        protected override void InitRecordableState(RecordableState recordableState)
+        /// <param name="state">RecordableState which needs velocity added to it</param>
+        protected override void AddProperties(RecordableState.RecordableState state)
         {
-            base.InitRecordableState(recordableState);
-            recordableState.Velocity = GetComponent<Rigidbody2D>().velocity;
+            base.AddProperties(state);
+            state.AddProperty<RecordableState.Dynamics>();
         }
     }
 }

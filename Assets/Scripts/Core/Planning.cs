@@ -7,14 +7,10 @@ namespace Core
     /// <summary>
     /// Handles the planning stage
     /// </summary>
-    public class Planning : MonoBehaviour
+    public class Planning : Task
     {
-        /// <summary> Reference to the GameController Script </summary>
-        private GameController GameController { get { return gameController; } }
-        [SerializeField] private GameController gameController;
-
         /// <summary> Contains the state of every recordable in the last frame </summary>
-        private Dictionary<int, Recordable.RecordableState> LastFrame { get; set; }
+        private Dictionary<int, RecordableState.RecordableState> LastFrame { get; set; }
 
         /// <summary> Id-GameObject dictionary of every object created for the planning stage </summary>
         private Dictionary<int, GameObject> PlanningRefs { get; set; }
@@ -22,12 +18,10 @@ namespace Core
         /// <summary>
         /// Start the planning process.
         /// </summary>
-        public void Plan()
+        private void OnEnable()
         {
-            gameObject.SetActive(true); // activating the Planning object also activates this scripts Update method
             InitVariables();
             CreatePlanningObjects();    // create objects for the planning stage
-            Time.timeScale = 0; // pause time for the duration of the planning
         }
 
         /// <summary>
@@ -45,10 +39,10 @@ namespace Core
         private void CreatePlanningObjects()
         {
             // go through every id-state pair in the last frame
-            foreach (KeyValuePair<int, Recordable.RecordableState> pair in LastFrame) 
+            foreach (KeyValuePair<int, RecordableState.RecordableState> pair in LastFrame) 
             {
                 int id = pair.Key;
-                Recordable.RecordableState state = pair.Value;
+                RecordableState.RecordableState state = pair.Value;
 
                 // create the object
                 GameObject obj;
@@ -59,15 +53,7 @@ namespace Core
                     obj = Instantiate(GameController.RecordableReplayTypes[id]);    // create replay type
                 }
 
-                // set rotation and position for object
-                obj.transform.position = state.Position;
-                obj.transform.eulerAngles = new Vector3(0, 0, state.Rotation);
-
-                // set animations
-                foreach (Recordable.AnimationState anim in state.AnimationLayers) {
-                    Animator animator = obj.GetComponent<Animator>();
-                    obj.GetComponent<Animator>().Play(anim.StateHash, anim.Layer, anim.Time);
-                }
+                state.SetToObject(obj);
 
                 PlanningRefs.Add(id, obj);  // add a reference of the created object to the planning refs dictionary
             }
@@ -90,9 +76,7 @@ namespace Core
         {
             SendDataToRecordables();
             DestroyPlanningObjects();
-            Time.timeScale = 1f;    // set time scale to normal
-            gameController.Flag = GameFlag.PlanningEnd;
-            gameObject.SetActive(false);    // stops the update loop for this script
+            GameController.SendMessage(GameMessage.PlanningEnd);
         }
 
         /// <summary>
@@ -113,7 +97,7 @@ namespace Core
                 GameObject obj = pair.Value;
                 if (obj.GetComponent<MakePath>() != null) { // if obj has makePath script
                     List<Vector3> list = obj.GetComponent<MakePath>().mousePositionList;    // get path list
-                    gameController.RecordableRefs[id].GetComponent<FollowPath>().SetMousePositionList(list); // send it to the recordable
+                    GameController.RecordableRefs[id].GetComponent<FollowPath>().SetMousePositionList(list); // send it to the recordable
                 }
             }
         }
