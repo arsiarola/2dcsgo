@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace AI
 {
-    public class TOperatorAI : MonoBehaviour
+    public class TOperatorAI : OperatorAI
     {
-
+        public override Side Side { get; protected set; } = Side.Terrorist;
     }
 }

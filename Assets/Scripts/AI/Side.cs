@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 namespace AI
 {
-    public class TAI : SideAI
+    public enum Side
     {
-        public override Side Side { get; protected set; } = Side.Terrorist;
+        CounterTerrorist,
+        Terrorist,
+        Neutral
     }
 }
-
