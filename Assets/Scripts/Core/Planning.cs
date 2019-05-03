@@ -38,6 +38,9 @@ namespace Core
         /// </summary>
         private void CreatePlanningObjects()
         {
+            foreach (int id in GameController.RecordableIdsByType[Recordable.Type.AI]) {
+                //f (type.Ai)
+            }
             // go through every id-state pair in the last frame
             foreach (KeyValuePair<int, RecordableState.RecordableState> pair in LastFrame) 
             {
@@ -45,17 +48,17 @@ namespace Core
                 RecordableState.RecordableState state = pair.Value;
 
                 // create the object
-                GameObject obj;
-                if (GameController.RecordablePlanningTypes.ContainsKey(id)) {   // has planning type
-                    obj = Instantiate(GameController.RecordablePlanningTypes[id]);  // create planning type
+                if (GameController.RecordablePlanningTypes.ContainsKey(id) || GameController.RecordableReplayTypes.ContainsKey(id)) {
+                    GameObject obj;
+                    if (GameController.RecordablePlanningTypes.ContainsKey(id)) {   // has planning type
+                        obj = Instantiate(GameController.RecordablePlanningTypes[id]);  // create planning type
+                    }
+                    else {  // no planning type
+                        obj = Instantiate(GameController.RecordableReplayTypes[id]);    // create replay type
+                    }
+                    state.SetToObject(obj);
+                    PlanningRefs.Add(id, obj);  // add a reference of the created object to the planning refs dictionary
                 }
-                else {  // no planning type
-                    obj = Instantiate(GameController.RecordableReplayTypes[id]);    // create replay type
-                }
-
-                state.SetToObject(obj);
-
-                PlanningRefs.Add(id, obj);  // add a reference of the created object to the planning refs dictionary
             }
         }
 

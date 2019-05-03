@@ -718,6 +718,7 @@ GameObject:
   m_Component:
   - component: {fileID: 880126201}
   - component: {fileID: 880126202}
+  - component: {fileID: 880126203}
   m_Layer: 0
   m_Name: CounterTerrorists
   m_TagString: Untagged
@@ -756,6 +757,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc0c6006661af824b8894d017d03e156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &880126203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880126200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d9465cdc367e1144b4dada3b5f44280, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameController: {fileID: 1514925048}
+  replayType: {fileID: 0}
+  planningType: {fileID: 0}
 --- !u!1 &925486641
 GameObject:
   m_ObjectHideFlags: 0
@@ -1021,6 +1037,7 @@ GameObject:
   m_Component:
   - component: {fileID: 999217989}
   - component: {fileID: 999217990}
+  - component: {fileID: 999217991}
   m_Layer: 0
   m_Name: Terrorists
   m_TagString: Untagged
@@ -1059,6 +1076,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adb036d0c19bd494b87b16a9a9f6cafa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &999217991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999217988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d9465cdc367e1144b4dada3b5f44280, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameController: {fileID: 1514925048}
+  replayType: {fileID: 0}
+  planningType: {fileID: 0}
 --- !u!114 &1116556323 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4617592876237301908, guid: 8dd0c16211bbd75439b724610a7815d0,
@@ -2943,6 +2975,11 @@ PrefabInstance:
       propertyPath: OkButton
       value: 
       objectReference: {fileID: 252197001}
+    - target: {fileID: 4617592876693509873, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4617592877898808996, guid: 8dd0c16211bbd75439b724610a7815d0,
         type: 3}
       propertyPath: m_IsActive
@@ -2950,6 +2987,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
+    - {fileID: 4350262095401286641, guid: 8dd0c16211bbd75439b724610a7815d0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8dd0c16211bbd75439b724610a7815d0, type: 3}
 --- !u!1001 &4905926584063397237
 PrefabInstance:

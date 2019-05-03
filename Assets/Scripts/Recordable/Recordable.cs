@@ -31,6 +31,8 @@ namespace Recordable
         protected GameObject PlanningType { get { return planningType; } set { planningType = value; } }
         [SerializeField] private GameObject planningType;
 
+        public virtual Type Type { get; protected set; } = Type.Basic;
+
         /// <summary>
         /// Add a reference of the Recordable to the GameController
         /// </summary>
@@ -41,7 +43,7 @@ namespace Recordable
                 GameController = GameObject.Find(Misc.Constants.GAME_CONTROLLER_NAME).GetComponent<Core.GameController>();
             }
             GameObject gObj = gameObject;   // the gameObject property must be put to a variable so that we can send a reference of the object
-            GameController.AddRecordable(ref gObj, ReplayType, PlanningType);
+            GameController.AddRecordable(ref gObj, ReplayType, PlanningType, Type);
         }
 
         /// <summary>

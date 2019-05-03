@@ -81,7 +81,7 @@ namespace Core
         /// <summary> Contains the reference to every recordable's replay type prefab. The replay type of a given recordable can be accessed with it's id</summary>
         public Dictionary<int, GameObject> RecordableReplayTypes { get; private set; } = new Dictionary<int, GameObject>();
 
-        
+        public Dictionary<Recordable.Type, List<int>> RecordableIdsByType { get; private set; } = new Dictionary<Recordable.Type, List<int>>();
 
         /// <summary>
         /// Gets the starting frame from Recorder, disables every recordable, and disables the Recorder, the Replayer and the Planning objects
@@ -201,15 +201,18 @@ namespace Core
         /// <param name="reference"> Recordable object's reference </param>
         /// <param name="replayType"> Recordable's replayType prefab</param>
         /// <param name="planningType">Recordable's planningType prefab. Can be null</param>
-        public void AddRecordable(ref GameObject reference, GameObject replayType, GameObject planningType)
+        public void AddRecordable(ref GameObject reference, GameObject replayType, GameObject planningType, Recordable.Type type)
         {
+            if (!RecordableIdsByType.ContainsKey(type)) {
+                RecordableIdsByType.Add(type, new List<int>());
+            }
+            RecordableIdsByType[type].Add(NextId);
             RecordableRefs.Add(NextId, reference);
-            RecordableReplayTypes.Add(NextId, replayType);
+            if (replayType != null) RecordableReplayTypes.Add(NextId, replayType);
             if (planningType != null) RecordablePlanningTypes.Add(NextId, planningType);
             NextId++;   // increment NextId in preparation for the next recordable
         }
 
-        
         /// <summary>
         /// Disables every alive recordable by first disabling it's children. Also disables the simulation object
         /// </summary>

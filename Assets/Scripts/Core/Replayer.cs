@@ -144,15 +144,16 @@ namespace Core
                 int id = pair.Key;
 
                 // if replay object doesn't exist: create one
-                if (!ReplayRefs.ContainsKey(id))
+                if (!ReplayRefs.ContainsKey(id) && GameController.RecordableReplayTypes.ContainsKey(id))
                 {
                     ReplayRefs.Add(id, Instantiate(GameController.RecordableReplayTypes[id]));
+                    GameObject obj = ReplayRefs[id];
+                    RecordableState.RecordableState state = CurrentFrame[id];
+                    state.SetToObject(obj);
                 }
 
                 // init reference variables
-                GameObject obj = ReplayRefs[id];
-                RecordableState.RecordableState state = CurrentFrame[id];
-                state.SetToObject(obj);
+                
             }
         }
 
