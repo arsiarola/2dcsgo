@@ -21,7 +21,8 @@ namespace Core
     {
         RecordEnd,
         ReplayEnd,
-        PlanningEnd
+        PlanningEnd,
+        OkClicked
     }
 
     /// <summary>
@@ -42,8 +43,11 @@ namespace Core
         [SerializeField] private Planning planning;
 
         /// <summary> This script handles the simulation loop</summary>
-        private Simulation Simulation { get { return simulation; } set { simulation = Simulation; } }
+        private Simulation Simulation { get { return simulation; } set { simulation = value; } }
         [SerializeField] private Simulation simulation;
+
+        private PauseMenu PauseMenu { get { return pauseMenu; } }
+        [SerializeField] private PauseMenu pauseMenu;
 
         public Side Side { get { return side; } private set { side = value; IsSideChanged = true; } }
         private Side side = Side.CounterTerrorist;
@@ -109,6 +113,7 @@ namespace Core
         {
             IsSideChanged = false;
             Turn++;
+            PauseMenu.BringTurnChange();
         }
 
         /// <summary>
@@ -146,6 +151,8 @@ namespace Core
                         }
                     }
                     break;
+                case GameMessage.OkClicked:
+                    break;
             }
         }
 
@@ -176,7 +183,6 @@ namespace Core
                     Simulation.gameObject.SetActive(true);  // enables simulation
                     break;
                 case GameStage.Replay:
-                    Debug.Log("HERE");
                     Replayer.gameObject.SetActive(true); // activate the replayer object in order to activate the update of this script. Update is executed only if the script is enabled
                     break;
                 case GameStage.Planning:
