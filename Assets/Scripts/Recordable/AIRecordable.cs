@@ -6,7 +6,7 @@ namespace Recordable
 {
     public class AIRecordable : Recordable
     {
-        public override Type Type { get; protected set; } = Type.AI;
+        protected override Type Type { get; set; } = Type.AI;
 
         protected override void AddProperties(RecordableState.RecordableState state)
         {

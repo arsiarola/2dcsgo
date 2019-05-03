@@ -31,7 +31,7 @@ namespace Recordable
         protected GameObject PlanningType { get { return planningType; } set { planningType = value; } }
         [SerializeField] private GameObject planningType;
 
-        public virtual Type Type { get; protected set; } = Type.Basic;
+        protected virtual Type Type { get; set; } = Type.Basic;
 
         /// <summary>
         /// Add a reference of the Recordable to the GameController
