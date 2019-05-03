@@ -4,14 +4,19 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PauseMenuScript : MonoBehaviour
+public class PauseMenu : MonoBehaviour
 {
+    public Core.GameController gameController;
+    public Button okButton;
+
     public bool isGamePaused = false;
     public bool isAreYouSure = false;
     public bool quitMenu;
+
     public GameObject pauseMenu;
     public GameObject areYouSureMenu;
     public GameObject areYouSureQuit;
+    public GameObject turnChange;
 
     public Button resume;
     public Button menu;
@@ -33,6 +38,8 @@ public class PauseMenuScript : MonoBehaviour
         menuNo.onClick.AddListener(delegate { BringPauseMenu(); });
         quitYes.onClick.AddListener(delegate { Application.Quit(); });
         quitNo.onClick.AddListener(delegate { BringPauseMenu(); });
+
+        okButton.onClick.AddListener(delegate { OkClicked(); });
 
         
     }
@@ -80,4 +87,15 @@ public class PauseMenuScript : MonoBehaviour
         isAreYouSure = false;
         pauseMenu.SetActive(true);
     }
+
+    public void OkClicked() {
+        System.Threading.Thread.Sleep(3000);
+        turnChange.SetActive(false);
+        //Core.OkClicked();
+    }
+
+    public void BringTurnChange() {
+        turnChange.SetActive(true);
+    }
+     
 }
