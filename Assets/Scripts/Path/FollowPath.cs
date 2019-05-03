@@ -29,7 +29,7 @@ public class FollowPath : MonoBehaviour
                 distance = Vector3.Distance(transform.position, refMousePositionList[nextPoint]);
             }
             float t = speed / distance;
-
+            /*
             // calculate rotation
             int lookTowardsPoint = nextPoint;
             while (lookTowardsPoint + 1 < refMousePositionList.Count && lookTowardsPoint < nextPoint + 2) {
@@ -54,8 +54,8 @@ public class FollowPath : MonoBehaviour
 
             // transform
             transform.rotation = Quaternion.Slerp(transform.rotation, q, rot);
+            */
             transform.position = Vector3.Lerp(transform.position, refMousePositionList[nextPoint], t);
-            CheckFov();
         }
     }
 
@@ -75,26 +75,6 @@ public class FollowPath : MonoBehaviour
         }
     }
 
-    public void CheckFov() {
-        Vector3 startPos = transform.position;
-        Vector3 endPos;
 
-        int startAngle = -fov/2;
-        int finishAngle = fov / 2;
-
-        int increment = fov / segments;
-
-        RaycastHit hit;
-
-        for(int i = startAngle; i < finishAngle; i+= increment) {
-            endPos = (Quaternion.Euler(0, i, 0) * transform.forward).normalized * 100;
-
-            if(Physics.Linecast(startPos, endPos, out hit)) {
-                Debug.Log(hit.point);
-            }
-            Debug.DrawLine(startPos, endPos, Color.blue);
-        }
-
-    }
 }
 
