@@ -9,10 +9,6 @@ namespace Core
     /// </summary>
     public enum GameStage
     {
-        CTPlanning,
-        TPlanning,
-        CTReplay,
-        TReplay,
         Record,
         Replay,
         Planning
@@ -49,11 +45,21 @@ namespace Core
         private Simulation Simulation { get { return simulation; } set { simulation = Simulation; } }
         [SerializeField] private Simulation simulation;
 
+        public Side Side { get { return side; } private set { side = value; IsSideChanged = true; } }
+        private Side side = Side.CounterTerrorist;
+
+        private bool IsSideChanged { get; set; } = true;
+
+        public int Turn { get; private set; } = -1;
+
+        public int Planned { get; private set; } = 0;
+
+        public int Replays { get; private set; } = 0;
+
         /// <summary> The current game stage. If the value is changed, IsStateChanged is also set to true</summary>
         public GameStage Stage { get { return stage; } private set { stage = value; IsStageChanged = true; } }
         private GameStage stage = GameStage.Planning;
 
-        /// <summary> Has the stage been changed, and not handled yet </summary>
         private bool IsStageChanged { get; set; } = true;   // stage has been changed because we go to the first stage
 
         /// <summary> What is the next available id for recordables </summary>
@@ -90,9 +96,19 @@ namespace Core
         /// </summary>
         private void Update()
         {
+            if (IsSideChanged) {
+                HandleSideChange();
+            }
+
             if (IsStageChanged) {
                 HandleStageChange();
             }
+        }
+
+        private void HandleSideChange()
+        {
+            IsSideChanged = false;
+            Turn++;
         }
 
         /// <summary>
@@ -108,15 +124,39 @@ namespace Core
                     Frames.AddRange(Recorder.GetRecordedFrames());  // add the recorded frames to the frames list
                     Recorder.gameObject.SetActive(false);    // disable the Recorder gameObject for claritys sake
                     Simulation.gameObject.SetActive(false); // disables simulation
-                    Stage = GameStage.Replay;   // after recording the stage is replay
+                    Stage = GameStage.Replay;   // after recording, the stage is replay
                     break;
                 case GameMessage.ReplayEnd:
                     Replayer.gameObject.SetActive(false);
                     Stage = GameStage.Planning; // after replay the stage is planning
+                    Replays++;
                     break;
                 case GameMessage.PlanningEnd:
                     Planning.gameObject.SetActive(false);    // stops the update loop for this script
-                    Stage = GameStage.Record;   // after planning the stage is record
+                    Planned++;
+                    if (Planned == 2) {
+                        Stage = GameStage.Record;   // after planning the stage is record
+                        Planned = 0;
+                    } else {
+                        SwitchSide();
+                        if (Turn == 0) {
+                            Stage = GameStage.Planning;
+                        } else {
+                            Stage = GameStage.Replay;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        private void SwitchSide()
+        {
+            switch (Side) {
+                case Side.CounterTerrorist:
+                    Side = Side.Terrorist;
+                    break;
+                case Side.Terrorist:
+                    Side = Side.CounterTerrorist;
                     break;
             }
         }
@@ -126,6 +166,7 @@ namespace Core
         /// </summary>
         private void HandleStageChange()
         {
+            
             switch (Stage)
             {
                 case GameStage.Record:
@@ -135,6 +176,7 @@ namespace Core
                     Simulation.gameObject.SetActive(true);  // enables simulation
                     break;
                 case GameStage.Replay:
+                    Debug.Log("HERE");
                     Replayer.gameObject.SetActive(true); // activate the replayer object in order to activate the update of this script. Update is executed only if the script is enabled
                     break;
                 case GameStage.Planning:

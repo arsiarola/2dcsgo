@@ -24,13 +24,15 @@ namespace Core
             CounterTerroristAI.CheckVisibility(TerroristAI.Children);
             TerroristAI.CheckVisibility(CounterTerroristAI.Children);
 
-            if (count % 10 == 0) {
-                Debug.Log(CounterTerroristAI.VisibleEnemies.Count + ", " + TerroristAI.VisibleEnemies.Count);
-            }
+            //if (count % 10 == 0) Debug.Log(CounterTerroristAI.VisibleEnemies.Count + ", " + TerroristAI.VisibleEnemies.Count);
+
+            // Movement
+
+            // Rotation
+
+            // Shoot if possible
             count++;
         }
-
-        // 
     }
 }
 

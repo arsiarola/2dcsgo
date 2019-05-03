@@ -23,22 +23,6 @@ public class CameraText : MonoBehaviour {
 
         switch (gameController.Stage) {
 
-            case Core.GameStage.CTPlanning:
-                text.text = "Give Orders to Counter-Terrorists";
-                break;
-
-            case Core.GameStage.TPlanning:
-                text.text = "Give Orders to Terrorists";
-                break;
-
-            case Core.GameStage.CTReplay:
-                text.text = "Watch Counter-terrorist-side replay";
-                break;
-
-            case Core.GameStage.TReplay:
-                text.text = "Watch Terrorist-side replay";
-                break;
-
             case Core.GameStage.Planning:
                 text.text = "Test Planning";
                 break;

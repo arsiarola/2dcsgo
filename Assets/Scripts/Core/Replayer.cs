@@ -45,8 +45,9 @@ namespace Core
         {
             ReplayRefs = new Dictionary<int, GameObject>(); // we will create the replay objects from scratch
             ReplaySpeed = 1f;   // set speed to normal
-            CurrentFrameAsFloat = 0;    // we start with frame zero (placeholder)
-            IsPause = false;
+            CurrentFrameAsFloat = ((GameController.Replays / 2) * Misc.Constants.RECORD_LENGTH) / Time.fixedTime;   // we start with frame zero (placeholder)
+            Debug.Log(CurrentFrameAsFloat);
+            IsPause = true; // start paused
             IsExit = false;
             IsFirstFrame = true;
         }
@@ -119,7 +120,6 @@ namespace Core
             // update current frame's float value
             if (IsFirstFrame)   // if first frame make sure the float is 0. Can cause bugs if not
             {
-                CurrentFrameAsFloat = 0;
                 IsFirstFrame = false;
             }
             else {

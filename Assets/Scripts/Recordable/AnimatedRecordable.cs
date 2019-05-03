@@ -5,13 +5,13 @@ using UnityEngine;
 namespace Recordable
 {
     /// <summary>
-    ///     Inherits recordable class and extends it to include the Animator component.
+    ///     Inherits transform recordable class and extends it to include the Animator component.
     /// </summary>
     /// <remarks>
     ///      protected animator = getComponent(animator)
     ///      overrides InitRecordableState() to allow the addition of animationstates.
     /// </remarks>
-    public class AnimatedRecordable : Recordable
+    public class AnimatedRecordable : TransformRecordable
     {
         /// <summary>
         /// Reference to the object's animator component

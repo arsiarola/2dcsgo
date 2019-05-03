@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace AI
+
+namespace Recordable
 {
-    public enum Side
+    public class AIRecordable : Recordable
     {
-        CounterTerrorist,
-        Terrorist,
-        Neutral
+
     }
 }
+

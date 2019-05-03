@@ -5,7 +5,7 @@ namespace AI
 {
     public abstract class OperatorAI : MonoBehaviour
     {
-        public abstract Side Side { get; protected set; }
+        public abstract Core.Side Side { get; protected set; }
         public List<GameObject> VisibleEnemies { get; protected set; } = new List<GameObject>();
 
         public void CheckVisibility(List<GameObject> checkAgainst)

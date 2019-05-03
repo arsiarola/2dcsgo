@@ -33,33 +33,30 @@ public class GameStageText : MonoBehaviour
     }
 
     void DisplayGameStage() {
+        string side = "";
+
+        switch (gameController.Side) {
+            case Core.Side.CounterTerrorist:
+                side = "CT";
+                break;
+            case Core.Side.Terrorist:
+                side = "T";
+                break;
+            default:
+                break;
+        }
+
         switch(gameController.Stage) {
-            case Core.GameStage.CTPlanning:
-                gameStageText.text = "CT Orders";
-                break;
-
-            case Core.GameStage.TPlanning:
-                gameStageText.text = "T Orders";
-                break;
-
-            case Core.GameStage.CTReplay:
-                gameStageText.text = "CT Replay";
-                break;
-
-            case Core.GameStage.TReplay:
-                gameStageText.text = "T Replay";
-                break;
-
             case Core.GameStage.Record:
-                gameStageText.text = "Simualtion in progress...";
+                gameStageText.text = "Simulation in progress...";
                 break;
 
             case Core.GameStage.Planning:
-                gameStageText.text = "Test Planning";
+                gameStageText.text = side + " Planning";
                 break;
 
             case Core.GameStage.Replay:
-                gameStageText.text = "Test Replay";
+                gameStageText.text = side + " Replay";
                 break;
             default:
                 gameStageText.text = "";

@@ -50,7 +50,7 @@ namespace Recordable
         /// <param name="state">Reference of the state we are modifying</param>
         protected virtual void AddProperties(RecordableState.RecordableState state)
         {
-            state.AddProperty<RecordableState.Transform>();
+            
         }
 
         /// <summary>

@@ -6,7 +6,7 @@ namespace AI
 {
     public class CTAI : SideAI
     {
-        public override Side Side { get; protected set; } = Side.CounterTerrorist;
+        public override Core.Side Side { get; protected set; } = Core.Side.CounterTerrorist;
     }
 }
 

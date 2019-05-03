@@ -37,6 +37,11 @@ namespace Misc
         {
             return seconds * 1000;
         }
+
+        public static float MilliSecondsToSeconds(float milliseconds)
+        {
+            return milliseconds / 1000;
+        }
     }
 }
 
