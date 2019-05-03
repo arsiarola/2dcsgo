@@ -16,7 +16,7 @@ namespace RecordableState
 
     public abstract class RecordableProperty
     {
-        public abstract void GetVariablesFrom(GameObject obj);
+        public abstract void GetVariablesFrom(GameObject recordable);
     }
 
     public class Transform : RecordableProperty, ISettable
@@ -70,6 +70,17 @@ namespace RecordableState
                 Animator animator = obj.GetComponent<Animator>();
                 obj.GetComponent<Animator>().Play(anim.StateNameHash, anim.Layer, anim.Stage);
             }
+        }
+    }
+
+    public class ArtificialIntelligence : RecordableProperty
+    {
+        public List<GameObject> VisibleEnemies { get; private set; } = new List<GameObject>();
+
+        public override void GetVariablesFrom(GameObject recordable)
+        {
+            AI.SideAI ai = recordable.GetComponent<AI.SideAI>();
+            VisibleEnemies = ai.VisibleEnemies;
         }
     }
 }

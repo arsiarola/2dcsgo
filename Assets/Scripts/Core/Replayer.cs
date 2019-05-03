@@ -45,8 +45,7 @@ namespace Core
         {
             ReplayRefs = new Dictionary<int, GameObject>(); // we will create the replay objects from scratch
             ReplaySpeed = 1f;   // set speed to normal
-            CurrentFrameAsFloat = ((GameController.Replays / 2) * Misc.Constants.RECORD_LENGTH) / Time.fixedTime;   // we start with frame zero (placeholder)
-            Debug.Log(CurrentFrameAsFloat);
+            CurrentFrameAsFloat = (GameController.Replays / 2) * (Misc.Tools.MilliSecondsToSeconds(Misc.Constants.RECORD_LENGTH) / Time.fixedDeltaTime);   // we start with frame zero (placeholder)
             IsPause = true; // start paused
             IsExit = false;
             IsFirstFrame = true;

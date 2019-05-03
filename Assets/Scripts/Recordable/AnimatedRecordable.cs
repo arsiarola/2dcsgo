@@ -14,20 +14,6 @@ namespace Recordable
     public class AnimatedRecordable : TransformRecordable
     {
         /// <summary>
-        /// Reference to the object's animator component
-        /// </summary>
-        protected Animator Animator { get; set; }
-
-        /// <summary>
-        /// Base method + gets the animator component
-        /// </summary>
-        protected override void Awake()
-        {
-            base.Awake();
-            Animator = GetComponent<Animator>();
-        }
-
-        /// <summary>
         /// Base method + adds the animations to the param recordableState.
         /// </summary>
         /// <param name="state">RecordableState which needs AnimationStates added to it.</param>
