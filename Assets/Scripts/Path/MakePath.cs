@@ -15,6 +15,7 @@ public class MakePath : MonoBehaviour
     public bool drawPath;
     public bool enableDrag = true;
     public bool mouseInWall = false;
+    public bool setLookDirection = false;
 
     public float vectorDistance;
     public float amountOfPoints;
@@ -66,6 +67,10 @@ public class MakePath : MonoBehaviour
             {
                 lineRenderer.SetPosition(i, mousePositionList[i]);
             }
+        }
+
+        if(setLookDirection) {
+            SetLookDirection();
         }
     }
 
@@ -187,10 +192,8 @@ public class MakePath : MonoBehaviour
     }
 
     ///<summary>when mouse is moved close enough to the player and held down reset the mousePositionList and the previously drawn path, enable creating path</summary>
-    private void MouseOver() 
-    {
-        if (Input.GetMouseButtonDown(0) && Vector3.Distance(mousePosition, gObj.transform.position) < 0.5) 
-        {
+    private void MouseOver() {
+        if (Input.GetMouseButtonDown(0) && Vector3.Distance(mousePosition, gObj.transform.position) < 0.5) {
             mousePositionList = new List<Vector3>();
             mousePositionList.Add(gObj.transform.position);
             mousePositionList.Add(mousePosition);
@@ -201,6 +204,21 @@ public class MakePath : MonoBehaviour
             drawPath = false;
             circle.SetActive(true);
             circle.transform.position = gObj.transform.position;
+        } else if (Input.GetKeyDown(KeyCode.Mouse1)&& Vector3.Distance(mousePosition, gObj.transform.position) < 0.5)  {
+            setLookDirection = true;
         }
+    }
+
+    private void SetLookDirection() {
+        if (Input.GetKey(KeyCode.Mouse1) ) { 
+
+            Vector3 vectorToTarget = mousePosition - gObj.transform.position;
+            float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90;
+            Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+            transform.rotation = Quaternion.Slerp(transform.rotation, q, 0.5f);
+        } else {
+            setLookDirection = false;
+        }
+
     }
 }
