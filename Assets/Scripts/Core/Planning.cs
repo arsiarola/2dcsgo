@@ -38,9 +38,8 @@ namespace Core
         /// </summary>
         private void CreatePlanningObjects()
         {
-            foreach (int id in GameController.RecordableIdsByType[Recordable.Type.AI]) {
-                //f (type.Ai)
-            }
+            List<GameObject> visibleEnemies = LastFrame[GameController.SideAIs[GameController.Side]].GetProperty<RecordableState.SideAI>().VisibleEnemies;
+
             // go through every id-state pair in the last frame
             foreach (KeyValuePair<int, RecordableState.RecordableState> pair in LastFrame) 
             {

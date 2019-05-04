@@ -83,6 +83,8 @@ namespace Core
 
         public Dictionary<Recordable.Type, List<int>> RecordableIdsByType { get; private set; } = new Dictionary<Recordable.Type, List<int>>();
 
+        public Dictionary<Side, int> SideAIs { get; private set; } = new Dictionary<Side, int>();
+
         /// <summary>
         /// Gets the starting frame from Recorder, disables every recordable, and disables the Recorder, the Replayer and the Planning objects
         /// </summary>
@@ -207,6 +209,11 @@ namespace Core
                 RecordableIdsByType.Add(type, new List<int>());
             }
             RecordableIdsByType[type].Add(NextId);
+
+            if (type == Recordable.Type.AI) {
+                SideAIs.Add(reference.GetComponent<RecordableState.SideAI>().Side, NextId);
+            }
+
             RecordableRefs.Add(NextId, reference);
             if (replayType != null) RecordableReplayTypes.Add(NextId, replayType);
             if (planningType != null) RecordablePlanningTypes.Add(NextId, planningType);
@@ -259,8 +266,6 @@ namespace Core
                     lastState.InitOwner();
                 }
             }
-            //Simulation.SetActive(true); // enable simulation
-            //Init recordable state
         }
     }
 }
