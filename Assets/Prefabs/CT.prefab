@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 7525176473258526141}
   - component: {fileID: 8185079784684662269}
   - component: {fileID: 1092889022524743438}
-  - component: {fileID: 7191778491419697771}
   - component: {fileID: 8835883091483115965}
+  - component: {fileID: 6309233693842349}
   m_Layer: 0
   m_Name: CT
   m_TagString: Untagged
@@ -178,23 +178,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   refMousePositionList: []
   nextPoint: 1
---- !u!114 &7191778491419697771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7966725424950678419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa5a2800e8f3ce84eb6ad2f1e0fa22f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameController: {fileID: 0}
-  replayType: {fileID: 2500465347906140141, guid: 4c20726d051abbc4c9755ef0509baeb7,
-    type: 3}
-  planningType: {fileID: 2500465347906140141, guid: 1bcff7943b3aa874aa733211701c332a,
-    type: 3}
 --- !u!114 &8835883091483115965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,3 +190,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bb5fc76e2ad97e4a8d8b0013e8fd572, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6309233693842349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7966725424950678419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3038807b839743f41bcb5e17328fa7ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameController: {fileID: 0}
+  replayType: {fileID: 2500465347906140141, guid: 4c20726d051abbc4c9755ef0509baeb7,
+    type: 3}
+  planningType: {fileID: 2500465347906140141, guid: 1bcff7943b3aa874aa733211701c332a,
+    type: 3}

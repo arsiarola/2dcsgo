@@ -4,10 +4,8 @@ using UnityEngine;
 
 namespace Recordable
 {
-    public class AIRecordable : Recordable
+    public class OperatorRecordable : DynamicRecordable
     {
-        protected override Type Type { get; set; } = Type.AI;
-
         protected override void AddProperties(RecordableState.RecordableState state)
         {
             base.AddProperties(state);
@@ -15,4 +13,5 @@ namespace Recordable
         }
     }
 }
+
 

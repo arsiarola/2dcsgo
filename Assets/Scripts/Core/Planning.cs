@@ -38,7 +38,8 @@ namespace Core
         /// </summary>
         private void CreatePlanningObjects()
         {
-            List<GameObject> visibleEnemies = LastFrame[GameController.SideAIs[GameController.Side]].GetProperty<RecordableState.SideAI>().VisibleEnemies;
+            int AIid = GameController.SideAIs[GameController.Side];
+            List<GameObject> visibleEnemies = LastFrame[AIid].GetProperty<RecordableState.BaseAI>().VisibleEnemies;
 
             // go through every id-state pair in the last frame
             foreach (KeyValuePair<int, RecordableState.RecordableState> pair in LastFrame) 
@@ -46,17 +47,34 @@ namespace Core
                 int id = pair.Key;
                 RecordableState.RecordableState state = pair.Value;
 
+                bool hasPlanningType = GameController.RecordablePlanningTypes.ContainsKey(id);
+                bool hasReplayType = GameController.RecordableReplayTypes.ContainsKey(id);
+
                 // create the object
-                if (GameController.RecordablePlanningTypes.ContainsKey(id) || GameController.RecordableReplayTypes.ContainsKey(id)) {
-                    GameObject obj;
-                    if (GameController.RecordablePlanningTypes.ContainsKey(id)) {   // has planning type
-                        obj = Instantiate(GameController.RecordablePlanningTypes[id]);  // create planning type
+                if (hasPlanningType || hasReplayType) {
+                    GameObject obj = null;
+                    Side? side = state.GetProperty<RecordableState.BaseAI>().Side;
+                    bool isVisible = visibleEnemies.Contains(GameController.RecordableRefs[id]);
+                    if (side != null) {
+                        if (side == GameController.Side) {   // has planning type
+                            if (hasPlanningType) {
+                                obj = Instantiate(GameController.RecordablePlanningTypes[id]);  // create planning type
+                            } else {
+                                obj = Instantiate(GameController.RecordableReplayTypes[id]);  // create replay type
+                            }
+                        }
+                        else if (side != GameController.Side && isVisible) {  // no planning type
+                            obj = Instantiate(GameController.RecordableReplayTypes[id]);    // create replay type
+                        }
                     }
-                    else {  // no planning type
-                        obj = Instantiate(GameController.RecordableReplayTypes[id]);    // create replay type
+                    else {
+                        obj = Instantiate(GameController.RecordableReplayTypes[id]);
                     }
-                    state.SetToObject(obj);
-                    PlanningRefs.Add(id, obj);  // add a reference of the created object to the planning refs dictionary
+
+                    if (obj != null) {
+                        state.SetToObject(obj);
+                        PlanningRefs.Add(id, obj);  // add a reference of the created object to the planning refs dictionary
+                    }            
                 }
             }
         }

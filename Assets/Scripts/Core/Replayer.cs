@@ -139,20 +139,44 @@ namespace Core
         /// </summary>
         private void UpdateReplayObjects()
         {
+            int AIid = GameController.SideAIs[GameController.Side];
+            List<GameObject> visibleEnemies = CurrentFrame[AIid].GetProperty<RecordableState.BaseAI>().VisibleEnemies;
+
             foreach (KeyValuePair<int, RecordableState.RecordableState> pair in CurrentFrame)
             {
                 int id = pair.Key;
-
-                // if replay object doesn't exist: create one
-                if (!ReplayRefs.ContainsKey(id))
-                {
-                    ReplayRefs.Add(id, Instantiate(GameController.RecordableReplayTypes[id]));
-                }
-
-                // init reference variables
-                GameObject obj = ReplayRefs[id];
                 RecordableState.RecordableState state = CurrentFrame[id];
-                state.SetToObject(obj);
+
+                bool hasReplayType = GameController.RecordableReplayTypes.ContainsKey(id);
+
+                if (hasReplayType) {
+                    GameObject obj = null;
+                    bool isVisible = visibleEnemies.Contains(GameController.RecordableRefs[id]);
+                    Side? side = state.GetProperty<RecordableState.BaseAI>().Side;
+                    // if replay object doesn't exist: create one
+                    if (!ReplayRefs.ContainsKey(id)) {
+                        if (side != null) {
+                            if (side == GameController.Side) {
+                                obj = Instantiate(GameController.RecordableReplayTypes[id]);
+                                ReplayRefs.Add(id, obj);
+                            }
+                            else if (side != GameController.Side && isVisible) {
+                                obj = Instantiate(GameController.RecordableReplayTypes[id]);
+                                ReplayRefs.Add(id, obj);
+                            }
+                        }
+                        else {
+                            obj = Instantiate(GameController.RecordableReplayTypes[id]);
+                            ReplayRefs.Add(id, obj);
+                        }
+                    } else {
+                        obj = ReplayRefs[id];
+                    }
+                    // update state
+                    if (obj != null) {
+                        state.SetToObject(obj);
+                    }
+                }
             }
         }
 
@@ -161,12 +185,20 @@ namespace Core
         /// </summary>
         private void RemoveReplayObjects()
         {
+            int AIid = GameController.SideAIs[GameController.Side];
+            List<GameObject> visibleEnemies = CurrentFrame[AIid].GetProperty<RecordableState.BaseAI>().VisibleEnemies;
+
             // destroy objects that dont exist in the frame and add their id to a list
             List<int> replayRefsToRemove = new List<int>(); 
             foreach (KeyValuePair<int, GameObject> pair in ReplayRefs)
             {
                 int id = pair.Key;
-                if (!CurrentFrame.ContainsKey(id))
+                bool isVisible = visibleEnemies.Contains(GameController.RecordableRefs[id]);
+
+                RecordableState.RecordableState state = CurrentFrame[id];
+                Side? side = state.GetProperty<RecordableState.BaseAI>().Side;
+
+                if (!CurrentFrame.ContainsKey(id) || (side != null && side != GameController.Side && !isVisible))
                 {
                     GameObject obj = pair.Value;
                     Destroy(obj);

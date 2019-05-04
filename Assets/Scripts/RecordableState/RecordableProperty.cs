@@ -73,14 +73,14 @@ namespace RecordableState
         }
     }
 
-    public class SideAI : RecordableProperty
+    public class BaseAI : RecordableProperty
     {
         public Core.Side Side { get; private set; } = Core.Side.Neutral;
         public List<GameObject> VisibleEnemies { get; private set; } = new List<GameObject>();
 
         public override void GetVariablesFrom(GameObject recordable)
         {
-            AI.SideAI ai = recordable.GetComponent<AI.SideAI>();
+            AI.AI ai = recordable.GetComponent<AI.AI>();
             VisibleEnemies = ai.VisibleEnemies;
             Side = ai.Side;
         }

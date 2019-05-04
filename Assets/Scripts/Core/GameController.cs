@@ -54,7 +54,7 @@ namespace Core
 
         private bool IsSideChanged { get; set; } = true;
 
-        public int Turn { get; private set; } = -1;
+        public int Turn { get; private set; } = 0;
 
         public int Planned { get; private set; } = 0;
 
@@ -93,6 +93,7 @@ namespace Core
         /// </remarks>
         private void Start()
         {
+            Simulation.UpdateVisibility();
             Frames.Add(Recorder.GetRecordableStates()); // get start frame. Not sure if necessary for the replay, but we do need to get the objects starting positions at least (then again these can be gained by other means)
             DisableRecordables();       // disable recordables before they can execute their FixedUpdate or update methods
         }
@@ -123,7 +124,6 @@ namespace Core
         /// </summary>
         public void SendMessage(GameMessage message)
         {
-            Time.timeScale = 1f;  // reset time scale to normal
             switch (message)
             {
                 case GameMessage.RecordEnd:
@@ -146,7 +146,7 @@ namespace Core
                         Planned = 0;
                     } else {
                         SwitchSide();
-                        if (Turn == 0) {
+                        if (Turn == 1) {
                             Stage = GameStage.Planning;
                         } else {
                             Stage = GameStage.Replay;
@@ -211,7 +211,7 @@ namespace Core
             RecordableIdsByType[type].Add(NextId);
 
             if (type == Recordable.Type.AI) {
-                SideAIs.Add(reference.GetComponent<RecordableState.SideAI>().Side, NextId);
+                SideAIs.Add(reference.GetComponent<AI.AI>().Side, NextId);
             }
 
             RecordableRefs.Add(NextId, reference);

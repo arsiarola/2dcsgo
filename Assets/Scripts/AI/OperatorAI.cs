@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace AI
 {
-    public abstract class OperatorAI : MonoBehaviour
+    public abstract class OperatorAI : AI
     {
-        public abstract Core.Side Side { get; protected set; }
-        public List<GameObject> VisibleEnemies { get; protected set; } = new List<GameObject>();
+        public override List<GameObject> VisibleEnemies { get; protected set; } = new List<GameObject>();
 
         public void CheckVisibility(List<GameObject> checkAgainst)
         {

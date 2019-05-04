@@ -4,11 +4,10 @@ using UnityEngine;
 
 namespace AI
 {
-    public abstract class SideAI : MonoBehaviour
+    public abstract class SideAI : AI
     {
-        public abstract Core.Side Side { get; protected set; }
         public List<GameObject> Children { get; protected set; } = new List<GameObject>();
-        public List<GameObject> VisibleEnemies { get; protected set; } = new List<GameObject>();
+        public override List<GameObject> VisibleEnemies { get; protected set; } = new List<GameObject>();
 
         public void UpdateChildrenList()
         {

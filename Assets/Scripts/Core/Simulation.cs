@@ -14,15 +14,18 @@ namespace Core
 
         private int count = 0;
 
-        private void FixedUpdate()
+        public void UpdateVisibility()
         {
             CounterTerroristAI.UpdateChildrenList();
             TerroristAI.UpdateChildrenList();
-
-            //Debug.Log(CounterTerroristAI.Children.Count + ", " + TerroristAI.Children.Count);
-
             CounterTerroristAI.CheckVisibility(TerroristAI.Children);
             TerroristAI.CheckVisibility(CounterTerroristAI.Children);
+        }
+
+        private void FixedUpdate()
+        {
+            UpdateVisibility();
+            //Debug.Log(CounterTerroristAI.Children.Count + ", " + TerroristAI.Children.Count);
 
             //if (count % 10 == 0) Debug.Log(CounterTerroristAI.VisibleEnemies.Count + ", " + TerroristAI.VisibleEnemies.Count);
 
@@ -31,6 +34,11 @@ namespace Core
             // Rotation
 
             // Shoot if possible
+
+
+            // end visibility check for recording
+            UpdateVisibility();
+
             count++;
         }
     }
