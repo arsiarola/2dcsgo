@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenuScript : MonoBehaviour
 {
     public Core.GameController gameController;
     public Button okButton;
@@ -27,7 +27,8 @@ public class PauseMenu : MonoBehaviour
     public Button quitYes;
     public Button quitNo;
 
-    private void Start() {
+    private void Start()
+    {
         resume.onClick.AddListener(delegate { pauseMenu.SetActive(false); isGamePaused = false; });
         menu.onClick.AddListener(delegate { BringAreYouSureMenu(); });
         quit.onClick.AddListener(delegate { BringAreYouSureQuit(); });
@@ -39,7 +40,7 @@ public class PauseMenu : MonoBehaviour
 
         okButton.onClick.AddListener(delegate { OkClicked(); });
 
-        
+
     }
     private void Update()
     {
@@ -50,10 +51,11 @@ public class PauseMenu : MonoBehaviour
             else {
                 Pause();
             }
-        } 
+        }
     }
 
-     void Pause() {
+    void Pause()
+    {
         pauseMenu.SetActive(true);
         areYouSureMenu.SetActive(false);
         areYouSureQuit.SetActive(false);
@@ -61,24 +63,28 @@ public class PauseMenu : MonoBehaviour
         isGamePaused = true;
     }
 
-     void Resume() {
+    void Resume()
+    {
         pauseMenu.SetActive(false);
         isGamePaused = false;
     }
 
-    private void BringAreYouSureMenu() {
+    private void BringAreYouSureMenu()
+    {
         isAreYouSure = true;
         pauseMenu.SetActive(false);
         areYouSureMenu.SetActive(true);
     }
 
-    private void BringAreYouSureQuit() {
+    private void BringAreYouSureQuit()
+    {
         isAreYouSure = true;
         pauseMenu.SetActive(false);
         areYouSureQuit.SetActive(true);
     }
 
-    private void BringPauseMenu() {
+    private void BringPauseMenu()
+    {
         areYouSureMenu.SetActive(false);
         areYouSureQuit.SetActive(false);
 
@@ -86,13 +92,15 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(true);
     }
 
-    public void OkClicked() {
+    public void OkClicked()
+    {
         turnChange.SetActive(false);
         gameController.SendMessage(Core.GameMessage.OkClicked);
     }
 
-    public void BringTurnChange() {
+    public void BringTurnChange()
+    {
         turnChange.SetActive(true);
     }
-     
+
 }

@@ -556,18 +556,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dd0c16211bbd75439b724610a7815d0, type: 3}
---- !u!114 &296540762 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
+--- !u!1 &296540762 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4617592876448385156, guid: 8dd0c16211bbd75439b724610a7815d0,
     type: 3}
   m_PrefabInstance: {fileID: 296540761}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03d3dcc4500c69547877c6127231c5a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &296540763 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4617592877464367420, guid: 8dd0c16211bbd75439b724610a7815d0,
@@ -688,6 +682,34 @@ MonoBehaviour:
   m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &296540775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296540762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdf734ca1f612164a898fb93ada92bfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameController: {fileID: 450800248}
+  okButton: {fileID: 296540774}
+  isGamePaused: 0
+  isAreYouSure: 0
+  quitMenu: 0
+  pauseMenu: {fileID: 296540773}
+  areYouSureMenu: {fileID: 296540772}
+  areYouSureQuit: {fileID: 296540771}
+  turnChange: {fileID: 296540770}
+  resume: {fileID: 296540769}
+  menu: {fileID: 296540768}
+  quit: {fileID: 296540767}
+  menuYes: {fileID: 296540766}
+  menuNo: {fileID: 296540765}
+  quitYes: {fileID: 296540764}
+  quitNo: {fileID: 296540763}
 --- !u!1 &311137966
 GameObject:
   m_ObjectHideFlags: 0
@@ -909,7 +931,7 @@ PrefabInstance:
         type: 3}
       propertyPath: pauseMenu
       value: 
-      objectReference: {fileID: 296540762}
+      objectReference: {fileID: 0}
     - target: {fileID: 4476875421940944293, guid: 66bd6bcd54957d84891928fa011e35a9,
         type: 3}
       propertyPath: m_LocalPosition.x

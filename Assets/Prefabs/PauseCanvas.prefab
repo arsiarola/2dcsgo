@@ -211,7 +211,6 @@ GameObject:
   - component: {fileID: 4617592876448385160}
   - component: {fileID: 4617592876448385163}
   - component: {fileID: 4617592876448385162}
-  - component: {fileID: 4617592876448385157}
   m_Layer: 5
   m_Name: PauseCanvas
   m_TagString: Untagged
@@ -302,32 +301,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4617592876448385157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4617592876448385156}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03d3dcc4500c69547877c6127231c5a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGamePaused: 0
-  isAreYouSure: 0
-  quitMenu: 0
-  pauseMenu: {fileID: 4617592876693509873}
-  areYouSureMenu: {fileID: 4617592878321914454}
-  areYouSureQuit: {fileID: 4617592876889768373}
-  resume: {fileID: 4617592877822985251}
-  menu: {fileID: 4617592877933271447}
-  quit: {fileID: 4617592876237301908}
-  menuYes: {fileID: 4617592877145989785}
-  menuNo: {fileID: 4617592876484590205}
-  quitYes: {fileID: 4617592877132578973}
-  quitNo: {fileID: 4617592877464367420}
-  areYouSureText: {fileID: 4617592877880622424}
 --- !u!1 &4617592876484590204
 GameObject:
   m_ObjectHideFlags: 0
@@ -1835,7 +1808,6 @@ GameObject:
   - component: {fileID: 4617592877898808997}
   - component: {fileID: 4617592877898809003}
   - component: {fileID: 4617592877898809002}
-  - component: {fileID: 4350262095401286641}
   m_Layer: 5
   m_Name: TurnChange
   m_TagString: Untagged
@@ -1901,20 +1873,6 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!114 &4350262095401286641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4617592877898808996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8f618e205f4aab46a2ba3cd3b43bdbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameController: {fileID: 0}
-  OkButton: {fileID: 0}
 --- !u!1 &4617592877933271443
 GameObject:
   m_ObjectHideFlags: 0
