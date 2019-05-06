@@ -8,18 +8,18 @@ using UnityEngine;
 public class MakePath : MonoBehaviour
 {
     public List<Vector3> mousePositionList;
-    public Vector3 mousePosition;
+    private Vector3 mousePosition;
 
-    public bool spacePressed;
-    public bool createPath;
-    public bool drawPath;
-    public bool enableDrag = true;
-    public bool mouseInWall = false;
-    public bool setLookDirection = false;
+    private bool spacePressed;
+    private bool createPath;
+    private bool drawPath;
+    private bool enableDrag = true;
+    private bool mouseInWall = false;
+    private bool setLookDirection = false;
 
-    public float vectorDistance;
-    public float amountOfPoints;
-    public float pointAccuracy;
+    private float vectorDistance;
+    private float amountOfPoints;
+    private float pointAccuracy;
 
     private LineRenderer lineRenderer;
     private GameObject gObj;
@@ -73,9 +73,9 @@ public class MakePath : MonoBehaviour
 
     public void DrawPath()
     {
+        lineRenderer.positionCount = mousePositionList.Count;
         for (int i = 0; i < mousePositionList.Count; i++) //draw path from the beginning to the last point
         {
-            lineRenderer.positionCount = mousePositionList.Count;
             lineRenderer.SetPosition(i, mousePositionList[i]);
         }
     }
@@ -166,7 +166,6 @@ public class MakePath : MonoBehaviour
 
                 }*/
         drawPath = true; // now that we have starterd creating the path, afterward its okay to draw the path
-
         if (Input.GetMouseButton(0) && lineRenderer.positionCount < amountOfPoints) {
             CalculatePosition(rbCircle.transform.position);
                 
@@ -203,8 +202,15 @@ public class MakePath : MonoBehaviour
             drawPath = false;
             circle.SetActive(true);
             circle.transform.position = gObj.transform.position;
-        } else if (Input.GetKeyDown(KeyCode.Mouse1)&& Vector3.Distance(mousePosition, gObj.transform.position) < 0.5)  {
+        }
+        else if (Input.GetKeyDown(KeyCode.Mouse1) && Vector3.Distance(mousePosition, gObj.transform.position) < 0.5) {
             setLookDirection = true;
+        }
+        else if (mousePositionList.Count > 0) {
+            if (Input.GetMouseButtonDown(0) && Vector3.Distance(mousePosition, mousePositionList[mousePositionList.Count - 1]) < 0.5) {
+                rbCircle.transform.position = mousePositionList[mousePositionList.Count - 1];
+                createPath = true;
+            }
         }
     }
 
