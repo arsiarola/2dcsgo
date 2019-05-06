@@ -8,7 +8,7 @@ namespace AI
         public List<Vector3> Path { get; protected set; } = new List<Vector3>();
         public int NextPointInPath { get; private set; } = 1;
         private float slerp = 0;
-        private float rotationSpeed = 0.1f;
+        private float rotationSpeed = 0.025f;
         public Quaternion Rotation { get; protected set; } = new Quaternion();
         private GameObject Target { get; set; } = null;
         private Quaternion lastQuaternion = new Quaternion();
@@ -47,8 +47,8 @@ namespace AI
 
         public void FollowPath()
         {
-            if (NextPointInPath < Path.Count) {
-                float speed = 2.5f * Time.fixedDeltaTime;
+            if (NextPointInPath < Path.Count - 1) {
+                float speed = 4f * Time.fixedDeltaTime;
                 float distance = Vector3.Distance(transform.position, Path[NextPointInPath]);
                 while (distance < speed && NextPointInPath + 1 < Path.Count) {
                     NextPointInPath++;
@@ -56,7 +56,14 @@ namespace AI
                 }
                 float t = speed / distance;
                 transform.position = Vector3.Lerp(transform.position, Path[NextPointInPath], t);
+
+                GetComponent<Animator>().ResetTrigger("Idle");
+                GetComponent<Animator>().SetTrigger("Moving");
+            } else {
+                GetComponent<Animator>().ResetTrigger("Moving");
+                GetComponent<Animator>().SetTrigger("Idle");
             }
+            
         }
 
         public void FindTarget()
