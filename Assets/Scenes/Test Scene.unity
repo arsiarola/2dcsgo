@@ -931,7 +931,7 @@ PrefabInstance:
         type: 3}
       propertyPath: pauseMenu
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 296540775}
     - target: {fileID: 4476875421940944293, guid: 66bd6bcd54957d84891928fa011e35a9,
         type: 3}
       propertyPath: m_LocalPosition.x

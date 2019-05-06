@@ -45,8 +45,8 @@ namespace Core
         private Simulation Simulation { get { return simulation; } set { simulation = value; } }
         [SerializeField] private Simulation simulation;
 
-        private PauseMenu PauseMenu { get { return pauseMenu; } }
-        [SerializeField] private PauseMenu pauseMenu;
+        private PauseMenuScript PauseMenu { get { return pauseMenu; } }
+        [SerializeField] private PauseMenuScript pauseMenu;
 
         public Side Side { get { return side; } private set { side = value; IsSideChanged = true; } }
         private Side side = Side.CounterTerrorist;
