@@ -697,40 +697,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1880857429626728700}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &846314793 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4617592876448385156, guid: 8dd0c16211bbd75439b724610a7815d0,
-    type: 3}
-  m_PrefabInstance: {fileID: 4617592877496467202}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &846314794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 846314793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be2b4b5ea7fcc8245a688f81d09eea05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameController: {fileID: 1514925048}
-  okButton: {fileID: 252197001}
-  isGamePaused: 0
-  isAreYouSure: 0
-  quitMenu: 0
-  pauseMenu: {fileID: 177684557}
-  areYouSureMenu: {fileID: 1635208447}
-  areYouSureQuit: {fileID: 2051566603}
-  turnChange: {fileID: 1628080326}
-  resume: {fileID: 1895130652}
-  menu: {fileID: 1975527721}
-  quit: {fileID: 1116556323}
-  menuYes: {fileID: 954361242}
-  menuNo: {fileID: 297488440}
-  quitYes: {fileID: 1977794000}
-  quitNo: {fileID: 341331115}
 --- !u!1 &880126200
 GameObject:
   m_ObjectHideFlags: 0
@@ -2218,7 +2184,7 @@ PrefabInstance:
         type: 3}
       propertyPath: pauseMenu
       value: 
-      objectReference: {fileID: 846314794}
+      objectReference: {fileID: 4617592877496467203}
     - target: {fileID: 4476875421940944293, guid: 66bd6bcd54957d84891928fa011e35a9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2898,11 +2864,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 4617592876693509873, guid: 8dd0c16211bbd75439b724610a7815d0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4617592877344933771, guid: 8dd0c16211bbd75439b724610a7815d0,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -2924,81 +2885,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11500000, guid: a8f618e205f4aab46a2ba3cd3b43bdbf,
         type: 3}
-    - target: {fileID: 4617592877898808996, guid: 8dd0c16211bbd75439b724610a7815d0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
-        type: 3}
-      propertyPath: gameController
-      value: 
-      objectReference: {fileID: 1514925048}
-    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
-        type: 3}
-      propertyPath: OkButton
-      value: 
-      objectReference: {fileID: 252197001}
-    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
-        type: 3}
-      propertyPath: pauseMenu
-      value: 
-      objectReference: {fileID: 177684557}
-    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
-        type: 3}
-      propertyPath: resume
-      value: 
-      objectReference: {fileID: 1895130652}
-    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
-        type: 3}
-      propertyPath: menu
-      value: 
-      objectReference: {fileID: 1975527721}
-    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
-        type: 3}
-      propertyPath: quit
-      value: 
-      objectReference: {fileID: 1116556323}
-    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
-        type: 3}
-      propertyPath: areYouSureQuit
-      value: 
-      objectReference: {fileID: 2051566603}
-    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
-        type: 3}
-      propertyPath: quitYes
-      value: 
-      objectReference: {fileID: 1977794000}
-    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
-        type: 3}
-      propertyPath: quitNo
-      value: 
-      objectReference: {fileID: 341331115}
-    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
-        type: 3}
-      propertyPath: areYouSureMenu
-      value: 
-      objectReference: {fileID: 1635208447}
-    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
-        type: 3}
-      propertyPath: menuYes
-      value: 
-      objectReference: {fileID: 954361242}
-    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
-        type: 3}
-      propertyPath: menuNo
-      value: 
-      objectReference: {fileID: 297488440}
-    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
-        type: 3}
-      propertyPath: turnChange
-      value: 
-      objectReference: {fileID: 1628080326}
-    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
-        type: 3}
-      propertyPath: okButton
-      value: 
-      objectReference: {fileID: 252197001}
     - target: {fileID: 4617592876448385161, guid: 8dd0c16211bbd75439b724610a7815d0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3104,6 +2990,76 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: gameController
+      value: 
+      objectReference: {fileID: 1514925048}
+    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: OkButton
+      value: 
+      objectReference: {fileID: 252197001}
+    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: pauseMenu
+      value: 
+      objectReference: {fileID: 177684557}
+    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: resume
+      value: 
+      objectReference: {fileID: 1895130652}
+    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: menu
+      value: 
+      objectReference: {fileID: 1975527721}
+    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: quit
+      value: 
+      objectReference: {fileID: 1116556323}
+    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: areYouSureQuit
+      value: 
+      objectReference: {fileID: 2051566603}
+    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: quitYes
+      value: 
+      objectReference: {fileID: 1977794000}
+    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: quitNo
+      value: 
+      objectReference: {fileID: 341331115}
+    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: areYouSureMenu
+      value: 
+      objectReference: {fileID: 1635208447}
+    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: menuYes
+      value: 
+      objectReference: {fileID: 954361242}
+    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: menuNo
+      value: 
+      objectReference: {fileID: 297488440}
+    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: turnChange
+      value: 
+      objectReference: {fileID: 1628080326}
+    - target: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: okButton
+      value: 
+      objectReference: {fileID: 252197001}
     - target: {fileID: 4350262095401286641, guid: 8dd0c16211bbd75439b724610a7815d0,
         type: 3}
       propertyPath: gameController
@@ -3114,11 +3070,32 @@ PrefabInstance:
       propertyPath: OkButton
       value: 
       objectReference: {fileID: 252197001}
+    - target: {fileID: 4617592876693509873, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617592877898808996, guid: 8dd0c16211bbd75439b724610a7815d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
-    - {fileID: 4350262095401286641, guid: 8dd0c16211bbd75439b724610a7815d0, type: 3}
-    - {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0, type: 3}
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 8dd0c16211bbd75439b724610a7815d0, type: 3}
+--- !u!114 &4617592877496467203 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4617592876448385157, guid: 8dd0c16211bbd75439b724610a7815d0,
+    type: 3}
+  m_PrefabInstance: {fileID: 4617592877496467202}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03d3dcc4500c69547877c6127231c5a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4905926584063397237
 PrefabInstance:
   m_ObjectHideFlags: 0
