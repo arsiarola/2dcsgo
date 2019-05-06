@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Recordable
 {
-    public class OperatorRecordable : DynamicRecordable
+    public class OperatorRecordable : AnimatedRecordable
     {
         protected override void AddProperties(RecordableState.RecordableState state)
         {
