@@ -76,14 +76,15 @@ public class MakePath : MonoBehaviour
             SetLookDirection();
         }
 
-        if(lineRenderer.positionCount > 0)
+        if(mousePositionList.Count > 1)
             pathEndMark.SetActive(true);
         else
             pathEndMark.SetActive(false);
 
-        if(mousePositionList.Count > 0) {
+        if(mousePositionList.Count > 1) {
             pathEndMark.transform.position = mousePositionList[mousePositionList.Count - 1];
         }
+        Debug.Log(mousePositionList.Count);
     }
 
     public void DrawPath()
