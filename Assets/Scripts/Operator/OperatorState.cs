@@ -10,6 +10,8 @@ namespace Operator
         public GameObject DeathAnimation { get { return deathAnimation; } }
         [SerializeField] private GameObject deathAnimation;
 
+        public Weapon Weapon { get; private set; } = new Weapon();
+
         public bool IsAlive()
         {
             return 0 < Hp;
@@ -18,6 +20,11 @@ namespace Operator
         public void Kill()
         {
             Hp = 0;
+        }
+
+        public void Damage(float damage)
+        {
+            Hp -= damage;
         }
     }
 }

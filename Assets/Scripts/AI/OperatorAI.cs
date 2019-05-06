@@ -10,7 +10,7 @@ namespace AI
         private float slerp = 0;
         private float rotationSpeed = 0.1f;
         public Quaternion Rotation { get; protected set; } = new Quaternion();
-        private GameObject target = null;
+        private GameObject Target { get; set; } = null;
         private Quaternion lastQuaternion = new Quaternion();
         private GameObject lastTarget = null;
 
@@ -61,32 +61,32 @@ namespace AI
 
         public void FindTarget()
         {
-            if (VisibleEnemies.Contains(target)) {
+            if (VisibleEnemies.Contains(Target)) {
                 // do nothing
             }
             else if (VisibleEnemies.Count > 0) {
                 Vector3 thisPos = gameObject.transform.position;
-                target = VisibleEnemies[0];
+                Target = VisibleEnemies[0];
                 float shortestDistance = Vector3.Distance(thisPos, VisibleEnemies[0].transform.position);
                 for (int i = 1; i < VisibleEnemies.Count; i++) {
                     Vector3 enemyPos = VisibleEnemies[i].transform.position;
                     if (Vector3.Distance(thisPos, enemyPos) < shortestDistance) {
-                        target = VisibleEnemies[i];
+                        Target = VisibleEnemies[i];
                     }
                 }
             } else {
-                target = null;
+                Target = null;
             }
         }
 
         private void RotateTowards(Quaternion q)
         {
-            if ((q != lastQuaternion && target == null) || (target != lastTarget)) {
+            if ((q != lastQuaternion && Target == null) || (Target != lastTarget)) {
                 slerp = 0;
             }
 
-            if (target != null) {
-                lastTarget = target;
+            if (Target != null) {
+                lastTarget = Target;
             } else {
                 lastTarget = null;
             }
@@ -107,8 +107,8 @@ namespace AI
 
         public void Rotate()
         {
-            if (target != null) {
-                Vector3 relativePos = target.transform.position - transform.position;
+            if (Target != null) {
+                Vector3 relativePos = Target.transform.position - transform.position;
                 float angle = Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg - 90;
                 Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 RotateTowards(rotation);
@@ -120,17 +120,23 @@ namespace AI
 
         public void Shoot()
         {
-            if (target != null) {
-                Vector3 vectorToTarget = target.transform.position - transform.position;
+            if (Target != null) {
+                Vector3 vectorToTarget = Target.transform.position - transform.position;
                 Vector3 rotation = transform.up;
                 float angle = Vector3.Angle(rotation, vectorToTarget);
                 // CALCULATE THE NEEDED ANGLE GIVEN THE DISTANCE
                 if (angle < 1f) {
-                    target.GetComponent<Operator.OperatorState>().Kill();
+                    FireAt(Target);
                 }
-            }
+            } 
             
             //if ()
+        }
+
+        public void FireAt(GameObject target)
+        {
+            Operator.Weapon weapon = GetComponent<Operator.OperatorState>().Weapon;
+            weapon.FireAt(target);
         }
 
         
