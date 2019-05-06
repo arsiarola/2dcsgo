@@ -167,9 +167,6 @@ public class MakePath : MonoBehaviour
                 }*/
         drawPath = true; // now that we have starterd creating the path, afterward its okay to draw the path
 
-        ///<summary> 
-        ///     if mouse is held down, mouseposition is far enough and the mouseposition is not inside a wall add a point to mousePositionList
-        /// </summary>
         if (Input.GetMouseButton(0) && lineRenderer.positionCount < amountOfPoints) {
             CalculatePosition(rbCircle.transform.position);
                 
@@ -181,9 +178,6 @@ public class MakePath : MonoBehaviour
             } 
             
         }
-        ///<summary>
-        ///     if mouse is not held down stop creating and drawing the path and 
-        /// </summary>
         else 
         {       
             circle.SetActive(false);
