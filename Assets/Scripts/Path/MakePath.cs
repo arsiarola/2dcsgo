@@ -51,6 +51,7 @@ public class MakePath : MonoBehaviour
         lineRenderer.endWidth = 0.1f;
         lineRenderer.useWorldSpace = true;
         lineRenderer.loop = false;
+        lineRenderer.sortingOrder = 10;
 
         createPath = false;
         drawPath = false;
