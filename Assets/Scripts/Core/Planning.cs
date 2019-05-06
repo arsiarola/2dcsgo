@@ -53,9 +53,9 @@ namespace Core
                 // create the object
                 if (hasPlanningType || hasReplayType) {
                     GameObject obj = null;
-                    Side? side = state.GetProperty<RecordableState.BaseAI>().Side;
-                    bool isVisible = visibleEnemies.Contains(GameController.RecordableRefs[id]);
-                    if (side != null) {
+                    if (state.GetProperty<RecordableState.BaseAI>() != null) {
+                        Side side = state.GetProperty<RecordableState.BaseAI>().Side;
+                        bool isVisible = visibleEnemies.Contains(GameController.RecordableRefs[id]);
                         RecordableState.OperatorState operatorState = state.GetProperty<RecordableState.OperatorState>();
                         if (side == GameController.Side && (operatorState == null || operatorState.IsAlive)) {   // has planning type
                             if (hasPlanningType) {
