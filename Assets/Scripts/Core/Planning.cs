@@ -56,9 +56,18 @@ namespace Core
                     Side? side = state.GetProperty<RecordableState.BaseAI>().Side;
                     bool isVisible = visibleEnemies.Contains(GameController.RecordableRefs[id]);
                     if (side != null) {
-                        if (side == GameController.Side) {   // has planning type
+                        RecordableState.OperatorState operatorState = state.GetProperty<RecordableState.OperatorState>();
+                        if (side == GameController.Side && (operatorState == null || operatorState.IsAlive)) {   // has planning type
                             if (hasPlanningType) {
                                 obj = Instantiate(GameController.RecordablePlanningTypes[id]);  // create planning type
+                                if (obj.GetComponent<MakePath>() != null) {
+                                    AI.OperatorAI operatorAI = GameController.RecordableRefs[id].GetComponent<AI.OperatorAI>();
+                                    if (0 < operatorAI.Path.Count) {
+                                        operatorAI.Path.RemoveRange(0, operatorAI.NextPointInPath);
+                                    }
+                                    obj.GetComponent<MakePath>().mousePositionList = operatorAI.Path;
+                                    obj.GetComponent<MakePath>().DrawPath();
+                                }
                             } else {
                                 obj = Instantiate(GameController.RecordableReplayTypes[id]);  // create replay type
                             }
@@ -105,6 +114,7 @@ namespace Core
         private void SendDataToRecordables()
         {
             SendPath();
+            SendRotation();
         }
 
         /// <summary>
@@ -117,11 +127,23 @@ namespace Core
                 GameObject obj = pair.Value;
                 if (obj.GetComponent<MakePath>() != null) { // if obj has makePath script
                     List<Vector3> list = obj.GetComponent<MakePath>().mousePositionList;    // get path list
-                    GameController.RecordableRefs[id].GetComponent<FollowPath>().SetMousePositionList(list); // send it to the recordable
+                    GameController.RecordableRefs[id].GetComponent<AI.OperatorAI>().SetPath(list); // send it to the recordable
                 }
             }
         }
-        
+
+        private void SendRotation()
+        {
+            foreach (KeyValuePair<int, GameObject> pair in PlanningRefs) {
+                int id = pair.Key;
+                GameObject obj = pair.Value;
+                if (obj.GetComponent<MakePath>() != null) { // if obj has makePath script
+                    Quaternion q = obj.transform.rotation;    // get rotation
+                    GameController.RecordableRefs[id].GetComponent<AI.OperatorAI>().SetRotation(q); // send it to the recordable
+                }
+            }
+        }
+
         /// <summary>
         /// Destroys the planning objects
         /// </summary>

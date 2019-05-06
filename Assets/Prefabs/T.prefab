@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6882328624873714109}
   - component: {fileID: 8149746943818786116}
   - component: {fileID: 8884844450463320788}
+  - component: {fileID: 1918852620678340925}
   m_Layer: 0
   m_Name: T
   m_TagString: Untagged
@@ -206,4 +207,18 @@ MonoBehaviour:
   replayType: {fileID: 4819354538216988444, guid: 32694445d462f154286878fbc78c07e4,
     type: 3}
   planningType: {fileID: 2333462321603042064, guid: 021619b41395d814da6e7d123f6784e4,
+    type: 3}
+--- !u!114 &1918852620678340925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2333462321603042064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5651eacd87651ce4e86b1fa86d887347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathAnimation: {fileID: 8889254995952351810, guid: b72112705fc7803438b818afef34e4d6,
     type: 3}

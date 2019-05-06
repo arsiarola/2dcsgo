@@ -85,4 +85,17 @@ namespace RecordableState
             Side = ai.Side;
         }
     }
+
+    public class OperatorState : RecordableProperty
+    {
+        public float Hp { get; private set; } = 0;
+        public bool IsAlive { get; private set; } = false;
+
+        public override void GetVariablesFrom(GameObject recordable)
+        {
+            Operator.OperatorState state = recordable.GetComponent<Operator.OperatorState>();
+            Hp = state.Hp;
+            IsAlive = state.IsAlive();
+        }
+    }
 }

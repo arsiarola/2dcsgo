@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Core
@@ -60,6 +59,8 @@ namespace Core
 
         public int Replays { get; private set; } = 0;
 
+        public bool IsPaused { get; private set; } = false;
+
         /// <summary> The current game stage. If the value is changed, IsStateChanged is also set to true</summary>
         public GameStage Stage { get { return stage; } private set { stage = value; IsStageChanged = true; } }
         private GameStage stage = GameStage.Planning;
@@ -107,7 +108,7 @@ namespace Core
                 HandleSideChange();
             }
 
-            if (IsStageChanged) {
+            if (IsStageChanged && !IsPaused) {
                 HandleStageChange();
             }
         }
@@ -115,6 +116,7 @@ namespace Core
         private void HandleSideChange()
         {
             IsSideChanged = false;
+            IsPaused = true;
             Turn++;
             PauseMenu.BringTurnChange();
         }
@@ -154,6 +156,7 @@ namespace Core
                     }
                     break;
                 case GameMessage.OkClicked:
+                    IsPaused = false;
                     break;
             }
         }
@@ -260,8 +263,16 @@ namespace Core
             {
                 int id = pair.Key;
                 GameObject obj = pair.Value;
+                
                 if (obj != null) {
-                    obj.SetActive(true);
+                    if (obj.GetComponent<Operator.OperatorState>() != null) {
+                        if (obj.GetComponent<Operator.OperatorState>().IsAlive()) {
+                            obj.SetActive(true);
+                        }
+                    } else {
+                        obj.SetActive(true);
+                    }
+                    
                     RecordableState.RecordableState lastState = Frames[Frames.Count - 1][id];
                     lastState.InitOwner();
                 }

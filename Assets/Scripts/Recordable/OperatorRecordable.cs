@@ -10,6 +10,7 @@ namespace Recordable
         {
             base.AddProperties(state);
             state.AddProperty<RecordableState.BaseAI>();
+            state.AddProperty<RecordableState.OperatorState>();
         }
     }
 }

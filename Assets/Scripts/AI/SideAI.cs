@@ -7,7 +7,6 @@ namespace AI
     public abstract class SideAI : AI
     {
         public List<GameObject> Children { get; protected set; } = new List<GameObject>();
-        public override List<GameObject> VisibleEnemies { get; protected set; } = new List<GameObject>();
 
         public void UpdateChildrenList()
         {
@@ -19,7 +18,7 @@ namespace AI
             }
             List<GameObject> childrenToBeLeft = new List<GameObject>();
             foreach (GameObject child in Children) {
-                if (child != null) {
+                if (child != null && child.GetComponent<Operator.OperatorState>().IsAlive()) {
                     childrenToBeLeft.Add(child);
                 }
             }

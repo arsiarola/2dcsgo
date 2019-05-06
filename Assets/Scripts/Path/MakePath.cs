@@ -27,7 +27,7 @@ public class MakePath : MonoBehaviour
     private GameObject circle;
     private Rigidbody2D rbCircle;
 
-    private void Start()
+    private void Awake()
     {
         gameController = GameObject.Find(Misc.Constants.GAME_CONTROLLER_NAME).GetComponent<Core.GameController>();   
         gObj = gameObject;
@@ -63,14 +63,20 @@ public class MakePath : MonoBehaviour
         }
         if (drawPath)
         {
-            for (int i = 0; i < lineRenderer.positionCount; i++) //draw path from the beginning to the last point
-            {
-                lineRenderer.SetPosition(i, mousePositionList[i]);
-            }
+            DrawPath();
         }
 
         if(setLookDirection) {
             SetLookDirection();
+        }
+    }
+
+    public void DrawPath()
+    {
+        for (int i = 0; i < mousePositionList.Count; i++) //draw path from the beginning to the last point
+        {
+            lineRenderer.positionCount = mousePositionList.Count;
+            lineRenderer.SetPosition(i, mousePositionList[i]);
         }
     }
 
@@ -144,7 +150,6 @@ public class MakePath : MonoBehaviour
             RaycastHit2D testCast = Physics2D.Raycast(originalPos, changeVector, changeVector.magnitude, 1 << 8);
             if (testCast.collider != null)
             {
-                Debug.Log("Error");
                 rbCircle.transform.position = originalPos + changeVector.normalized * (testCast.distance - raycastCircleRadius);
             }
         }

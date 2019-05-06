@@ -49,7 +49,7 @@ public class FollowPath : MonoBehaviour
             }
             else
             {
-                rot = 0;
+                rot += 0;
             }
 
             // transform

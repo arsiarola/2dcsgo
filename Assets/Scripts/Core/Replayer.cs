@@ -152,11 +152,12 @@ namespace Core
                 if (hasReplayType) {
                     GameObject obj = null;
                     bool isVisible = visibleEnemies.Contains(GameController.RecordableRefs[id]);
-                    Side? side = state.GetProperty<RecordableState.BaseAI>().Side;
                     // if replay object doesn't exist: create one
                     if (!ReplayRefs.ContainsKey(id)) {
-                        if (side != null) {
-                            if (side == GameController.Side) {
+                        if (state.GetProperty<RecordableState.BaseAI>() != null) {
+                            Side side = state.GetProperty<RecordableState.BaseAI>().Side;
+                            RecordableState.OperatorState operatorState = state.GetProperty<RecordableState.OperatorState>();
+                            if (side == GameController.Side && (operatorState == null || operatorState.IsAlive == true)) {
                                 obj = Instantiate(GameController.RecordableReplayTypes[id]);
                                 ReplayRefs.Add(id, obj);
                             }
@@ -195,11 +196,18 @@ namespace Core
                 int id = pair.Key;
                 bool isVisible = visibleEnemies.Contains(GameController.RecordableRefs[id]);
 
-                RecordableState.RecordableState state = CurrentFrame[id];
-                Side? side = state.GetProperty<RecordableState.BaseAI>().Side;
+                if (CurrentFrame.ContainsKey(id)) {
+                    RecordableState.RecordableState state = CurrentFrame[id];
+                    Side? side = null;
+                    if (state.GetProperty<RecordableState.BaseAI>() != null) side = state.GetProperty<RecordableState.BaseAI>().Side;
+                    RecordableState.OperatorState operatorState = state.GetProperty<RecordableState.OperatorState>();
 
-                if (!CurrentFrame.ContainsKey(id) || (side != null && side != GameController.Side && !isVisible))
-                {
+                    if ((side != null && side != GameController.Side && !isVisible) || (side == GameController.Side && !operatorState.IsAlive)) {
+                        GameObject obj = pair.Value;
+                        Destroy(obj);
+                        replayRefsToRemove.Add(id);
+                    }
+                } else {
                     GameObject obj = pair.Value;
                     Destroy(obj);
                     replayRefsToRemove.Add(id);
