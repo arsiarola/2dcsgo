@@ -46,7 +46,7 @@ namespace Core
             ReplayRefs = new Dictionary<int, GameObject>(); // we will create the replay objects from scratch
             ReplaySpeed = 1f;   // set speed to normal
             CurrentFrameAsFloat = (GameController.Replays / 2) * (Misc.Tools.MilliSecondsToSeconds(Misc.Constants.RECORD_LENGTH) / Time.fixedDeltaTime);   // we start with frame zero (placeholder)
-            IsPause = true; // start paused
+            IsPause = false;
             IsExit = false;
             IsFirstFrame = true;
         }
@@ -81,7 +81,7 @@ namespace Core
         private void HandleInput()
         {
             // pause
-            if (Input.GetKeyDown(KeyCode.Space)) {
+            if (Input.GetKeyDown(KeyCode.Minus)) {
                 IsPause = !IsPause;
             }
 
@@ -106,7 +106,7 @@ namespace Core
             }
 
             // exit
-            if (Input.GetKeyDown(KeyCode.Escape)) {
+            if (Input.GetKeyDown(KeyCode.Space)) {
                 IsExit = true;
             }
         }
