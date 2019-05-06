@@ -184,8 +184,19 @@ PrefabInstance:
       propertyPath: m_GravityScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4700219079334811149, guid: 14241dd1d9629a44c9908ae04183af5f,
+        type: 3}
+      propertyPath: m_UpdateMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277654839052800043, guid: 14241dd1d9629a44c9908ae04183af5f,
+        type: 3}
+      propertyPath: m_UpdateMode
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 2485842762600389667, guid: 14241dd1d9629a44c9908ae04183af5f, type: 3}
+    - {fileID: 0}
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 14241dd1d9629a44c9908ae04183af5f, type: 3}
 --- !u!4 &98219337 stripped
 Transform:

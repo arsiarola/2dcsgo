@@ -246,11 +246,11 @@ namespace Core
         /// <param name="obj">The Recordable/child to be disabled</param>
         private void DisableRecordableChildren(ref GameObject obj)
         {
-            for (int i = 0; i < obj.transform.childCount; i++)
+            /*for (int i = 0; i < obj.transform.childCount; i++)
             {
                 GameObject child = obj.transform.GetChild(i).gameObject;
                 DisableRecordableChildren(ref child);
-            }
+            }*/
             obj.SetActive(false);
         }
 
