@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6882328624873714109}
   - component: {fileID: 8149746943818786116}
   - component: {fileID: 8884844450463320788}
-  - component: {fileID: 1918852620678340925}
+  - component: {fileID: 5233058064110082947}
   m_Layer: 0
   m_Name: T
   m_TagString: Untagged
@@ -181,7 +181,7 @@ MonoBehaviour:
     type: 3}
   planningType: {fileID: 2333462321603042064, guid: 021619b41395d814da6e7d123f6784e4,
     type: 3}
---- !u!114 &1918852620678340925
+--- !u!114 &5233058064110082947
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2333462321603042064}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5651eacd87651ce4e86b1fa86d887347, type: 3}
+  m_Script: {fileID: 11500000, guid: db3f30128af4b504bbecbcb245703db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   deathAnimation: {fileID: 8889254995952351810, guid: b72112705fc7803438b818afef34e4d6,

@@ -108,7 +108,7 @@ namespace Core
 
         private void GiveBomb()
         {
-            //Terrorists.Children[0].GetComponent<Operator.TOperatorState>().Bomb = true;
+            Terrorists.Children[0].GetComponent<Operator.TOperatorState>().Bomb = true;
         }
 
         /// <summary>
