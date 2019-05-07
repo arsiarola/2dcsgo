@@ -48,19 +48,37 @@ namespace AI
         public void FollowPath()
         {
             if (NextPointInPath < Path.Count - 1) {
-                float speed = 4f * Time.fixedDeltaTime;
+                float speed = 3.5f * Time.fixedDeltaTime;
                 float distance = Vector3.Distance(transform.position, Path[NextPointInPath]);
                 while (distance < speed && NextPointInPath + 1 < Path.Count) {
                     NextPointInPath++;
                     distance = Vector3.Distance(transform.position, Path[NextPointInPath]);
                 }
                 float t = speed / distance;
+                Vector3 pathDirection = Path[NextPointInPath] - transform.position;
+                float angle = Vector3.SignedAngle(pathDirection, transform.up, transform.forward);
                 transform.position = Vector3.Lerp(transform.position, Path[NextPointInPath], t);
 
                 GetComponent<Animator>().ResetTrigger("Idle");
-                GetComponent<Animator>().SetTrigger("Moving");
+                if (-135 < angle && angle < -45) {
+                    GetComponent<Animator>().ResetTrigger("Forward");
+                    GetComponent<Animator>().ResetTrigger("StrafeRight");
+                    GetComponent<Animator>().SetTrigger("StrafeLeft");
+                }
+                else if (45 < angle && angle < 135) {
+                    GetComponent<Animator>().ResetTrigger("Forward");
+                    GetComponent<Animator>().ResetTrigger("StrafeLeft");
+                    GetComponent<Animator>().SetTrigger("StrafeRight");
+                }
+                else {
+                    GetComponent<Animator>().ResetTrigger("StrafeRight");
+                    GetComponent<Animator>().ResetTrigger("StrafeLeft");
+                    GetComponent<Animator>().SetTrigger("Forward");
+                }
             } else {
-                GetComponent<Animator>().ResetTrigger("Moving");
+                GetComponent<Animator>().ResetTrigger("Forward");
+                GetComponent<Animator>().ResetTrigger("StrafeLeft");
+                GetComponent<Animator>().ResetTrigger("StrafeRight");
                 GetComponent<Animator>().SetTrigger("Idle");
             }
             

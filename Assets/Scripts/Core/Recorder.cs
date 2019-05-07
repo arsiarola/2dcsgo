@@ -13,7 +13,7 @@ namespace Core
         public int RecordingLength { get; set; } = Misc.Constants.RECORD_LENGTH;
 
         /// <summary> Time in milliseconds since the recording started </summary>
-        private float CurrentTime { get; set; }
+        private float CurrentTime { get; set; } = 0;
 
         /// <summary> List of recorded frames. A frame contains a Id / state dictionary </summary>
         private List<Dictionary<int, RecordableState.RecordableState>> RecordedFrames;
