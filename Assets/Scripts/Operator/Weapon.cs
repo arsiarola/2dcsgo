@@ -12,25 +12,27 @@ namespace Operator
         public float HitDifficulty { get; private set; } = 0.8f;
 
         // sound variables
-        //public AudioClip shootSound = (AudioClip)Resources.Load("Assets/sounds/shootSound.m4a", typeof(AudioClip));
         private AudioSource source; 
         private float volLow = .5f;
         private float volHigh = 1.0f;
 
         public Weapon()
         {
-
+           
         }
 
-        public void PlayShootSound(GameObject target)
+        public void PlayShootSound()
         {
-            source = target.GetComponent<AudioSource>();
-            float vol = Random.Range(volLow, volHigh);
-            //source.PlayOneShot(shootSound, vol);
+            //var sound = GameObject.Find("ShootSound").GetComponent<SoundAssets>().sounds["shootSound"];
+            var sound = GameObject.Find("ShootSound").GetComponent<AudioClip>();
+            source = GameObject.Find("ShootSound").GetComponent<AudioSource>();
+            float vol = Random.Range(volLow, volHigh); // vary the volume to increase immersion
+            source.Play(); // play AudioClip of AudioSource
         }
 
         public void FireAt(GameObject target)
         {
+            PlayShootSound();
             if (Stage == 0) {
                 if (Random.Range(0.0f, 1.0f) < HitDifficulty) target.GetComponent<OperatorState>().Damage(Damage);
             }
