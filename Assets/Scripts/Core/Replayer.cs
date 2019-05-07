@@ -30,6 +30,8 @@ namespace Core
         /// <summary> Has exit key been pressed </summary>
         private bool IsExit { get; set; }
 
+        private float CurrentTime { get; set; } = 0;
+
         /// <summary>
         /// Starts the Replay process
         /// </summary>
@@ -62,6 +64,7 @@ namespace Core
             UpdateCurrentFrameAsFloat();
             int currentFrameAsInt = (int)(Mathf.Round(CurrentFrameAsFloat));    // round the float value, to get a specific frame
             CurrentFrame = GameController.Frames[currentFrameAsInt];
+            CurrentTime = currentFrameAsInt * Time.fixedDeltaTime;
 
             // update and remove replay objects
             UpdateReplayObjects();

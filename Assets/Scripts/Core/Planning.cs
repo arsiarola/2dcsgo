@@ -15,6 +15,8 @@ namespace Core
         /// <summary> Id-GameObject dictionary of every object created for the planning stage </summary>
         private Dictionary<int, GameObject> PlanningRefs { get; set; }
 
+        public float CurrentTime { get; set; } = 0;
+
         /// <summary>
         /// Start the planning process.
         /// </summary>
@@ -31,6 +33,7 @@ namespace Core
         {
             LastFrame = GameController.Frames[GameController.Frames.Count - 1]; // get the last frame from the gameControllers list of frames
             PlanningRefs = new Dictionary<int, GameObject>();   // start adding planning objects to an empty container
+            CurrentTime = (GameController.Frames.Count - 1) * Time.fixedDeltaTime;
         }
 
         /// <summary>

@@ -84,7 +84,6 @@ public class MakePath : MonoBehaviour
         if(mousePositionList.Count > 1) {
             pathEndMark.transform.position = mousePositionList[mousePositionList.Count - 1];
         }
-        Debug.Log(mousePositionList.Count);
     }
 
     public void DrawPath()

@@ -48,6 +48,12 @@ namespace Core
         private PauseMenuScript PauseMenu { get { return pauseMenu; } }
         [SerializeField] private PauseMenuScript pauseMenu;
 
+        public AI.CTAI CounterTerrorists { get { return counterTerrorists; } }
+        [SerializeField] private AI.CTAI counterTerrorists;
+
+        public AI.TAI Terrorists { get { return terrorists; } }
+        [SerializeField] private AI.TAI terrorists;
+
         public Side Side { get { return side; } private set { side = value; IsSideChanged = true; } }
         private Side side = Side.CounterTerrorist;
 
@@ -95,8 +101,14 @@ namespace Core
         private void Start()
         {
             Simulation.UpdateVisibility();
+            GiveBomb();
             Frames.Add(Recorder.GetRecordableStates()); // get start frame. Not sure if necessary for the replay, but we do need to get the objects starting positions at least (then again these can be gained by other means)
             DisableRecordables();       // disable recordables before they can execute their FixedUpdate or update methods
+        }
+
+        private void GiveBomb()
+        {
+            //Terrorists.Children[0].GetComponent<Operator.TOperatorState>().Bomb = true;
         }
 
         /// <summary>
