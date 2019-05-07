@@ -26,14 +26,19 @@ public class MakePath : MonoBehaviour
     private Core.GameController gameController;
     private GameObject circle;
     private Rigidbody2D rbCircle;
+    private GameObject pathEndMark;
 
     private void Awake()
     {
+
         gameController = GameObject.Find(Misc.Constants.GAME_CONTROLLER_NAME).GetComponent<Core.GameController>();   
         gObj = gameObject;
         circle = gObj.transform.Find("Sphere").gameObject;
         rbCircle = circle.GetComponent<Rigidbody2D>();
         circle.SetActive(false);
+        pathEndMark = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        pathEndMark.transform.parent = transform;
+        pathEndMark.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
 
         pointAccuracy = 0.1f;
         amountOfPoints = 1000;
@@ -46,6 +51,7 @@ public class MakePath : MonoBehaviour
         lineRenderer.endWidth = 0.1f;
         lineRenderer.useWorldSpace = true;
         lineRenderer.loop = false;
+        lineRenderer.sortingOrder = 10;
 
         createPath = false;
         drawPath = false;
@@ -69,6 +75,16 @@ public class MakePath : MonoBehaviour
         if(setLookDirection) {
             SetLookDirection();
         }
+
+        if(mousePositionList.Count > 1)
+            pathEndMark.SetActive(true);
+        else
+            pathEndMark.SetActive(false);
+
+        if(mousePositionList.Count > 1) {
+            pathEndMark.transform.position = mousePositionList[mousePositionList.Count - 1];
+        }
+        Debug.Log(mousePositionList.Count);
     }
 
     public void DrawPath()
@@ -209,6 +225,7 @@ public class MakePath : MonoBehaviour
         else if (mousePositionList.Count > 0) {
             if (Input.GetMouseButtonDown(0) && Vector3.Distance(mousePosition, mousePositionList[mousePositionList.Count - 1]) < 0.5) {
                 rbCircle.transform.position = mousePositionList[mousePositionList.Count - 1];
+                circle.SetActive(true);
                 createPath = true;
             }
         }
