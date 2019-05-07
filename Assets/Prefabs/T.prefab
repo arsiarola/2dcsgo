@@ -195,3 +195,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathAnimation: {fileID: 8889254995952351810, guid: b72112705fc7803438b818afef34e4d6,
     type: 3}
+  bombSprite: {fileID: 0}
