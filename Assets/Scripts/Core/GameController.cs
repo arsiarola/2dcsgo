@@ -30,19 +30,19 @@ namespace Core
     public class GameController : MonoBehaviour
     {
         /// <summary> Reference to the Recorder script of a Recorder object</summary>
-        private Recorder Recorder { get { return recorder; } }
+        public Recorder Recorder { get { return recorder; } }
         [SerializeField] private Recorder recorder;
 
         /// <summary> Reference to the Replayer script of a Replayer object</summary>
-        private Replayer Replayer { get { return replayer; } }
+        public Replayer Replayer { get { return replayer; } }
         [SerializeField] private Replayer replayer;
 
         /// <summary> Reference to the Planning script of a Planning object</summary>
-        private Planning Planning { get { return planning; } }
+        public Planning Planning { get { return planning; } }
         [SerializeField] private Planning planning;
 
         /// <summary> This script handles the simulation loop</summary>
-        private Simulation Simulation { get { return simulation; } set { simulation = value; } }
+        public Simulation Simulation { get { return simulation; } set { simulation = value; } }
         [SerializeField] private Simulation simulation;
 
         private PauseMenuScript PauseMenu { get { return pauseMenu; } }
