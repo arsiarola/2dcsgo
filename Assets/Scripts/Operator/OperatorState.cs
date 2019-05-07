@@ -7,6 +7,8 @@ namespace Operator {
         public float Hp { get; private set; } = 100;
         public GameObject DeathAnimation { get { return deathAnimation; } }
         [SerializeField] private GameObject deathAnimation;
+        [SerializeField] private GameObject bombSprite;
+
 
         public Weapon Weapon { get; private set; } = new Weapon();
 

@@ -4,14 +4,9 @@ using UnityEngine;
 
 namespace Operator {
     class TOperatorState : OperatorState {
-        public bool Bomb { get;  set; }
-
-        private GameObject bombSprite;
+        public bool Bomb { get; set; }
 
         private void Update() {
-            if (hasBomb) {
-
-            }
         }
     }
 }
