@@ -101,9 +101,6 @@ public class PauseMenuScript : MonoBehaviour
     public void BringTurnChange()
     {
         turnChange.SetActive(true);
-        if (Input.GetKey(KeyCode.Space)) {
-            OkClicked();
-        }
     }
-
 }
+
