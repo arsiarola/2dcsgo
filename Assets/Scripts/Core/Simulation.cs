@@ -6,13 +6,17 @@ namespace Core
 {
     public class Simulation : Task
     {
-        private AI.CTAI CounterTerroristAI { get { return counterTerroristAI; } }
-        [SerializeField] private AI.CTAI counterTerroristAI;
+        private AI.CTAI CounterTerroristAI { get; set; }
 
-        private AI.TAI TerroristAI { get { return terroristAI; } }
-        [SerializeField] private AI.TAI terroristAI;
+        private AI.TAI TerroristAI { get; set; }
 
         private int count = 0;
+
+        protected override void Awake()
+        {
+            CounterTerroristAI = GameController.CounterTerrorists;
+            TerroristAI = GameController.Terrorists;
+        }
 
         public void UpdateVisibility()
         {

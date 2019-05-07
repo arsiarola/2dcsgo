@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Operator {
     class TOperatorState : OperatorState {
-        public bool hasBomb { get;  set; }
+        public bool Bomb { get;  set; }
 
         private GameObject bombSprite;
 
