@@ -11,9 +11,22 @@ namespace Operator
         public float Damage { get; private set; } = 36;
         public float HitDifficulty { get; private set; } = 0.8f;
 
+        // sound variables
+        public AudioClip shootSound = (AudioClip)Resources.Load("Assets/sounds/shootSound.m4a", typeof(AudioClip));
+        private AudioSource source; 
+        private float volLow = .5f;
+        private float volHigh = 1.0f;
+
         public Weapon()
         {
 
+        }
+
+        public void PlayShootSound(GameObject target)
+        {
+            source = target.GetComponent<AudioSource>();
+            float vol = Random.Range(volLow, volHigh);
+            source.PlayOneShot(shootSound, vol);
         }
 
         public void FireAt(GameObject target)
