@@ -12,7 +12,7 @@ namespace Operator
         public float HitDifficulty { get; private set; } = 0.8f;
 
         // sound variables
-        public AudioClip shootSound = (AudioClip)Resources.Load("Assets/sounds/shootSound.m4a", typeof(AudioClip));
+        //public AudioClip shootSound = (AudioClip)Resources.Load("Assets/sounds/shootSound.m4a", typeof(AudioClip));
         private AudioSource source; 
         private float volLow = .5f;
         private float volHigh = 1.0f;
@@ -26,7 +26,7 @@ namespace Operator
         {
             source = target.GetComponent<AudioSource>();
             float vol = Random.Range(volLow, volHigh);
-            source.PlayOneShot(shootSound, vol);
+            //source.PlayOneShot(shootSound, vol);
         }
 
         public void FireAt(GameObject target)

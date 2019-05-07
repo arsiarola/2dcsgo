@@ -48,7 +48,7 @@ namespace AI
         public void FollowPath()
         {
             if (NextPointInPath < Path.Count - 1) {
-                float speed = 3.5f * Time.fixedDeltaTime;
+                float speed = 3.6125f * Time.fixedDeltaTime;
                 float distance = Vector3.Distance(transform.position, Path[NextPointInPath]);
                 while (distance < speed && NextPointInPath + 1 < Path.Count) {
                     NextPointInPath++;
@@ -59,27 +59,19 @@ namespace AI
                 float angle = Vector3.SignedAngle(pathDirection, transform.up, transform.forward);
                 transform.position = Vector3.Lerp(transform.position, Path[NextPointInPath], t);
 
-                GetComponent<Animator>().ResetTrigger("Idle");
+                GetComponent<Animator>().SetBool("Moving", true);
                 if (-135 < angle && angle < -45) {
-                    GetComponent<Animator>().ResetTrigger("Forward");
-                    GetComponent<Animator>().ResetTrigger("StrafeRight");
                     GetComponent<Animator>().SetTrigger("StrafeLeft");
                 }
                 else if (45 < angle && angle < 135) {
-                    GetComponent<Animator>().ResetTrigger("Forward");
-                    GetComponent<Animator>().ResetTrigger("StrafeLeft");
                     GetComponent<Animator>().SetTrigger("StrafeRight");
                 }
                 else {
-                    GetComponent<Animator>().ResetTrigger("StrafeRight");
-                    GetComponent<Animator>().ResetTrigger("StrafeLeft");
                     GetComponent<Animator>().SetTrigger("Forward");
                 }
             } else {
-                GetComponent<Animator>().ResetTrigger("Forward");
-                GetComponent<Animator>().ResetTrigger("StrafeLeft");
-                GetComponent<Animator>().ResetTrigger("StrafeRight");
                 GetComponent<Animator>().SetTrigger("Idle");
+                GetComponent<Animator>().SetBool("Moving", false);
             }
             
         }
@@ -162,6 +154,7 @@ namespace AI
         {
             Operator.Weapon weapon = GetComponent<Operator.OperatorState>().Weapon;
             weapon.FireAt(target);
+            GetComponent<Animator>().SetTrigger("Fire");
         }
 
         

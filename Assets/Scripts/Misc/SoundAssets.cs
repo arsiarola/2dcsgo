@@ -6,6 +6,6 @@ public class SoundAssets : MonoBehaviour
 {
     private void Awake()
     {
-        
+
     }
 }
