@@ -186,7 +186,6 @@ namespace Core
             while (!asyncLoad.isDone) {
                 yield return null;
             }
-            asyncLoad.allowSceneActivation = false;
         }
 
         private void SwitchSide()
@@ -214,7 +213,7 @@ namespace Core
                     Time.timeScale = Misc.Constants.SIMULATION_SPEED;  // simulate as fast as possible
                     Recorder.gameObject.SetActive(true); // enables the Recorder object
                     Simulation.gameObject.SetActive(true);  // enables simulation
-                    StartCoroutine(LoadYourAsyncScene());
+                    //StartCoroutine(LoadYourAsyncScene());
                     break;
                 case GameStage.Replay:
                     Replayer.gameObject.SetActive(true); // activate the replayer object in order to activate the update of this script. Update is executed only if the script is enabled
