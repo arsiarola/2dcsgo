@@ -9,8 +9,8 @@ namespace Operator {
         [SerializeField] private GameObject deathAnimation;
         [SerializeField] private GameObject bombSprite;
 
-
-        public Weapon Weapon { get; private set; } = new Weapon();
+        public GameObject Weapon { get { return weapon; } private set { weapon = value; } }
+        [SerializeField] private GameObject weapon;
 
         public bool IsAlive() {
             return 0 < Hp;

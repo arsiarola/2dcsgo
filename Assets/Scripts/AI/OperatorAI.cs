@@ -152,8 +152,8 @@ namespace AI
 
         public void FireAt(GameObject target)
         {
-            Operator.Weapon weapon = GetComponent<Operator.OperatorState>().Weapon;
-            weapon.FireAt(target);
+//Operator.Weapon weapon = GetComponent<Operator.OperatorState>().Weapon;
+            //weapon.FireAt(target);
             GetComponent<Animator>().SetTrigger("Fire");
         }
 
