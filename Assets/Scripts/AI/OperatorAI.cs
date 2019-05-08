@@ -155,7 +155,7 @@ namespace AI
             GameObject weapon = GetComponent<Operator.OperatorState>().Weapon;
             Weapon.Weapon weaponScript = weapon.GetComponent<Weapon.Weapon>();
             weaponScript.FireAt(target);
-            GetComponent<Animator>().SetTrigger("Fire");
+            //GetComponent<Animator>().SetTrigger("Fire");
         }
 
         
