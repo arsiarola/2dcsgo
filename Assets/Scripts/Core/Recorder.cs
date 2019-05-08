@@ -13,7 +13,9 @@ namespace Core
         public int RecordingLength { get; set; } = Misc.Constants.RECORD_LENGTH;
 
         /// <summary> Time in milliseconds since the recording started </summary>
-        private float CurrentTime { get; set; } = 0;
+        private float time { get; set; } = 0;
+
+        public float CurrentTime { get; set; } = 0;
 
         /// <summary> List of recorded frames. A frame contains a Id / state dictionary </summary>
         private List<Dictionary<int, RecordableState.RecordableState>> RecordedFrames;
@@ -33,7 +35,7 @@ namespace Core
         /// </summary>
         private void InitVariables()
         {
-            CurrentTime = 0;
+            time = 0;
             RecordedFrames = new List<Dictionary<int, RecordableState.RecordableState>>();
         }
 
@@ -46,10 +48,11 @@ namespace Core
                 yield return new WaitForFixedUpdate();
                 RecordedFrames.Add(GetRecordableStates());   // get states and add the created dictionary of id-state to the list of frames
 
-                CurrentTime += Misc.Tools.SecondsToMilliSeconds(Time.fixedDeltaTime);  // expired time is the same as the fixed time step
-                if (CurrentTime >= RecordingLength) {   // if we have recorded for the given time
+                time += Misc.Tools.SecondsToMilliSeconds(Time.fixedDeltaTime);  // expired time is the same as the fixed time step
+                if (time >= RecordingLength) {   // if we have recorded for the given time
                     Exit();
                 }
+                CurrentTime = 60 - (time / 1000);
             }
         }
 

@@ -19,12 +19,20 @@ public class UiScript : MonoBehaviour
         DisplayTime();
     }
 
+    void DisplayScore() {
+
+    }
+
     void DisplayTime() {
         switch (gameController.Stage) {
             case Core.GameStage.Planning:
-                timeText.text = gameController.Planning.CurrentTime.ToString();
+                timeText.text = gameController.Planning.CurrentTime.ToString(".0#");
                 break;
             case Core.GameStage.Replay:
+                timeText.text = gameController.Replayer.CurrentTime.ToString(".0#");
+                break;
+            case Core.GameStage.Record:
+                timeText.text = gameController.Recorder.CurrentTime.ToString(".0#");
                 break;
             default:
                 break;

@@ -33,7 +33,7 @@ namespace Core
         {
             LastFrame = GameController.Frames[GameController.Frames.Count - 1]; // get the last frame from the gameControllers list of frames
             PlanningRefs = new Dictionary<int, GameObject>();   // start adding planning objects to an empty container
-            CurrentTime = (GameController.Frames.Count - 1) * Time.fixedDeltaTime;
+            CurrentTime = 60 - (GameController.Frames.Count - 1) * Time.fixedDeltaTime;
         }
 
         /// <summary>
