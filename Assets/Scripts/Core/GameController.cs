@@ -147,6 +147,7 @@ namespace Core
                     Recorder.gameObject.SetActive(false);    // disable the Recorder gameObject for claritys sake
                     Simulation.gameObject.SetActive(false); // disables simulation
                     Stage = GameStage.Replay;   // after recording, the stage is replay
+                    StartCoroutine(UnFreezeCam());
                     break;
                 case GameMessage.ReplayEnd:
                     Replayer.gameObject.SetActive(false);
@@ -174,18 +175,16 @@ namespace Core
             }
         }
 
-        IEnumerator LoadYourAsyncScene() {
-            // The Application loads the Scene in the background as the current Scene runs.
-            // This is particularly good for creating loading screens.
-            // You could also load the Scene by using sceneBuildIndex. In this case Scene2 has
-            // a sceneBuildIndex of 1 as shown in Build Settings.
-            AsyncOperation asyncLoad = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("GameControl");
-            asyncLoad.allowSceneActivation = true;
+        IEnumerator UnFreezeCam() {
+            //yield return null;
+            Camera.main.clearFlags = CameraClearFlags.Color;
+            yield return null;
+            Camera.main.cullingMask = -1;
+        }
 
-            // Wait until the asynchronous scene fully loads
-            while (!asyncLoad.isDone) {
-                yield return null;
-            }
+        private void FreezeCam() {
+            Camera.main.clearFlags = CameraClearFlags.Nothing;
+            Camera.main.cullingMask = 0;
         }
 
         private void SwitchSide()
@@ -209,11 +208,11 @@ namespace Core
             switch (Stage)
             {
                 case GameStage.Record:
+                    FreezeCam();
                     EnableRecordables(); // enable recordables for simulation
                     Time.timeScale = Misc.Constants.SIMULATION_SPEED;  // simulate as fast as possible
                     Recorder.gameObject.SetActive(true); // enables the Recorder object
                     Simulation.gameObject.SetActive(true);  // enables simulation
-                    //StartCoroutine(LoadYourAsyncScene());
                     break;
                 case GameStage.Replay:
                     Replayer.gameObject.SetActive(true); // activate the replayer object in order to activate the update of this script. Update is executed only if the script is enabled
