@@ -117,6 +117,8 @@ namespace RecordableState
             obj.transform.position += new Vector3(0, 0, 1);
             if ((!source.isPlaying || TimeSamples < source.timeSamples) && IsPlaying && Time.timeScale != 0) {
                 source.Play();
+            } else if (!IsPlaying) {
+                source.Stop();
             }
 
             source.pitch = Time.timeScale;

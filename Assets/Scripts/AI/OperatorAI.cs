@@ -137,27 +137,24 @@ namespace AI
 
         public void Shoot()
         {
+            GameObject weapon = GetComponent<Operator.OperatorState>().Weapon;
+            Weapon.Weapon weaponScript = weapon.GetComponent<Weapon.Weapon>();
             if (Target != null) {
                 Vector3 vectorToTarget = Target.transform.position - transform.position;
                 Vector3 rotation = transform.up;
                 float angle = Vector3.Angle(rotation, vectorToTarget);
                 // CALCULATE THE NEEDED ANGLE GIVEN THE DISTANCE
                 if (angle < 1f) {
-                    FireAt(Target);
+                    GetComponent<Animator>().SetBool("Firing", true);
+                    weaponScript.FireAt(Target);
+                } else {
+                    if (weaponScript.Firing) weaponScript.StopFiring();
+                    GetComponent<Animator>().SetBool("Firing", false);
                 }
-            } 
-            
-            //if ()
-        }
-
-        public void FireAt(GameObject target)
-        {
-            GameObject weapon = GetComponent<Operator.OperatorState>().Weapon;
-            Weapon.Weapon weaponScript = weapon.GetComponent<Weapon.Weapon>();
-            weaponScript.FireAt(target);
-            //GetComponent<Animator>().SetTrigger("Fire");
-        }
-
-        
+            } else {
+                if (weaponScript.Firing) weaponScript.StopFiring();
+                GetComponent<Animator>().SetBool("Firing", false);
+            }
+        } 
     }
 }
