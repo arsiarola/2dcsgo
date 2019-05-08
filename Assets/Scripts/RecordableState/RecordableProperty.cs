@@ -98,4 +98,28 @@ namespace RecordableState
             IsAlive = state.IsAlive();
         }
     }
+
+    public class Audio : RecordableProperty, ISettable
+    {
+        public bool IsPlaying { get; private set; }
+        public int TimeSamples { get; private set; }
+
+        public override void GetVariablesFrom(GameObject recordable)
+        {
+            AudioSource source = recordable.GetComponent<AudioSource>();
+            IsPlaying = source.isPlaying;
+            TimeSamples = source.timeSamples;
+        }
+
+        public void SetToObject(GameObject obj)
+        {
+            AudioSource source = obj.GetComponent<AudioSource>();
+            if (IsPlaying) {
+                source.Play();
+                source.timeSamples = TimeSamples;
+            } else {
+                source.Pause();
+            }
+        }
+    }
 }
