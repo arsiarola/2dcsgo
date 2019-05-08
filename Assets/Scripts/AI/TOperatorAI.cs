@@ -8,11 +8,10 @@ namespace AI
     {
         public override Core.Side Side { get; protected set; } = Core.Side.Terrorist;
 
-        private void PlantBomb() {
-            RaycastHit2D Hit = Physics2D.CircleCast(transform.position, 0.3f, transform.position, 1 << 9);
-            Debug.Log(Hit);
-            if(Target != null && Hit.collider != null) {
-
+        public void PlantBomb() {
+            Collider2D [] Collider = Physics2D.OverlapCircleAll(transform.position, 0.3f, 1 << 9);
+            if(Target != null && Collider.Length > 0) {
+                Debug.Log(Collider);
             }
         }
     }

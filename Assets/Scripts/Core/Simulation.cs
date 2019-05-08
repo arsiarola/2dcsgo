@@ -54,6 +54,9 @@ namespace Core
                 child.GetComponent<AI.OperatorAI>().FindTarget();   // Target
                 child.GetComponent<AI.OperatorAI>().Rotate();   // rotation
                 child.GetComponent<AI.OperatorAI>().Shoot();    // shoot if possible
+                if (ai.Equals(TerroristAI)){
+                    child.GetComponent<AI.OperatorAI>().GetComponent<AI.TOperatorAI>().PlantBomb();
+                }
                 child.GetComponent<AI.OperatorAI>().FollowPath();   // movement
             }
         }
