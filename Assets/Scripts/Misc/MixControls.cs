@@ -8,7 +8,7 @@ using UnityEngine.Audio;
 
 namespace Assets.Scripts.Misc
 {
-    public class MixerControls : MonoBehaviour
+    public class MixControls : MonoBehaviour
     {
         public AudioMixer masterMixer; 
 
