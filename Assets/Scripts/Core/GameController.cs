@@ -55,6 +55,8 @@ namespace Core
         public AI.TAI Terrorists { get { return terrorists; } }
         [SerializeField] private AI.TAI terrorists;
 
+        [SerializeField] private GameObject camera;
+
         public Side Side { get { return side; } private set { side = value; IsSideChanged = true; } }
         private Side side = Side.CounterTerrorist;
 
@@ -170,6 +172,7 @@ namespace Core
                     }
                     break;
                 case GameMessage.OkClicked:
+                    camera.GetComponent<CameraMovement>().CenterCamera();
                     IsPaused = false;
                     break;
             }
