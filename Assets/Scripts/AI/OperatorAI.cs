@@ -10,7 +10,7 @@ namespace AI
         private float slerp = 0;
         private float rotationSpeed = 0.025f;
         public Quaternion Rotation { get; protected set; } = new Quaternion();
-        private GameObject Target { get; set; } = null;
+        public GameObject Target { get; set; } = null;
         private Quaternion lastQuaternion = new Quaternion();
         private GameObject lastTarget = null;
 
