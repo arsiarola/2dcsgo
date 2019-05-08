@@ -179,13 +179,14 @@ namespace Core
         }
 
         IEnumerator UnFreezeCam() {
-            //yield return null;
+            AudioListener.pause = false;
             Camera.main.clearFlags = CameraClearFlags.Color;
             yield return null;
             Camera.main.cullingMask = -1;
         }
 
         private void FreezeCam() {
+            AudioListener.pause = true;
             Camera.main.clearFlags = CameraClearFlags.Nothing;
             Camera.main.cullingMask = 0;
         }
