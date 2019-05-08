@@ -27,7 +27,9 @@ namespace Weapon
             //var sound = GameObject.Find("ShootSound").GetComponent<AudioClip>();
             //source = GameObject.Find("ShootSound").GetComponent<AudioSource>();
             //float vol = Random.Range(volLow, volHigh); // vary the volume to increase immersion
-            source.Play(); // play AudioClip of AudioSource
+            if (!source.isPlaying) {
+                source.Play(); // play AudioClip of AudioSource
+            }
         }
 
         public void FireAt(GameObject target)

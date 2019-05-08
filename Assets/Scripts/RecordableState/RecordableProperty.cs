@@ -114,11 +114,8 @@ namespace RecordableState
         public void SetToObject(GameObject obj)
         {
             AudioSource source = obj.GetComponent<AudioSource>();
-            if (IsPlaying) {
+            if (!source.isPlaying && IsPlaying) {
                 source.Play();
-                source.timeSamples = TimeSamples;
-            } else {
-                source.Pause();
             }
         }
     }
