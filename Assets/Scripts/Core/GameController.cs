@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
+using System;
 
 namespace Core
 {
@@ -11,7 +12,9 @@ namespace Core
     {
         Record,
         Replay,
-        Planning
+        Planning,
+        End,
+        Null
     }
 
     /// <summary>
@@ -22,7 +25,20 @@ namespace Core
         RecordEnd,
         ReplayEnd,
         PlanningEnd,
+        EndEnd,
         OkClicked
+    }
+
+    public struct Stage
+    {
+        public GameStage gameStage;
+        public Side side;
+
+        public Stage (GameStage gameStage, Side side)
+        {
+            this.gameStage = gameStage;
+            this.side = side;
+        }
     }
 
     /// <summary>
@@ -99,6 +115,13 @@ namespace Core
 
         public Dictionary<Side, int> SideAIs { get; private set; } = new Dictionary<Side, int>();
 
+        public Side? Winner { get; set; } = null;
+
+        private bool End { get; set; } = false;
+
+        public List<Stage> StageBuffer { get; set; } = new List<Stage>();
+
+
         /// <summary>
         /// Gets the starting frame from Recorder, disables every recordable, and disables the Recorder, the Replayer and the Planning objects
         /// </summary>
@@ -157,7 +180,11 @@ namespace Core
                     break;
                 case GameMessage.ReplayEnd:
                     Replayer.gameObject.SetActive(false);
-                    Stage = GameStage.Planning; // after replay the stage is planning
+                    if (Winner == null) {
+                        Stage = GameStage.Planning; // after replay the stage is planning
+                    } else {
+                        Stage = GameStage.End;
+                    }
                     Replays++;
                     break;
                 case GameMessage.PlanningEnd:
@@ -178,6 +205,16 @@ namespace Core
                 case GameMessage.OkClicked:
                     camera.GetComponent<CameraMovement>().CenterCamera();
                     IsPaused = false;
+                    break;
+                case GameMessage.EndEnd:
+                    if (End) {
+                        // quit game
+                    }
+                    else {
+                        SwitchSide();
+                        Stage = GameStage.Replay;
+                        End = true;
+                    }
                     break;
             }
         }
@@ -229,6 +266,18 @@ namespace Core
                     Time.timeScale = 0; // pause time for the duration of the planning
                     Planning.gameObject.SetActive(true); // activating the Planning object also activates this scripts Update method
                     break;
+                case GameStage.End:
+                    // Play end screen
+                    if (End) {
+                        // quit game
+                    }
+                    else {
+                        SwitchSide();
+                        Stage = GameStage.Replay;
+                        End = true;
+                    }
+                    break;
+
             }
             IsStageChanged = false; // stage change has been handled
         }
