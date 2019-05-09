@@ -234,7 +234,6 @@ RectTransform:
   - {fileID: 4617592878321914455}
   - {fileID: 4617592877898808997}
   - {fileID: 6095867727161566629}
-  - {fileID: 3375583202606819112}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2240,7 +2239,7 @@ GameObject:
   - component: {fileID: 453710583326328931}
   - component: {fileID: 5471169418288144171}
   m_Layer: 5
-  m_Name: AreYouSureTextQuit
+  m_Name: EndScreenText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2257,12 +2256,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4617592876448385161}
-  m_RootOrder: 5
+  m_Father: {fileID: 6095867727161566629}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.05011, y: 153}
+  m_AnchoredPosition: {x: 9.012624, y: 152.97249}
   m_SizeDelta: {x: 500, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &453710583326328931
@@ -2339,7 +2338,7 @@ RectTransform:
   m_Children:
   - {fileID: 7048464394135922286}
   m_Father: {fileID: 6095867727161566629}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2533,6 +2532,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 3375583202606819112}
   - {fileID: 5438366012780800715}
   m_Father: {fileID: 4617592876448385161}
   m_RootOrder: 4

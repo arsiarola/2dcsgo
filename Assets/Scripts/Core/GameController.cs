@@ -269,16 +269,7 @@ namespace Core
                     break;
                 case GameStage.End:
                     PauseMenu.BringEndScreen(Side);
-                    if (End) {
-                        // quit game
-                    }
-                    else {
-                        SwitchSide();
-                        Stage = GameStage.Replay;
-                        End = true;
-                    }
                     break;
-
             }
             IsStageChanged = false; // stage change has been handled
         }

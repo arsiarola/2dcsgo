@@ -36,7 +36,7 @@ public class UiScript : MonoBehaviour
                 ctAiId = gameController.SideAIs[Core.Side.CounterTerrorist];
                 ctAlive = gameController.Frames[currentFrame][ctAiId].GetProperty<RecordableState.ExtendedAI>().Children.Count;
                 tAlive = gameController.Frames[currentFrame][tAiId].GetProperty<RecordableState.ExtendedAI>().Children.Count;
-                aliveText.text = "CT:" + ctAlive + " | T:" + tAlive;
+                //aliveText.text = "CT:" + ctAlive + " | T:" + tAlive;
                 break;
 
             case Core.GameStage.Planning:

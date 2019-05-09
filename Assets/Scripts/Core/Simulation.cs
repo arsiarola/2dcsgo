@@ -49,7 +49,7 @@ namespace Core
             Vars.SimulationTime += Time.fixedDeltaTime;
             //Debug.Log(Vars.SimulationTime);
 
-            if (GameController.Winner != null) {
+            if (GameController.Winner == null) {
                 if (CounterTerroristAI.Children.Count == 0) {
                     GameController.Winner = Side.Terrorist;
                 }
