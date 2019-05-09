@@ -64,6 +64,10 @@ public class CameraMovement : MonoBehaviour {
         transform.Translate(move, Space.World);
     }
 
+    public void CenterCamera() {
+        transform.position = new Vector3(6, 6, -10);
+        Camera.main.orthographicSize = 25;
+    }
 }
 
 

@@ -55,8 +55,15 @@ namespace Core
         public AI.TAI Terrorists { get { return terrorists; } }
         [SerializeField] private AI.TAI terrorists;
 
+
         public GameObject Unknown { get { return unknown; } }
         [SerializeField] private GameObject unknown;
+
+        [SerializeField] private GameObject camera;
+
+        public int tScore { get; set; } = 0;
+        public int ctScore { get; set; } = 0;
+
 
         public Side Side { get { return side; } private set { side = value; IsSideChanged = true; } }
         private Side side = Side.CounterTerrorist;
@@ -173,19 +180,21 @@ namespace Core
                     }
                     break;
                 case GameMessage.OkClicked:
+                    camera.GetComponent<CameraMovement>().CenterCamera();
                     IsPaused = false;
                     break;
             }
         }
 
         IEnumerator UnFreezeCam() {
-            //yield return null;
+            AudioListener.pause = false;
             Camera.main.clearFlags = CameraClearFlags.Color;
             yield return null;
             Camera.main.cullingMask = -1;
         }
 
         private void FreezeCam() {
+            AudioListener.pause = true;
             Camera.main.clearFlags = CameraClearFlags.Nothing;
             Camera.main.cullingMask = 0;
         }
@@ -310,5 +319,4 @@ namespace Core
         }
     }
 }
-
 
