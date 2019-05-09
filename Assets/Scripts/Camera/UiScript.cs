@@ -22,6 +22,9 @@ public class UiScript : MonoBehaviour
         DisplayAlive();
     }
 
+    /// <summary>
+    ///     Display how many CT's and T's are alive in given moment
+    /// </summary>
     void DisplayAlive() {
         int tAiId;
         int ctAiId;
@@ -54,6 +57,9 @@ public class UiScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    ///     display time in all modes and update it correctly in replay
+    /// </summary>
     void DisplayTime() {
         switch (gameController.Stage) {
             case Core.GameStage.Planning:
@@ -70,6 +76,9 @@ public class UiScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    ///     determine whose turn it is and use it in displaying it
+    /// </summary>
     void DisplayGameStage() {
         string side = "";
 
@@ -84,6 +93,9 @@ public class UiScript : MonoBehaviour
                 break;
         }
 
+        ///<summary>
+        /// check what stage is on and update the stagetext accordingly
+        /// </summary>
         switch(gameController.Stage) {
             case Core.GameStage.Record:
                 gameStageText.text = "Simulation in progress...";

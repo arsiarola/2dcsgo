@@ -33,6 +33,9 @@ public class PauseMenuScript : MonoBehaviour
     [SerializeField] Text endScreenText;
 
 
+    /// <summary>
+    ///     apply on click listeners to all different pausemenu buttons
+    /// </summary>
     private void Start()
     {
         resume.onClick.AddListener(delegate { pauseMenu.SetActive(false); isGamePaused = false; });
@@ -51,8 +54,7 @@ public class PauseMenuScript : MonoBehaviour
 
 
     }
-    private void Update()
-    {
+    private void Update() {
         if (Input.GetKeyDown(KeyCode.Q)) {
             if (isGamePaused && !isAreYouSure) {
                 Resume();
@@ -63,8 +65,7 @@ public class PauseMenuScript : MonoBehaviour
         }
     }
 
-    void Pause()
-    {
+    void Pause() {
         pauseMenu.SetActive(true);
         areYouSureMenu.SetActive(false);
         areYouSureQuit.SetActive(false);
@@ -72,28 +73,24 @@ public class PauseMenuScript : MonoBehaviour
         isGamePaused = true;
     }
 
-    void Resume()
-    {
+    void Resume() {
         pauseMenu.SetActive(false);
         isGamePaused = false;
     }
 
-    private void BringAreYouSureMenu()
-    {
+    private void BringAreYouSureMenu() {
         isAreYouSure = true;
         pauseMenu.SetActive(false);
         areYouSureMenu.SetActive(true);
     }
 
-    private void BringAreYouSureQuit()
-    {
+    private void BringAreYouSureQuit() {
         isAreYouSure = true;
         pauseMenu.SetActive(false);
         areYouSureQuit.SetActive(true);
     }
 
-    private void BringPauseMenu()
-    {
+    private void BringPauseMenu() {
         areYouSureMenu.SetActive(false);
         areYouSureQuit.SetActive(false);
 
@@ -101,33 +98,38 @@ public class PauseMenuScript : MonoBehaviour
         pauseMenu.SetActive(true);
     }
 
-    public void OkClicked()
-    {
+    public void OkClicked() {
         turnChange.SetActive(false);
         gameController.SendMessage(Core.GameMessage.OkClicked);
     }
 
-    public void BringTurnChange()
-    {
+    public void BringTurnChange() {
         turnChange.SetActive(true);
     }
 
+    /// <summary>
+    /// brings up the endscreen, and is called from gamecontroller. Side parameter tells who won and is applied to endscreen text
+    /// </summary>
+    /// <param name="side"></param>
     public void BringEndScreen(Core.Side side) {
         string s = "";
         if (side == Core.Side.Terrorist) {
             s = "Terrorists";
-        }else if (side == Core.Side.CounterTerrorist) {
+        }
+        else if (side == Core.Side.CounterTerrorist) {
             s = "Counter-Terrorists";
         }
         endScreen.SetActive(true);
         endScreenText.text = s + " win, Press ok to continue";
-        
+
     }
 
+    /// <summary>
+    /// when user has clicked ok button in endscreen message is sent to gamecontroller and endscreen is taken off off the screen
+    /// </summary>
     public void EndScreenClicked() {
         endScreen.SetActive(false);
         gameController.SendMessage(Core.GameMessage.EndScreenClicked);
-
     }
 }
 

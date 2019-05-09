@@ -13,14 +13,16 @@ public class CameraMovement : MonoBehaviour {
         Camera.main.orthographic = true;
     }
 
-    // Update is called once per frame
     void Update() {
         pos = transform.position;
         mouseWheel = Input.GetAxis("Mouse ScrollWheel");
         MoveCamera();
     }
-    private void MoveCamera() {
 
+    /// <summary>
+    ///     includes all possible camera movements with either keyboard or mouse
+    /// </summary>
+    private void MoveCamera() {
         ///if shift is held every camera movement faster
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
             spacing = 60f;
@@ -57,7 +59,7 @@ public class CameraMovement : MonoBehaviour {
         else if (mouseWheel < 0 && (Camera.main.orthographicSize + (spacing * Time.unscaledDeltaTime * 5)) < 40)
             Camera.main.orthographicSize += spacing * Time.unscaledDeltaTime * 5;
 
-        /// move camera around with pressing middle mouse button and after that moving the mouse around        
+        /// detect if middle mouse button was pressed and mark the place where it was pressed
         if (Input.GetMouseButtonDown(2)) {
             dragOrigin = Input.mousePosition;
             return;
@@ -66,22 +68,31 @@ public class CameraMovement : MonoBehaviour {
             return;
         }
 
+        /// allow camera movement with mouse if wasd keys arent used, while holding middle mouse button drag the camera towards it
         if (!usingWasd) {
             Vector3 position = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
             Vector3 move = new Vector3(position.x * dragSpeed, position.y * dragSpeed, 0);
-            Vector3 moveX = new Vector3(move.x, dragOrigin.y, 0);
-            Vector3 moveY = new Vector3(dragOrigin.x, move.y , 0);
-            //Debug.Log(move);
-            if (transform.position.x + move.x < 64 && transform.position.x + move.x > -64 && transform.position.y + move.y < 64 && transform.position.y + move.y > -64)
+            Vector3 moveX = new Vector3(move.x, Camera.main.ScreenToViewportPoint(position).y, 0);
+            Vector3 moveY = new Vector3(Camera.main.ScreenToViewportPoint(position).x, move.y, 0);
+            /// if in boundaries move freely
+            if (transform.position.x + move.x < 64 && transform.position.x + move.x > -64 && transform.position.y + move.y < 64 && transform.position.y + move.y > -64) {
                 transform.Translate(move, Space.World);
-            else if (transform.position.x + move.x < 64 && transform.position.x + move.x > -64 && (!(transform.position.y + move.y < 64 || transform.position.y + move.y > -64)))
+            }
+            /// if either upper or lower boundarie is hit move only in x-axis
+            else if (transform.position.x + move.x < 64 && transform.position.x + move.x > -64 && ((transform.position.y + move.y < 64) || (transform.position.y + move.y > -64))) {
                 transform.Translate(moveX, Space.World);
-            else if ((!(transform.position.x + move.x < 64 || transform.position.x + move.x > -64)) && (transform.position.y + move.y < 64 && transform.position.y + move.y > -64))
+            }
+            /// if either left or right boundarie is hit move only in y-axis
+            else if (((transform.position.x + move.x < 64 || transform.position.x + move.x > -64)) && (transform.position.y + move.y < 64 && transform.position.y + move.y > -64)) {
                 transform.Translate(moveY, Space.World);
+            }
         }
 
     }
 
+    /// <summary>
+    ///     center the camera angle, used after every turn change so enemy cannot get hints from previous camera angle
+    /// </summary>
     public void CenterCamera() {
         transform.position = new Vector3(6, 6, -10);
         Camera.main.orthographicSize = 25;
