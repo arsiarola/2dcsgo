@@ -113,14 +113,14 @@ public class PauseMenuScript : MonoBehaviour
     }
 
     public void BringEndScreen(Core.Side side) {
-        string s;
+        string s = "";
         if (side.Equals(Core.Side.Terrorist)) {
-            s = "Terrorist";
+            s = "Terrorists";
         }else if (side.Equals(Core.Side.CounterTerrorist)) {
-            s = "Counter-Terrorist";
+            s = "Counter-Terrorists";
         }
         endScreen.SetActive(true);
-        //endScreenText.text = s + " win, Press ok to continue";
+        endScreenText.text = s + " win, Press ok to continue";
         
     }
 

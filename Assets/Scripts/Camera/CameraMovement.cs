@@ -69,14 +69,14 @@ public class CameraMovement : MonoBehaviour {
         if (!usingWasd) {
             Vector3 position = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
             Vector3 move = new Vector3(position.x * dragSpeed, position.y * dragSpeed, 0);
-            Vector3 moveX = new Vector3(move.x, 0, 0);
-            Vector3 moveY = new Vector3(move.y, 0, 0);
+            Vector3 moveX = new Vector3(move.x, dragOrigin.y, 0);
+            Vector3 moveY = new Vector3(dragOrigin.x, move.y , 0);
             Debug.Log(move);
             if (transform.position.x + move.x < 64 && transform.position.x + move.x > -64 && transform.position.y + move.y < 64 && transform.position.y + move.y > -64)
                 transform.Translate(move, Space.World);
-            else if (transform.position.x + move.x < 64 && transform.position.x + move.x > -64 && (!(transform.position.y + move.y < 64 && transform.position.y + move.y > -64)))
+            else if (transform.position.x + move.x < 64 && transform.position.x + move.x > -64 && (!(transform.position.y + move.y < 64 || transform.position.y + move.y > -64)))
                 transform.Translate(moveX, Space.World);
-            else if ((!(transform.position.x + move.x < 64 && transform.position.x + move.x > -64)) && (transform.position.y + move.y < 64 && transform.position.y + move.y > -64))
+            else if ((!(transform.position.x + move.x < 64 || transform.position.x + move.x > -64)) && (transform.position.y + move.y < 64 && transform.position.y + move.y > -64))
                 transform.Translate(moveY, Space.World);
         }
 
