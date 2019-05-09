@@ -58,11 +58,11 @@ public class CameraMovement : MonoBehaviour {
             Camera.main.orthographicSize += spacing * Time.unscaledDeltaTime * 5;
 
         /// move camera around with pressing middle mouse button and after that moving the mouse around        
-        if (Input.GetMouseButtonDown(1)) {
+        if (Input.GetMouseButtonDown(2)) {
             dragOrigin = Input.mousePosition;
             return;
         }
-        if (!Input.GetMouseButton(1)) {
+        if (!Input.GetMouseButton(2)) {
             return;
         }
 
@@ -71,7 +71,7 @@ public class CameraMovement : MonoBehaviour {
             Vector3 move = new Vector3(position.x * dragSpeed, position.y * dragSpeed, 0);
             Vector3 moveX = new Vector3(move.x, dragOrigin.y, 0);
             Vector3 moveY = new Vector3(dragOrigin.x, move.y , 0);
-            Debug.Log(move);
+            //Debug.Log(move);
             if (transform.position.x + move.x < 64 && transform.position.x + move.x > -64 && transform.position.y + move.y < 64 && transform.position.y + move.y > -64)
                 transform.Translate(move, Space.World);
             else if (transform.position.x + move.x < 64 && transform.position.x + move.x > -64 && (!(transform.position.y + move.y < 64 || transform.position.y + move.y > -64)))
