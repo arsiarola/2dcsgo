@@ -21,6 +21,8 @@ namespace Operator {
         }
 
         public void Damage(float damage) {
+            GetComponent<Animator>().ResetTrigger("Hit");
+            GetComponent<Animator>().SetTrigger("Hit");
             Hp -= damage;
         }
     }
