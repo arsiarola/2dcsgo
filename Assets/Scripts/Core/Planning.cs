@@ -42,7 +42,8 @@ namespace Core
         private void CreatePlanningObjects()
         {
             int AIid = GameController.SideAIs[GameController.Side];
-            List<GameObject> visibleEnemies = LastFrame[AIid].GetProperty<RecordableState.BaseAI>().VisibleEnemies;
+            List<GameObject> visibleEnemies = LastFrame[AIid].GetProperty<RecordableState.ExtendedAI>().VisibleEnemies;
+            Dictionary<GameObject, Vector3> lastPosition = LastFrame[AIid].GetProperty<RecordableState.ExtendedAI>().LastEnemyPositions;
 
             // go through every id-state pair in the last frame
             foreach (KeyValuePair<int, RecordableState.RecordableState> pair in LastFrame) 
@@ -75,8 +76,13 @@ namespace Core
                                 obj = Instantiate(GameController.RecordableReplayTypes[id]);  // create replay type
                             }
                         }
-                        else if (side != GameController.Side && isVisible) {  // no planning type
-                            obj = Instantiate(GameController.RecordableReplayTypes[id]);    // create replay type
+                        else if (side != GameController.Side) {
+                            if (isVisible) {
+                                obj = Instantiate(GameController.RecordableReplayTypes[id]);    // create replay type
+                            }
+                            else if (!isVisible && lastPosition.ContainsKey(GameController.RecordableRefs[id])) {
+                                PlanningRefs.Add(id, Instantiate(GameController.Unknown, lastPosition[GameController.RecordableRefs[id]], Quaternion.identity));
+                            }
                         }
                     }
                     else {

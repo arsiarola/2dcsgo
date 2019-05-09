@@ -86,6 +86,18 @@ namespace RecordableState
         }
     }
 
+    public class ExtendedAI : BaseAI
+    {
+        public Dictionary<GameObject, Vector3> LastEnemyPositions { get; private set; } = new Dictionary<GameObject, Vector3>();
+
+        public override void GetVariablesFrom(GameObject recordable)
+        {
+            base.GetVariablesFrom(recordable);
+            AI.SideAI ai = recordable.GetComponent<AI.SideAI>();
+            LastEnemyPositions = ai.LastPosition;
+        }
+    }
+
     public class OperatorState : RecordableProperty
     {
         public float Hp { get; private set; } = 0;
@@ -101,27 +113,22 @@ namespace RecordableState
 
     public class Audio : RecordableProperty, ISettable
     {
-        public bool IsPlaying { get; private set; }
-        public int TimeSamples { get; private set; }
+        public bool StartPlay { get; private set; }
 
         public override void GetVariablesFrom(GameObject recordable)
         {
-            AudioSource source = recordable.GetComponent<AudioSource>();
-            IsPlaying = source.isPlaying;
-            TimeSamples = source.timeSamples;
+            StartPlay = recordable.GetComponent<Recordable.AudioRecordable>().Play;
+            recordable.GetComponent<Recordable.AudioRecordable>().Play = false;
         }
 
         public void SetToObject(GameObject obj)
         {
             AudioSource source = obj.GetComponent<AudioSource>();
-            obj.transform.position += new Vector3(0, 0, 1);
-            if ((!source.isPlaying || TimeSamples < source.timeSamples) && IsPlaying && Time.timeScale != 0) {
-                source.Play();
-            } else if (!IsPlaying) {
+            if (Time.timeScale == 0) {
                 source.Stop();
+            } else {
+                source.pitch = Time.timeScale;
             }
-
-            source.pitch = Time.timeScale;
         }
     }
 }

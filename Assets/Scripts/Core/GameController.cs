@@ -55,6 +55,9 @@ namespace Core
         public AI.TAI Terrorists { get { return terrorists; } }
         [SerializeField] private AI.TAI terrorists;
 
+        public GameObject Unknown { get { return unknown; } }
+        [SerializeField] private GameObject unknown;
+
         public Side Side { get { return side; } private set { side = value; IsSideChanged = true; } }
         private Side side = Side.CounterTerrorist;
 

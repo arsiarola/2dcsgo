@@ -14,6 +14,7 @@ namespace Core
 
         protected override void Awake()
         {
+            base.Awake();
             CounterTerroristAI = GameController.CounterTerrorists;
             TerroristAI = GameController.Terrorists;
         }
@@ -44,6 +45,9 @@ namespace Core
 
             // end visibility check for recording
             UpdateVisibility();
+
+            Vars.SimulationTime += Time.fixedDeltaTime;
+            //Debug.Log(Vars.SimulationTime);
 
             count++;
         }

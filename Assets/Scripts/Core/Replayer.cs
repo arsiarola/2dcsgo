@@ -12,11 +12,16 @@ namespace Core
         /// <summary> Id / replayObject ref. Contains the objects that have been created for the replay </summary>
         private Dictionary<int, GameObject> ReplayRefs { get; set; }
 
+        private Dictionary<int, GameObject> Markers { get; set; }
+
+        private List<GameObject> MarkersList { get; set; }
+
         /// <summary> Id / state. Contains the state of the recordables in the current frame </summary>
         private Dictionary<int, RecordableState.RecordableState> CurrentFrame { get; set; }
 
         /// <summary> The value of the current frame as a float </summary>
         private float CurrentFrameAsFloat { get; set; }
+
 
         /// <summary> Is used to modify the timeScale. Is between [0, inf[. 1 is normal and 0 is paused </summary>
         private float ReplaySpeed { get; set; }
@@ -31,6 +36,10 @@ namespace Core
         private bool IsExit { get; set; }
 
         public float CurrentTime { get; set; } = 0;
+
+        private int LastFrameAsInt { get; set; } = 0;
+
+        private int CurrentFrameAsInt { get; set; } = 0;
 
         /// <summary>
         /// Starts the Replay process
@@ -51,6 +60,9 @@ namespace Core
             IsPause = false;
             IsExit = false;
             IsFirstFrame = true;
+            LastFrameAsInt = (int)(Mathf.Round(CurrentFrameAsFloat));
+            Markers = new Dictionary<int, GameObject>();
+            MarkersList = new List<GameObject>();
         }
 
         /// <summary>
@@ -62,9 +74,9 @@ namespace Core
 
             // change the current frame
             UpdateCurrentFrameAsFloat();
-            int currentFrameAsInt = (int)(Mathf.Round(CurrentFrameAsFloat));    // round the float value, to get a specific frame
-            CurrentFrame = GameController.Frames[currentFrameAsInt];
-            CurrentTime = 60 - currentFrameAsInt * Time.fixedDeltaTime;
+            CurrentFrameAsInt = (int)(Mathf.Round(CurrentFrameAsFloat));    // round the float value, to get a specific frame
+            CurrentFrame = GameController.Frames[CurrentFrameAsInt];
+            CurrentTime = 60 - CurrentFrameAsInt * Time.fixedDeltaTime;
 
             // update and remove replay objects
             UpdateReplayObjects();
@@ -76,6 +88,8 @@ namespace Core
             if (IsExit) {
                 Exit();
             }
+
+            LastFrameAsInt = CurrentFrameAsInt;
         }
 
         /// <summary>
@@ -143,7 +157,20 @@ namespace Core
         private void UpdateReplayObjects()
         {
             int AIid = GameController.SideAIs[GameController.Side];
-            List<GameObject> visibleEnemies = CurrentFrame[AIid].GetProperty<RecordableState.BaseAI>().VisibleEnemies;
+            List<GameObject> visibleEnemies = CurrentFrame[AIid].GetProperty<RecordableState.ExtendedAI>().VisibleEnemies;
+            Dictionary<GameObject, Vector3> lastPosition = CurrentFrame[AIid].GetProperty<RecordableState.ExtendedAI>().LastEnemyPositions;
+
+            foreach (GameObject obj in MarkersList) {
+                Destroy(obj);
+            }
+
+            List<GameObject> newList = new List<GameObject>();
+            foreach (KeyValuePair<GameObject, Vector3> pair in lastPosition) {
+                Vector3 pos = pair.Value;
+                GameObject marker = Instantiate(GameController.Unknown, pos, Quaternion.identity);
+                newList.Add(marker);
+            }
+            MarkersList = newList;
 
             foreach (KeyValuePair<int, RecordableState.RecordableState> pair in CurrentFrame)
             {
@@ -164,9 +191,30 @@ namespace Core
                                 obj = Instantiate(GameController.RecordableReplayTypes[id]);
                                 ReplayRefs.Add(id, obj);
                             }
-                            else if (side != GameController.Side && isVisible) {
-                                obj = Instantiate(GameController.RecordableReplayTypes[id]);
-                                ReplayRefs.Add(id, obj);
+                            else if (side != GameController.Side) {
+                                if (isVisible) {
+                                    obj = Instantiate(GameController.RecordableReplayTypes[id]);    // create replay type
+                                    ReplayRefs.Add(id, obj);
+                                    /*if (Markers.ContainsKey(id)) {
+                                        Destroy(Markers[id]);
+                                        Markers.Remove(id);
+                                    }*/
+                                }
+                                /*else {
+                                    if (lastPosition.ContainsKey(GameController.RecordableRefs[id])) {
+                                        if (!Markers.ContainsKey(id)) {
+                                            Markers.Add(id, Instantiate(GameController.Unknown, lastPosition[GameController.RecordableRefs[id]], Quaternion.identity));
+                                        }
+                                        else {
+                                            Markers[id].transform.position = lastPosition[GameController.RecordableRefs[id]];
+                                        }
+                                    } else {
+                                        if (Markers.ContainsKey(id)) {
+                                            Destroy(Markers[id]);
+                                            Markers.Remove(id);
+                                        }
+                                    }
+                                }*/
                             }
                         }
                         else {
@@ -178,6 +226,16 @@ namespace Core
                     }
                     // update state
                     if (obj != null) {
+                        if (state.GetProperty<RecordableState.Audio>() != null) {
+                            for (int i = LastFrameAsInt + 1; i <= CurrentFrameAsInt; i++) {
+                                RecordableState.Audio audio = GameController.Frames[i][id].GetProperty<RecordableState.Audio>();
+                                if (audio.StartPlay == true) {
+                                    AudioSource source = obj.GetComponent<AudioSource>();
+                                    source.PlayOneShot(source.clip);
+                                    break;
+                                }
+                            }
+                        }
                         state.SetToObject(obj);
                     }
                 }
@@ -190,12 +248,12 @@ namespace Core
         private void RemoveReplayObjects()
         {
             int AIid = GameController.SideAIs[GameController.Side];
-            List<GameObject> visibleEnemies = CurrentFrame[AIid].GetProperty<RecordableState.BaseAI>().VisibleEnemies;
+            List<GameObject> visibleEnemies = CurrentFrame[AIid].GetProperty<RecordableState.ExtendedAI>().VisibleEnemies;
+            Dictionary<GameObject, Vector3> lastPosition = CurrentFrame[AIid].GetProperty<RecordableState.ExtendedAI>().LastEnemyPositions;
 
             // destroy objects that dont exist in the frame and add their id to a list
-            List<int> replayRefsToRemove = new List<int>(); 
-            foreach (KeyValuePair<int, GameObject> pair in ReplayRefs)
-            {
+            List<int> replayRefsToRemove = new List<int>();
+            foreach (KeyValuePair<int, GameObject> pair in ReplayRefs) {
                 int id = pair.Key;
                 bool isVisible = visibleEnemies.Contains(GameController.RecordableRefs[id]);
 
@@ -210,22 +268,34 @@ namespace Core
                         Destroy(obj);
                         replayRefsToRemove.Add(id);
                     }
-                } else {
+                }
+                else {
                     GameObject obj = pair.Value;
                     Destroy(obj);
                     replayRefsToRemove.Add(id);
                 }
             }
             // using the created list remove all elements from replayRefs that point to a null object
-            foreach (int id in replayRefsToRemove)
-            {
+            foreach (int id in replayRefsToRemove) {
                 ReplayRefs.Remove(id);
             }
-        }
 
-        /// <summary>
-        /// Update the replay speed, which is the same as timeScale
-        /// </summary>
+            /*List<int> removeFromMarkers = new List<int>();
+            foreach (KeyValuePair<int, GameObject> pair in Markers) {
+                int id = pair.Key;
+                if (!lastPosition.ContainsKey(GameController.RecordableRefs[id])) {
+                    removeFromMarkers.Add(id);
+                }
+            }
+
+            foreach (int id in removeFromMarkers) {
+                Destroy(Markers[id]);
+                Markers.Remove(id);
+            }*/
+        }
+            /// <summary>
+            /// Update the replay speed, which is the same as timeScale
+            /// </summary>
         private void UpdateReplaySpeed()
         {
             // dont let replay speed go below 0
@@ -259,6 +329,15 @@ namespace Core
             foreach (KeyValuePair<int, GameObject> pair in ReplayRefs)
             {
                 GameObject obj = pair.Value;
+                Destroy(obj);
+            }
+
+            /*foreach (KeyValuePair<int, GameObject> pair in Markers) {
+                GameObject obj = pair.Value;
+                Destroy(obj);
+            }*/
+
+            foreach (GameObject obj in MarkersList) {
                 Destroy(obj);
             }
         }

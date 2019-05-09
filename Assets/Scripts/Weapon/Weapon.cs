@@ -10,13 +10,11 @@ namespace Weapon
         protected float Stage { get; set; } = 0;
         public abstract float Damage { get; protected set; }
         public abstract float HitDifficulty { get; protected set; }
-        public bool Firing { get; private set; } = false;
-        public bool hasShotOnce = false;
+
+        public float LastShot = 0;
 
         // sound variables
         protected AudioSource source;
-        private float volLow = .5f;
-        private float volHigh = 1.0f;
 
         public void Awake()
         {
@@ -28,32 +26,26 @@ namespace Weapon
             //var sound = GameObject.Find("ShootSound").GetComponent<SoundAssets>().sounds["shootSound"];
             //var sound = GameObject.Find("ShootSound").GetComponent<AudioClip>();
             //source = GameObject.Find("ShootSound").GetComponent<AudioSource>();
-            float vol = Random.Range(volLow, volHigh); // vary the volume to increase immersion
-            if (!source.isPlaying) {
+            //float vol = Random.Range(volLow, volHigh); // vary the volume to increase immersion
+            /*if (!source.isPlaying) {
                 source.Play(); // play AudioClip of AudioSource
-            }
-            
+            }*/
+            source.Play();
+            //source.loop = true;
             //source.volume = vol;
         }
 
         public void FireAt(GameObject target)
         {
-            Firing = true;
-            PlayShootSound();
-            
-            if (Stage == 0) {
-                if (Random.Range(0.0f, 1.0f) < HitDifficulty) target.GetComponent<Operator.OperatorState>().Damage(Damage);
-            }
-            Stage += FireRate / 60 * Time.fixedDeltaTime;
-            while (1 < Stage) {
-                if (Random.Range(0.0f, 1.0f) < HitDifficulty) target.GetComponent<Operator.OperatorState>().Damage(Damage);
-                Stage -= 1;
-            }
-        }
+            GetComponentInParent<Animator>().SetBool("Firing", true);
 
-        public void StopFiring()
-        {
-            Firing = false;
+            if (Core.Vars.SimulationTime > FireRate + LastShot) {
+                if (Random.Range(0.0f, 1.0f) < HitDifficulty) target.GetComponent<Operator.OperatorState>().Damage(Damage);
+                GetComponent<Recordable.AudioRecordable>().Play = true;
+                GetComponentInParent<Animator>().ResetTrigger("Fire");
+                GetComponentInParent<Animator>().SetTrigger("Fire");
+                LastShot = Core.Vars.SimulationTime;
+            }
         }
     }
 }

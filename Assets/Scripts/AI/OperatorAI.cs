@@ -145,14 +145,14 @@ namespace AI
                 float angle = Vector3.Angle(rotation, vectorToTarget);
                 // CALCULATE THE NEEDED ANGLE GIVEN THE DISTANCE
                 if (angle < 1f) {
-                    GetComponent<Animator>().SetBool("Firing", true);
                     weaponScript.FireAt(Target);
-                } else {
-                    if (weaponScript.Firing) weaponScript.StopFiring();
+                }
+                else {
                     GetComponent<Animator>().SetBool("Firing", false);
                 }
-            } else {
-                if (weaponScript.Firing) weaponScript.StopFiring();
+
+            }
+            else {
                 GetComponent<Animator>().SetBool("Firing", false);
             }
         } 

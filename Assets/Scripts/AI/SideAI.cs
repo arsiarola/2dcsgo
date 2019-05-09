@@ -7,6 +7,7 @@ namespace AI
     public abstract class SideAI : AI
     {
         public List<GameObject> Children { get; protected set; } = new List<GameObject>();
+        public Dictionary<GameObject, Vector3> LastPosition = new Dictionary<GameObject, Vector3>();
 
         public void UpdateChildrenList()
         {
@@ -39,7 +40,25 @@ namespace AI
                     }
                 }
             }
+
+
+            Dictionary<GameObject, Vector3> updatedLastPositions = new Dictionary<GameObject, Vector3>();
+            foreach (KeyValuePair<GameObject, Vector3> pair in LastPosition) {
+                GameObject obj = pair.Key;
+                if (!updatedVisibleEnemies.Contains(obj) && obj.GetComponent<Operator.OperatorState>().IsAlive()) {
+                    updatedLastPositions.Add(obj, pair.Value);
+                }
+            }
+            
+            foreach (GameObject obj in VisibleEnemies) {
+                if (!updatedVisibleEnemies.Contains(obj) && obj.GetComponent<Operator.OperatorState>().IsAlive()) {
+                    updatedLastPositions.Add(obj, obj.transform.position);
+                } 
+            }
+
+            LastPosition = updatedLastPositions;
             VisibleEnemies = updatedVisibleEnemies;
+
         }
     }
 }
