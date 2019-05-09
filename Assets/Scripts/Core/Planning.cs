@@ -10,7 +10,7 @@ namespace Core
     public class Planning : Task
     {
         /// <summary> Contains the state of every recordable in the last frame </summary>
-        private Dictionary<int, RecordableState.RecordableState> LastFrame { get; set; }
+        public Dictionary<int, RecordableState.RecordableState> LastFrame { get; set; }
 
         /// <summary> Id-GameObject dictionary of every object created for the planning stage </summary>
         private Dictionary<int, GameObject> PlanningRefs { get; set; }

@@ -6,26 +6,32 @@ using UnityEngine.UI;
 
 public class PauseMenuScript : MonoBehaviour
 {
-    public Core.GameController gameController;
-    public Button okButton;
+    [SerializeField] Core.GameController gameController;
 
-    public bool isGamePaused = false;
-    public bool isAreYouSure = false;
-    public bool quitMenu;
+    [SerializeField] bool isGamePaused = false;
+    [SerializeField] bool isAreYouSure = false;
+    [SerializeField] bool quitMenu;
 
-    public GameObject pauseMenu;
-    public GameObject areYouSureMenu;
-    public GameObject areYouSureQuit;
-    public GameObject turnChange;
+    [SerializeField] GameObject pauseMenu;
+    [SerializeField] Button resume;
+    [SerializeField] Button menu;
+    [SerializeField] Button quit;
 
-    public Button resume;
-    public Button menu;
-    public Button quit;
+    [SerializeField] GameObject areYouSureMenu;
+    [SerializeField] Button menuYes;
+    [SerializeField] Button menuNo;
 
-    public Button menuYes;
-    public Button menuNo;
-    public Button quitYes;
-    public Button quitNo;
+    [SerializeField] GameObject areYouSureQuit;
+    [SerializeField] Button quitYes;
+    [SerializeField] Button quitNo;
+
+    [SerializeField] GameObject turnChange;
+    [SerializeField] Button turnChangeOk;
+
+    [SerializeField] GameObject endScreen;
+    [SerializeField] Button endScreenOk;
+    [SerializeField] Text endScreenText;
+
 
     private void Start()
     {
@@ -35,10 +41,13 @@ public class PauseMenuScript : MonoBehaviour
 
         menuYes.onClick.AddListener(delegate { SceneManager.LoadScene("MainMenu"); });
         menuNo.onClick.AddListener(delegate { BringPauseMenu(); });
+
         quitYes.onClick.AddListener(delegate { Application.Quit(); });
         quitNo.onClick.AddListener(delegate { BringPauseMenu(); });
 
-        okButton.onClick.AddListener(delegate { OkClicked(); });
+        turnChangeOk.onClick.AddListener(delegate { OkClicked(); });
+
+        endScreenOk.onClick.AddListener(delegate { EndScreenClicked(); });
 
 
     }
@@ -102,5 +111,24 @@ public class PauseMenuScript : MonoBehaviour
     {
         turnChange.SetActive(true);
     }
+
+    public void BringEndScreen(Core.Side side) {
+        string s;
+        if (side.Equals(Core.Side.Terrorist)) {
+            s = "Terrorist";
+        }else if (side.Equals(Core.Side.CounterTerrorist)) {
+            s = "Counter-Terrorist";
+        }
+        endScreen.SetActive(true);
+        //endScreenText.text = s + " win, Press ok to continue";
+        
+    }
+
+    public void EndScreenClicked() {
+        endScreen.SetActive(false);
+        //gameController.SendMessage(Core.GameMessage.EndScreenClicked);
+
+    }
 }
+
 

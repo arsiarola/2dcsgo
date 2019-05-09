@@ -9,6 +9,8 @@ public class UiScript : MonoBehaviour
     [SerializeField]Text gameStageText;
     [SerializeField]Text scoreText;
     [SerializeField]Text timeText;
+    [SerializeField]Text aliveText;
+
     void Start()
     {
     }
@@ -17,10 +19,39 @@ public class UiScript : MonoBehaviour
     {
         DisplayGameStage();
         DisplayTime();
+        DisplayAlive();
     }
 
-    void DisplayScore() {
+    void DisplayAlive() {
+        int tAiId;
+        int ctAiId;
+        int ctAlive;
+        int tAlive;
 
+        switch (gameController.Stage) {
+            case Core.GameStage.Replay:
+                int currentFrame = gameController.Replayer.CurrentFrameAsInt;
+                //Debug.Log(currentFrame);
+                tAiId = gameController.SideAIs[Core.Side.Terrorist];
+                ctAiId = gameController.SideAIs[Core.Side.CounterTerrorist];
+                ctAlive = gameController.Frames[currentFrame][ctAiId].GetProperty<RecordableState.ExtendedAI>().Children.Count;
+                tAlive = gameController.Frames[currentFrame][tAiId].GetProperty<RecordableState.ExtendedAI>().Children.Count;
+                aliveText.text = "CT:" + ctAlive + " | T:" + tAlive;
+                break;
+
+            case Core.GameStage.Planning:
+                //Dictionary<int, RecordableState.RecordableState> lastFrame = gameController.Planning.LastFrame;
+                //tAiId = gameController.SideAIs[Core.Side.Terrorist];
+                //ctAiId = gameController.SideAIs[Core.Side.CounterTerrorist];
+                //ctAlive = lastFrame[ctAiId].GetProperty<RecordableState.ExtendedAI>().Children.Count;
+                //tAlive = lastFrame[tAiId].GetProperty<RecordableState.ExtendedAI>().Children.Count;
+                //Debug.Log(ctAlive);
+                //Debug.Log(tAlive);
+                break;
+
+            default:
+                break;
+        }
     }
 
     void DisplayTime() {

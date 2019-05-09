@@ -4,13 +4,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 public class ChangeScene : MonoBehaviour {
-    public Button play;
-    public Button exit;
+    [SerializeField] private Button play;
+    [SerializeField] private Button exit;
     void Start() {
     }
 
     public void Play() {
-        SceneManager.LoadScene("GameControl"); 
+        SceneManager.LoadScene(1); 
     }
 
     public void Exit() {
