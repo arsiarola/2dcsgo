@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.SceneManagement;
 
 namespace Core
 {
@@ -25,7 +26,7 @@ namespace Core
         RecordEnd,
         ReplayEnd,
         PlanningEnd,
-        EndEnd,
+        EndScreenClicked,
         OkClicked
     }
 
@@ -206,9 +207,9 @@ namespace Core
                     camera.GetComponent<CameraMovement>().CenterCamera();
                     IsPaused = false;
                     break;
-                case GameMessage.EndEnd:
+                case GameMessage.EndScreenClicked:
                     if (End) {
-                        // quit game
+                        SceneManager.LoadScene("MainMenu");
                     }
                     else {
                         SwitchSide();
@@ -267,7 +268,7 @@ namespace Core
                     Planning.gameObject.SetActive(true); // activating the Planning object also activates this scripts Update method
                     break;
                 case GameStage.End:
-                    // Play end screen
+                    PauseMenu.BringEndScreen(Side);
                     if (End) {
                         // quit game
                     }

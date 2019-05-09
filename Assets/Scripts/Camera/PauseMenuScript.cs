@@ -114,9 +114,9 @@ public class PauseMenuScript : MonoBehaviour
 
     public void BringEndScreen(Core.Side side) {
         string s = "";
-        if (side.Equals(Core.Side.Terrorist)) {
+        if (side == Core.Side.Terrorist) {
             s = "Terrorists";
-        }else if (side.Equals(Core.Side.CounterTerrorist)) {
+        }else if (side == Core.Side.CounterTerrorist) {
             s = "Counter-Terrorists";
         }
         endScreen.SetActive(true);
@@ -126,7 +126,7 @@ public class PauseMenuScript : MonoBehaviour
 
     public void EndScreenClicked() {
         endScreen.SetActive(false);
-        //gameController.SendMessage(Core.GameMessage.EndScreenClicked);
+        gameController.SendMessage(Core.GameMessage.EndScreenClicked);
 
     }
 }
