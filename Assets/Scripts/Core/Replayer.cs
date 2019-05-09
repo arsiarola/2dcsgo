@@ -39,7 +39,7 @@ namespace Core
 
         private int LastFrameAsInt { get; set; } = 0;
 
-        private int CurrentFrameAsInt { get; set; } = 0;
+        public int CurrentFrameAsInt { get; set; } = 0;
 
         /// <summary>
         /// Starts the Replay process

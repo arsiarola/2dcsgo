@@ -89,12 +89,14 @@ namespace RecordableState
     public class ExtendedAI : BaseAI
     {
         public Dictionary<GameObject, Vector3> LastEnemyPositions { get; private set; } = new Dictionary<GameObject, Vector3>();
+        public List<GameObject> Children { get; private set; } = new List<GameObject>();
 
         public override void GetVariablesFrom(GameObject recordable)
         {
             base.GetVariablesFrom(recordable);
             AI.SideAI ai = recordable.GetComponent<AI.SideAI>();
             LastEnemyPositions = ai.LastPosition;
+            Children = ai.Children;
         }
     }
 

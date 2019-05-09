@@ -77,10 +77,6 @@ namespace Core
 
         [SerializeField] private GameObject camera;
 
-        public int tScore { get; set; } = 0;
-        public int ctScore { get; set; } = 0;
-
-
         public Side Side { get { return side; } private set { side = value; IsSideChanged = true; } }
         private Side side = Side.CounterTerrorist;
 
