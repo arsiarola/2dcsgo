@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 90aca0848f484cd42adbeefd15e2ece8
   - enabled: 1
-    path: Assets/Scenes/TestScene.unity
+    path: Assets/Scenes/Inferno.unity
     guid: d685137983190564b863ab09bd3a3303
   m_configObjects: {}
