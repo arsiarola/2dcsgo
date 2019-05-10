@@ -32,12 +32,19 @@ public class PauseMenuScript : MonoBehaviour
     [SerializeField] Button endScreenOk;
     [SerializeField] Text endScreenText;
 
+    [SerializeField] GameObject defuse;
+    [SerializeField] Button defuseYes;
+    [SerializeField] Button defuseNo;
+
+    [SerializeField] GameObject plant;
+    [SerializeField] Button plantYes;
+    [SerializeField] Button plantNo;
+
 
     /// <summary>
     ///     apply on click listeners to all different pausemenu buttons
     /// </summary>
-    private void Start()
-    {
+    private void Start() {
         resume.onClick.AddListener(delegate { pauseMenu.SetActive(false); isGamePaused = false; });
         menu.onClick.AddListener(delegate { BringAreYouSureMenu(); });
         quit.onClick.AddListener(delegate { BringAreYouSureQuit(); });
@@ -52,6 +59,11 @@ public class PauseMenuScript : MonoBehaviour
 
         endScreenOk.onClick.AddListener(delegate { EndScreenClicked(); });
 
+        plantYes.onClick.AddListener(delegate { PlantClicked("yes"); });
+        plantNo.onClick.AddListener(delegate { PlantClicked("no"); });
+
+        defuseYes.onClick.AddListener(delegate { DefuseClicked("yes"); });
+        defuseNo.onClick.AddListener(delegate { DefuseClicked("no"); });
 
     }
     private void Update() {
@@ -63,6 +75,35 @@ public class PauseMenuScript : MonoBehaviour
                 Pause();
             }
         }
+    }
+
+    private GameObject defuser;
+    private GameObject planter;
+
+    void DefuseClicked(string answer) {
+        if (answer.Equals("yes"))
+            defuser.GetComponent<MakePath>();   // receiveMessage(true);
+        else if (answer.Equals("no"))
+            defuser.GetComponent<MakePath>();   // receiveMessage(false);
+        plant.SetActive(false);
+    }
+
+    void PlantClicked(string answer) {
+        if(answer.Equals("yes"))
+            planter.GetComponent<MakePath>();   // receiveMessage(true);
+        else if(answer.Equals("no"))
+            planter.GetComponent<MakePath>();   // receiveMessage(false);
+        plant.SetActive(false);
+    }
+
+    public void BringPlant(GameObject gObj) {
+        plant.SetActive(true);
+        planter = gObj;
+    }
+
+    public void BringDefuse(GameObject gObj) {
+        defuse.SetActive(true);
+        defuser = gObj;
     }
 
     void Pause() {
