@@ -118,15 +118,11 @@ namespace Core
 
         public Dictionary<Side, int> SideAIs { get; private set; } = new Dictionary<Side, int>();
 
+        public int BombId { get; set; } = -1;
+
         public Side? Winner { get; set; } = null;
 
         private bool End { get; set; } = false;
-
-        public List<Stage> StageBuffer { get; set; } = new List<Stage>();
-
-        private bool Init { get; set; } = true;
-
-
 
 
         /// <summary>
@@ -141,7 +137,7 @@ namespace Core
             GiveBomb();
             Frames.Add(Recorder.GetRecordableStates()); // get start frame. Not sure if necessary for the replay, but we do need to get the objects starting positions at least (then again these can be gained by other means)
             DisableRecordables();       // disable recordables before they can execute their FixedUpdate or update methods
-            
+            Planning.LastFrame = Frames[Frames.Count - 1];
         }
 
         private void GiveBomb()
@@ -169,18 +165,6 @@ namespace Core
             IsPaused = true;
             Turn++;
             PauseMenu.BringTurnChange();
-            /*if (Init) {
-                EnableRecordables();
-                Init = false;
-                StartCoroutine("Initialize");
-            }*/
-        }
-
-        IEnumerator Initialize()
-        {
-            yield return new WaitForEndOfFrame();
-            
-            DisableRecordables();
         }
 
         /// <summary>
@@ -310,6 +294,10 @@ namespace Core
 
             if (type == Recordable.Type.AI) {
                 SideAIs.Add(reference.GetComponent<AI.AI>().Side, NextId);
+            }
+
+            if (type == Recordable.Type.Bomb) {
+                BombId = NextId;
             }
 
             RecordableRefs.Add(NextId, reference);

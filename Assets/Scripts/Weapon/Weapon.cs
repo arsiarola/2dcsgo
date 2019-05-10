@@ -41,7 +41,7 @@ namespace Weapon
 
             if (Core.Vars.SimulationTime > FireRate + LastShot) {
                 if (Random.Range(0.0f, 1.0f) < HitDifficulty) target.GetComponent<Operator.OperatorState>().Damage(Damage);
-                GetComponent<Recordable.AudioRecordable>().Play = true;
+                GetComponent<Recordable.AudioRecordable>().StartPlayingAudio = true;
                 GetComponentInParent<Animator>().ResetTrigger("Fire");
                 GetComponentInParent<Animator>().SetTrigger("Fire");
                 LastShot = Core.Vars.SimulationTime;

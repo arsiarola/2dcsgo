@@ -17,6 +17,12 @@ public class BombScript : MonoBehaviour
         TimePlanted = Core.Vars.SimulationTime;
     }
 
+    public float GetTimer()
+    {
+
+        return TimePlanted + 30f - Core.Vars.SimulationTime;
+    }
+
     public bool IsTimerZero()
     {
         return Core.Vars.SimulationTime > TimePlanted + 30f && Planted;

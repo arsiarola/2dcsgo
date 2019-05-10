@@ -130,8 +130,8 @@ namespace RecordableState
 
         public override void GetVariablesFrom(GameObject recordable)
         {
-            StartPlay = recordable.GetComponent<Recordable.AudioRecordable>().Play;
-            recordable.GetComponent<Recordable.AudioRecordable>().Play = false;
+            StartPlay = recordable.GetComponent<Recordable.AudioRecordable>().StartPlayingAudio;
+            recordable.GetComponent<Recordable.AudioRecordable>().StartPlayingAudio = false;
         }
 
         public void SetToObject(GameObject obj)
@@ -142,6 +142,22 @@ namespace RecordableState
             } else {
                 source.pitch = Time.timeScale;
             }
+        }
+    }
+
+    public class BombStuff : RecordableProperty
+    {
+        public float BombTimer { get; private set; } = 0;
+        public bool Planted { get; private set; } = false;
+        public bool Defused { get; private set; } = false;
+        public bool BeingDefused { get; private set; } = false;
+
+        public override void GetVariablesFrom(GameObject recordable)
+        {
+            BombTimer = recordable.GetComponent<BombScript>().GetTimer();
+            Planted = recordable.GetComponent<BombScript>().Planted;
+            Defused = recordable.GetComponent<BombScript>().IsDefused();
+            BeingDefused = recordable.GetComponent<BombScript>().BeingDefused;
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Recordable
 {
     public class AudioRecordable : TransformRecordable
     {
-        public bool Play { get; set; } = false;
+        public bool StartPlayingAudio { get; set; } = false;
 
         protected override void AddProperties(RecordableState.RecordableState state)
         {
@@ -15,7 +15,7 @@ namespace Recordable
 
         public void PlayAudio()
         {
-            Play = true;
+            StartPlayingAudio = true;
         }
     }
 }

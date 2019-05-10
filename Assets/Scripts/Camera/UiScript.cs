@@ -65,21 +65,28 @@ public class UiScript : MonoBehaviour
     ///     display time in all modes and update it correctly in replay
     /// </summary>
     void DisplayTime() {
+        RecordableState.BombStuff bombState;
         switch (gameController.Stage) {
             case Core.GameStage.Planning:
-                if (gameController.Bomb.GetComponent<BombScript>().Planted) {
-                    timeText.text = "Plant";
+                bombState = gameController.Planning.LastFrame[gameController.BombId].GetProperty<RecordableState.BombStuff>();
+                if (bombState.Planted) {
+                    timeText.text = bombState.BombTimer.ToString("0.00");
+                    timeText.color = Color.red;
                 } else {
                     timeText.text = gameController.Planning.CurrentTime.ToString("0.00");
+                    timeText.color = Color.green;
                 }
                 
                 break;
             case Core.GameStage.Replay:
-                if (gameController.Bomb.GetComponent<BombScript>().Planted) {
-                    timeText.text = "Plant";
+                bombState = gameController.Frames[gameController.Replayer.CurrentFrameAsInt][gameController.BombId].GetProperty<RecordableState.BombStuff>();
+                if (bombState.Planted) {
+                    timeText.text = bombState.BombTimer.ToString("0.00");
+                    timeText.color = Color.red;
                 }
                 else {
                     timeText.text = gameController.Replayer.CurrentTime.ToString("0.00");
+                    timeText.color = Color.green;
                 }
                 break;
             case Core.GameStage.Record:
