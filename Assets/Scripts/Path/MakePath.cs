@@ -176,6 +176,18 @@ public class MakePath : MonoBehaviour
         }
     }
 
+    public void ReceiveDefuse(bool b)
+    {
+        willDefuse = b;
+        gameController.Planning.IsPaused = false;
+    }
+
+    public void ReceivePlant(bool b)
+    {
+        willPlant = b;
+        gameController.Planning.IsPaused = false;
+    }
+
     private void CreatePath()
     {
 
@@ -211,7 +223,8 @@ public class MakePath : MonoBehaviour
 
             if (Vector3.Distance(gameController.Bomb.transform.position, mousePositionList[mousePositionList.Count - 1]) < 0.9f && gameController.Bomb.GetComponent<BombScript>().Planted) {
                 if (state.GetProperty<RecordableState.BaseAI>().Side == Core.Side.CounterTerrorist) {
-                    willDefuse = true;
+                    gameController.PauseMenu.BringDefuse(gameObject);
+                    gameController.Planning.IsPaused = true;
                 }
             }
 
@@ -219,7 +232,8 @@ public class MakePath : MonoBehaviour
             if (collision != null) {
                 if (state.GetProperty<RecordableState.BaseAI>().Side == Core.Side.Terrorist) {
                     if (state.GetProperty<RecordableState.Bomb>().HasBomb == true) {
-                        willPlant = true;
+                        gameController.PauseMenu.BringPlant(gameObject);
+                        gameController.Planning.IsPaused = true;
                     }
                 }
             }

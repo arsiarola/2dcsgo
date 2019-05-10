@@ -43,13 +43,17 @@ public class UiScript : MonoBehaviour
                 break;
 
             case Core.GameStage.Planning:
-                //Dictionary<int, RecordableState.RecordableState> lastFrame = gameController.Planning.LastFrame;
-                //tAiId = gameController.SideAIs[Core.Side.Terrorist];
-                //ctAiId = gameController.SideAIs[Core.Side.CounterTerrorist];
-                //ctAlive = lastFrame[ctAiId].GetProperty<RecordableState.ExtendedAI>().Children.Count;
-                //tAlive = lastFrame[tAiId].GetProperty<RecordableState.ExtendedAI>().Children.Count;
-                //Debug.Log(ctAlive);
-                //Debug.Log(tAlive);
+                Dictionary<int, RecordableState.RecordableState> lastFrame = gameController.Planning.LastFrame;
+                tAiId = gameController.SideAIs[Core.Side.Terrorist];
+                ctAiId = gameController.SideAIs[Core.Side.CounterTerrorist];
+                if (lastFrame != null && lastFrame.ContainsKey(ctAiId) && lastFrame.ContainsKey(tAiId)) {
+                    ctAlive = lastFrame[ctAiId].GetProperty<RecordableState.ExtendedAI>().Children.Count;
+                    tAlive = lastFrame[tAiId].GetProperty<RecordableState.ExtendedAI>().Children.Count;
+                } else {
+                    ctAlive = 5;
+                    tAlive = 5;
+                }
+                aliveText.text = "CT:" + ctAlive + " | T:" + tAlive;
                 break;
 
             default:
@@ -63,13 +67,22 @@ public class UiScript : MonoBehaviour
     void DisplayTime() {
         switch (gameController.Stage) {
             case Core.GameStage.Planning:
-                timeText.text = gameController.Planning.CurrentTime.ToString("0.00");
+                if (gameController.Bomb.GetComponent<BombScript>().Planted) {
+                    timeText.text = "Plant";
+                } else {
+                    timeText.text = gameController.Planning.CurrentTime.ToString("0.00");
+                }
+                
                 break;
             case Core.GameStage.Replay:
-                timeText.text = gameController.Replayer.CurrentTime.ToString("0.00");
+                if (gameController.Bomb.GetComponent<BombScript>().Planted) {
+                    timeText.text = "Plant";
+                }
+                else {
+                    timeText.text = gameController.Replayer.CurrentTime.ToString("0.00");
+                }
                 break;
             case Core.GameStage.Record:
-                timeText.text = gameController.Recorder.CurrentTime.ToString("0.00");
                 break;
             default:
                 break;

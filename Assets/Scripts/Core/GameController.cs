@@ -63,7 +63,7 @@ namespace Core
         public Simulation Simulation { get { return simulation; } set { simulation = value; } }
         [SerializeField] private Simulation simulation;
 
-        private PauseMenuScript PauseMenu { get { return pauseMenu; } }
+        public PauseMenuScript PauseMenu { get { return pauseMenu; } }
         [SerializeField] private PauseMenuScript pauseMenu;
 
         public AI.CTAI CounterTerrorists { get { return counterTerrorists; } }
@@ -139,7 +139,9 @@ namespace Core
         {
             Simulation.UpdateVisibility();
             GiveBomb();
+            Frames.Add(Recorder.GetRecordableStates()); // get start frame. Not sure if necessary for the replay, but we do need to get the objects starting positions at least (then again these can be gained by other means)
             DisableRecordables();       // disable recordables before they can execute their FixedUpdate or update methods
+            
         }
 
         private void GiveBomb()
@@ -167,17 +169,17 @@ namespace Core
             IsPaused = true;
             Turn++;
             PauseMenu.BringTurnChange();
-            if (Init) {
+            /*if (Init) {
                 EnableRecordables();
                 Init = false;
                 StartCoroutine("Initialize");
-            }
+            }*/
         }
 
         IEnumerator Initialize()
         {
             yield return new WaitForEndOfFrame();
-            Frames.Add(Recorder.GetRecordableStates()); // get start frame. Not sure if necessary for the replay, but we do need to get the objects starting positions at least (then again these can be gained by other means)
+            
             DisableRecordables();
         }
 

@@ -96,7 +96,7 @@ namespace RecordableState
             base.GetVariablesFrom(recordable);
             AI.SideAI ai = recordable.GetComponent<AI.SideAI>();
             LastEnemyPositions = ai.LastPosition;
-            Children = ai.Children;
+            Children.AddRange(ai.Children);
         }
     }
 

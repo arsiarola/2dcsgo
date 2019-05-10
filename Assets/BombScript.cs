@@ -19,7 +19,7 @@ public class BombScript : MonoBehaviour
 
     public bool IsTimerZero()
     {
-        return Core.Vars.SimulationTime > TimePlanted + 40f && Planted;
+        return Core.Vars.SimulationTime > TimePlanted + 30f && Planted;
     }
 
     public void StartDefuse(GameObject defuser)

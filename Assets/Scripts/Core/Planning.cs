@@ -14,7 +14,7 @@ namespace Core
 
         /// <summary> Id-GameObject dictionary of every object created for the planning stage </summary>
         public Dictionary<GameObject, int> PlanningRefs { get; set; }
-
+        public bool IsPaused { get; set; } = false;
         public float CurrentTime { get; set; } = 0;
 
         /// <summary>
@@ -34,6 +34,7 @@ namespace Core
             LastFrame = GameController.Frames[GameController.Frames.Count - 1]; // get the last frame from the gameControllers list of frames
             PlanningRefs = new Dictionary<GameObject, int>();   // start adding planning objects to an empty container
             CurrentTime = 60 - (GameController.Frames.Count - 1) * Time.fixedDeltaTime;
+            IsPaused = false;
         }
 
         /// <summary>
@@ -121,7 +122,7 @@ namespace Core
         /// </summary>
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space)) {
+            if (Input.GetKeyDown(KeyCode.Space) && !IsPaused) {
                 Exit();
             }
         }

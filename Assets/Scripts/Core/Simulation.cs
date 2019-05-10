@@ -51,11 +51,9 @@ namespace Core
             if (GameController.Winner == null) {
                 if (CounterTerroristAI.Children.Count == 0 || bomb.IsTimerZero()) {
                     GameController.Winner = Side.Terrorist;
-                    Debug.Log("T WIN");
                 }
-                else if ((TerroristAI.Children.Count == 0 && !bomb.Planted) || bomb.IsDefused()) {
+                else if (((TerroristAI.Children.Count == 0 || Vars.SimulationTime > 60) && !bomb.Planted) || bomb.IsDefused()) {
                     GameController.Winner = Side.CounterTerrorist;
-                    Debug.Log("CT WIN");
                 }
             }
         }
@@ -93,7 +91,6 @@ namespace Core
                     child.SetActive(false);
                     Instantiate(operatorState.DeathAnimation, child.transform.position, Quaternion.identity);
                     if (child.GetComponent<AI.OperatorAI>().Side == Side.Terrorist && child.GetComponent<Operator.TOperatorState>().HasBomb) {
-                        Debug.Log("HERE");
                         GameController.Bomb.transform.position = child.transform.position;
                     }
                 }

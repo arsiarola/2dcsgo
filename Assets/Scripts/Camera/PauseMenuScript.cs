@@ -27,6 +27,7 @@ public class PauseMenuScript : MonoBehaviour
 
     [SerializeField] GameObject turnChange;
     [SerializeField] Button turnChangeOk;
+    [SerializeField] Text turnChangeText;
 
     [SerializeField] GameObject endScreen;
     [SerializeField] Button endScreenOk;
@@ -82,17 +83,17 @@ public class PauseMenuScript : MonoBehaviour
 
     void DefuseClicked(string answer) {
         if (answer.Equals("yes"))
-            defuser.GetComponent<MakePath>();   // receiveMessage(true);
+            defuser.GetComponent<MakePath>().ReceiveDefuse(true);   // receiveMessage(true);
         else if (answer.Equals("no"))
-            defuser.GetComponent<MakePath>();   // receiveMessage(false);
-        plant.SetActive(false);
+            defuser.GetComponent<MakePath>().ReceiveDefuse(false);  // receiveMessage(false);
+        defuse.SetActive(false);
     }
 
     void PlantClicked(string answer) {
-        if(answer.Equals("yes"))
-            planter.GetComponent<MakePath>();   // receiveMessage(true);
-        else if(answer.Equals("no"))
-            planter.GetComponent<MakePath>();   // receiveMessage(false);
+        if (answer.Equals("yes"))
+            planter.GetComponent<MakePath>().ReceivePlant(true);  // receiveMessage(true);
+        else if (answer.Equals("no"))
+            planter.GetComponent<MakePath>().ReceivePlant(false);   // receiveMessage(false);
         plant.SetActive(false);
     }
 
@@ -146,6 +147,15 @@ public class PauseMenuScript : MonoBehaviour
 
     public void BringTurnChange() {
         turnChange.SetActive(true);
+        Core.Side side = gameController.Side;
+        string s = "";
+        if (side == Core.Side.Terrorist) {
+            s = "Terrorists";
+        }
+        else if (side == Core.Side.CounterTerrorist) {
+            s = "Counter-Terrorists";
+        }
+        turnChangeText.text = s + " Turn:";
     }
 
     /// <summary>
