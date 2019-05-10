@@ -8,6 +8,8 @@ using UnityEngine;
 public class MakePath : MonoBehaviour
 {
     public List<Vector3> mousePositionList;
+    public bool willPlant = false;
+    public bool willDefuse = false;
     private Vector3 mousePosition;
 
     private bool spacePressed;
@@ -181,6 +183,8 @@ public class MakePath : MonoBehaviour
 
                 }*/
         drawPath = true; // now that we have starterd creating the path, afterward its okay to draw the path
+        willPlant = false;
+        willDefuse = false;
         if (Input.GetMouseButton(0) && lineRenderer.positionCount < amountOfPoints) {
             CalculatePosition(rbCircle.transform.position);
                 
@@ -201,11 +205,30 @@ public class MakePath : MonoBehaviour
             {
                 lineRenderer.SetPosition(i, mousePositionList[i]);
             }
+
+            int id = gameController.Planning.PlanningRefs[gameObject];
+            RecordableState.RecordableState state = gameController.Planning.LastFrame[id];
+
+            if (Vector3.Distance(gameController.Bomb.transform.position, mousePositionList[mousePositionList.Count - 1]) < 0.9f && gameController.Bomb.GetComponent<BombScript>().Planted) {
+                if (state.GetProperty<RecordableState.BaseAI>().Side == Core.Side.CounterTerrorist) {
+                    willDefuse = true;
+                }
+            }
+
+            Collider2D collision = Physics2D.OverlapPoint(mousePositionList[mousePositionList.Count - 1], 1 << 9);
+            if (collision != null) {
+                if (state.GetProperty<RecordableState.BaseAI>().Side == Core.Side.Terrorist) {
+                    if (state.GetProperty<RecordableState.Bomb>().HasBomb == true) {
+                        willPlant = true;
+                    }
+                }
+            }
         }
     }
 
     ///<summary>when mouse is moved close enough to the player and held down reset the mousePositionList and the previously drawn path, enable creating path</summary>
-    private void MouseOver() {
+    private void MouseOver()
+    {
         if (Input.GetMouseButtonDown(0) && Vector3.Distance(mousePosition, gObj.transform.position) < 0.5) {
             mousePositionList = new List<Vector3>();
             mousePositionList.Add(gObj.transform.position);
@@ -221,7 +244,7 @@ public class MakePath : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Mouse1) && Vector3.Distance(mousePosition, gObj.transform.position) < 0.5) {
             setLookDirection = true;
         }
-        else if (mousePositionList.Count > 0) {
+        else if (mousePositionList.Count > 0 && createPath == false) {
             if (Input.GetMouseButtonDown(0) && Vector3.Distance(mousePosition, mousePositionList[mousePositionList.Count - 1]) < 0.5) {
                 rbCircle.transform.position = mousePositionList[mousePositionList.Count - 1];
                 circle.SetActive(true);

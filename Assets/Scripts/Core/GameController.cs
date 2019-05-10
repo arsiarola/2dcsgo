@@ -72,6 +72,8 @@ namespace Core
         public AI.TAI Terrorists { get { return terrorists; } }
         [SerializeField] private AI.TAI terrorists;
 
+        public GameObject Bomb { get { return bomb; } }
+        [SerializeField] private GameObject bomb;
 
         public GameObject Unknown { get { return unknown; } }
         [SerializeField] private GameObject unknown;
@@ -122,6 +124,10 @@ namespace Core
 
         public List<Stage> StageBuffer { get; set; } = new List<Stage>();
 
+        private bool Init { get; set; } = true;
+
+
+
 
         /// <summary>
         /// Gets the starting frame from Recorder, disables every recordable, and disables the Recorder, the Replayer and the Planning objects
@@ -133,13 +139,12 @@ namespace Core
         {
             Simulation.UpdateVisibility();
             GiveBomb();
-            Frames.Add(Recorder.GetRecordableStates()); // get start frame. Not sure if necessary for the replay, but we do need to get the objects starting positions at least (then again these can be gained by other means)
             DisableRecordables();       // disable recordables before they can execute their FixedUpdate or update methods
         }
 
         private void GiveBomb()
         {
-            Terrorists.Children[0].GetComponent<Operator.TOperatorState>().Bomb = true;
+            Terrorists.Children[0].GetComponent<Operator.TOperatorState>().SetBomb(true);
         }
 
         /// <summary>
@@ -162,6 +167,18 @@ namespace Core
             IsPaused = true;
             Turn++;
             PauseMenu.BringTurnChange();
+            if (Init) {
+                EnableRecordables();
+                Init = false;
+                StartCoroutine("Initialize");
+            }
+        }
+
+        IEnumerator Initialize()
+        {
+            yield return new WaitForEndOfFrame();
+            Frames.Add(Recorder.GetRecordableStates()); // get start frame. Not sure if necessary for the replay, but we do need to get the objects starting positions at least (then again these can be gained by other means)
+            DisableRecordables();
         }
 
         /// <summary>
@@ -268,7 +285,7 @@ namespace Core
                     Planning.gameObject.SetActive(true); // activating the Planning object also activates this scripts Update method
                     break;
                 case GameStage.End:
-                    PauseMenu.BringEndScreen(Side);
+                    PauseMenu.BringEndScreen(Winner);
                     break;
             }
             IsStageChanged = false; // stage change has been handled
@@ -348,9 +365,11 @@ namespace Core
                     } else {
                         obj.SetActive(true);
                     }
-                    
-                    RecordableState.RecordableState lastState = Frames[Frames.Count - 1][id];
-                    lastState.InitOwner();
+
+                    if (Frames.Count > 0) {
+                        RecordableState.RecordableState lastState = Frames[Frames.Count - 1][id];
+                        lastState.InitOwner();
+                    }
                 }
             }
         }

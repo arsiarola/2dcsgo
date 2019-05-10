@@ -13,7 +13,7 @@ namespace Core
         public Dictionary<int, RecordableState.RecordableState> LastFrame { get; set; }
 
         /// <summary> Id-GameObject dictionary of every object created for the planning stage </summary>
-        private Dictionary<int, GameObject> PlanningRefs { get; set; }
+        public Dictionary<GameObject, int> PlanningRefs { get; set; }
 
         public float CurrentTime { get; set; } = 0;
 
@@ -32,7 +32,7 @@ namespace Core
         private void InitVariables()
         {
             LastFrame = GameController.Frames[GameController.Frames.Count - 1]; // get the last frame from the gameControllers list of frames
-            PlanningRefs = new Dictionary<int, GameObject>();   // start adding planning objects to an empty container
+            PlanningRefs = new Dictionary<GameObject, int>();   // start adding planning objects to an empty container
             CurrentTime = 60 - (GameController.Frames.Count - 1) * Time.fixedDeltaTime;
         }
 
@@ -71,6 +71,13 @@ namespace Core
                                     }
                                     obj.GetComponent<MakePath>().mousePositionList = operatorAI.Path;
                                     obj.GetComponent<MakePath>().DrawPath();
+                                    if (side == Side.Terrorist) {
+                                        obj.GetComponent<MakePath>().willPlant = GameController.RecordableRefs[id].GetComponent<AI.TOperatorAI>().WillPlantBomb;
+                                    }
+                                    if (side == Side.CounterTerrorist) {
+                                        obj.GetComponent<MakePath>().willDefuse = GameController.RecordableRefs[id].GetComponent<AI.CTOperatorAI>().WillDefuse;
+                                    }
+
                                 }
                             } else {
                                 obj = Instantiate(GameController.RecordableReplayTypes[id]);  // create replay type
@@ -81,7 +88,7 @@ namespace Core
                                 obj = Instantiate(GameController.RecordableReplayTypes[id]);    // create replay type
                             }
                             else if (!isVisible && lastPosition.ContainsKey(GameController.RecordableRefs[id])) {
-                                PlanningRefs.Add(id, Instantiate(GameController.Unknown, lastPosition[GameController.RecordableRefs[id]], Quaternion.identity));
+                                PlanningRefs.Add(Instantiate(GameController.Unknown, lastPosition[GameController.RecordableRefs[id]], Quaternion.identity), id);
                             }
                         }
                     }
@@ -91,10 +98,22 @@ namespace Core
 
                     if (obj != null) {
                         state.SetToObject(obj);
-                        PlanningRefs.Add(id, obj);  // add a reference of the created object to the planning refs dictionary
+                        PlanningRefs.Add(obj, id);  // add a reference of the created object to the planning refs dictionary
                     }            
                 }
             }
+            Time.timeScale = 1f;
+            StartCoroutine("AnimInit");
+            
+        }
+
+        IEnumerator AnimInit()
+        {
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+            Time.timeScale = 0f;
+            StopCoroutine("AnimInit");
         }
 
         /// <summary>
@@ -124,6 +143,7 @@ namespace Core
         {
             SendPath();
             SendRotation();
+            SendPlantInfo();
         }
 
         /// <summary>
@@ -131,9 +151,9 @@ namespace Core
         /// </summary>
         private void SendPath()
         {
-            foreach (KeyValuePair<int, GameObject> pair in PlanningRefs) {
-                int id = pair.Key;
-                GameObject obj = pair.Value;
+            foreach (KeyValuePair<GameObject, int> pair in PlanningRefs) {
+                int id = pair.Value;
+                GameObject obj = pair.Key;
                 if (obj.GetComponent<MakePath>() != null) { // if obj has makePath script
                     List<Vector3> list = obj.GetComponent<MakePath>().mousePositionList;    // get path list
                     GameController.RecordableRefs[id].GetComponent<AI.OperatorAI>().SetPath(list); // send it to the recordable
@@ -141,11 +161,25 @@ namespace Core
             }
         }
 
+        private void SendPlantInfo()
+        {
+            foreach (KeyValuePair<GameObject, int> pair in PlanningRefs) {
+                int id = pair.Value;
+                GameObject obj = pair.Key;
+                if (obj.GetComponent<MakePath>() != null && obj.GetComponent<MakePath>().willPlant) { // if obj has makePath script
+                    GameController.RecordableRefs[id].GetComponent<AI.TOperatorAI>().SetWillPlant(true); // send it to the recordable
+                }
+                if (obj.GetComponent<MakePath>() != null && obj.GetComponent<MakePath>().willDefuse) { // if obj has makePath script
+                    GameController.RecordableRefs[id].GetComponent<AI.CTOperatorAI>().SetWillDefuse(true); // send it to the recordable
+                }
+            }
+        }
+
         private void SendRotation()
         {
-            foreach (KeyValuePair<int, GameObject> pair in PlanningRefs) {
-                int id = pair.Key;
-                GameObject obj = pair.Value;
+            foreach (KeyValuePair<GameObject, int> pair in PlanningRefs) {
+                int id = pair.Value;
+                GameObject obj = pair.Key;
                 if (obj.GetComponent<MakePath>() != null) { // if obj has makePath script
                     Quaternion q = obj.transform.rotation;    // get rotation
                     GameController.RecordableRefs[id].GetComponent<AI.OperatorAI>().SetRotation(q); // send it to the recordable
@@ -158,8 +192,8 @@ namespace Core
         /// </summary>
         private void DestroyPlanningObjects()
         {
-            foreach (KeyValuePair<int, GameObject> pair in PlanningRefs) {
-                GameObject obj = pair.Value;
+            foreach (KeyValuePair<GameObject, int> pair in PlanningRefs) {
+                GameObject obj = pair.Key;
                 Destroy(obj);
             }
         }

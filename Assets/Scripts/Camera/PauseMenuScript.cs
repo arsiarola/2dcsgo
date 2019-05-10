@@ -111,7 +111,7 @@ public class PauseMenuScript : MonoBehaviour
     /// brings up the endscreen, and is called from gamecontroller. Side parameter tells who won and is applied to endscreen text
     /// </summary>
     /// <param name="side"></param>
-    public void BringEndScreen(Core.Side side) {
+    public void BringEndScreen(Core.Side? side) {
         string s = "";
         if (side == Core.Side.Terrorist) {
             s = "Terrorists";

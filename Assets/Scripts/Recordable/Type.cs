@@ -7,7 +7,8 @@ namespace Recordable
     public enum Type
     {
         Basic,
-        AI
+        AI,
+        Bomb
     }
 }
 

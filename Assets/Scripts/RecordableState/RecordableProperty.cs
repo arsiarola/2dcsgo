@@ -113,6 +113,17 @@ namespace RecordableState
         }
     }
 
+    public class Bomb : RecordableProperty
+    {
+        public bool HasBomb { get; private set; } = false;
+
+        public override void GetVariablesFrom(GameObject recordable)
+        {
+            Operator.TOperatorState state = recordable.GetComponent<Operator.TOperatorState>();
+            HasBomb = state.HasBomb;
+        }
+    }
+
     public class Audio : RecordableProperty, ISettable
     {
         public bool StartPlay { get; private set; }

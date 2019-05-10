@@ -127,7 +127,7 @@ Animator:
   m_GameObject: {fileID: 2500465347906140141}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f40053c6704458448944860b4f56b154, type: 2}
+  m_Controller: {fileID: 9100000, guid: e26c96a510105f2499f5c556a47721f7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -161,6 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mousePositionList: []
+  willPlant: 0
 --- !u!1 &5040038133865439036
 GameObject:
   m_ObjectHideFlags: 0

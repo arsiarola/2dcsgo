@@ -4,9 +4,17 @@ using UnityEngine;
 
 namespace Operator {
     public class TOperatorState : OperatorState {
-        public bool Bomb { get; set; }
+        public bool HasBomb { get; private set; } = false;
 
-        private void Update() {
+        public void SetBomb(bool b)
+        {
+            if (b) {
+                GetComponent<Animator>().SetBool("Bomb", true);
+                HasBomb = true;
+            } else {
+                GetComponent<Animator>().SetBool("Bomb", false);
+                HasBomb = false;
+            }
         }
     }
 }

@@ -10,8 +10,6 @@ namespace Core
 
         private AI.TAI TerroristAI { get; set; }
 
-        private int count = 0;
-
         protected override void Awake()
         {
             base.Awake();
@@ -27,7 +25,7 @@ namespace Core
             TerroristAI.CheckVisibility(CounterTerroristAI.Children);
         }
 
-        private void FixedUpdate()
+        public void StepThrough()
         {
             // ct
             CounterTerroristAI.UpdateChildrenList();
@@ -49,17 +47,22 @@ namespace Core
             Vars.SimulationTime += Time.fixedDeltaTime;
             //Debug.Log(Vars.SimulationTime);
 
+            BombScript bomb = GameController.Bomb.GetComponent<BombScript>();
             if (GameController.Winner == null) {
-                if (CounterTerroristAI.Children.Count == 0) {
+                if (CounterTerroristAI.Children.Count == 0 || bomb.IsTimerZero()) {
                     GameController.Winner = Side.Terrorist;
+                    Debug.Log("T WIN");
                 }
-                else if (TerroristAI.Children.Count == 0) {
+                else if ((TerroristAI.Children.Count == 0 && !bomb.Planted) || bomb.IsDefused()) {
                     GameController.Winner = Side.CounterTerrorist;
+                    Debug.Log("CT WIN");
                 }
             }
-            
+        }
 
-            count++;
+        private void FixedUpdate()
+        {
+            StepThrough();
         }
 
         private void SimulationStep(AI.SideAI ai)
@@ -68,10 +71,14 @@ namespace Core
                 child.GetComponent<AI.OperatorAI>().FindTarget();   // Target
                 child.GetComponent<AI.OperatorAI>().Rotate();   // rotation
                 child.GetComponent<AI.OperatorAI>().Shoot();    // shoot if possible
-                if (ai.Equals(TerroristAI) && child.GetComponent<Operator.TOperatorState>().Bomb == true){
-                    child.GetComponent<AI.OperatorAI>().GetComponent<AI.TOperatorAI>().PlantBomb(child.transform.position);
-                }
                 child.GetComponent<AI.OperatorAI>().FollowPath();   // movement
+                if (ai.Side == Side.Terrorist) {
+                    child.GetComponent<AI.TOperatorAI>().PlantBomb();   // movement
+                    child.GetComponent<AI.TOperatorAI>().PickUpBomb();
+                }
+                if (ai.Side == Side.CounterTerrorist) {
+                    child.GetComponent<AI.CTOperatorAI>().Defuse();
+                }
             }
         }
 
@@ -85,6 +92,10 @@ namespace Core
                 if (!operatorState.IsAlive()) {
                     child.SetActive(false);
                     Instantiate(operatorState.DeathAnimation, child.transform.position, Quaternion.identity);
+                    if (child.GetComponent<AI.OperatorAI>().Side == Side.Terrorist && child.GetComponent<Operator.TOperatorState>().HasBomb) {
+                        Debug.Log("HERE");
+                        GameController.Bomb.transform.position = child.transform.position;
+                    }
                 }
             }
         }
