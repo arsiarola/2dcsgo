@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour {
     private float spacing = 20f;
-    private Vector3 pos;
     private float mouseWheel;
     private float dragSpeed = 3f;
+    private float minOrtoSize = 5f;
+    private float maxOrtoSize = 45f;
+
+    private Vector3 pos;
     private Vector3 dragOrigin;
+
     private bool usingWasd;
     void Start() {
         Camera.main.orthographic = true;
@@ -48,15 +52,15 @@ public class CameraMovement : MonoBehaviour {
         }
 
          /// move camera farther and closer with comma and period
-        if (Input.GetKey(KeyCode.Comma)  && Camera.main.orthographicSize + spacing * Time.unscaledDeltaTime < 40)
+        if (Input.GetKey(KeyCode.Comma)  && Camera.main.orthographicSize + spacing * Time.unscaledDeltaTime < maxOrtoSize)
             Camera.main.orthographicSize += spacing * Time.unscaledDeltaTime;
-        else if (Input.GetKey(KeyCode.Period) && Camera.main.orthographicSize - spacing * Time.unscaledDeltaTime > 5)
+        else if (Input.GetKey(KeyCode.Period) && Camera.main.orthographicSize - spacing * Time.unscaledDeltaTime > minOrtoSize)
             Camera.main.orthographicSize -= spacing * Time.unscaledDeltaTime;
 
         /// move camera farther and closer with mousewheel
-        else if (mouseWheel > 0 && (Camera.main.orthographicSize - (spacing * Time.unscaledDeltaTime * 5))  > 5)
+        else if (mouseWheel > 0 && (Camera.main.orthographicSize - (spacing * Time.unscaledDeltaTime * 5))  > minOrtoSize)
             Camera.main.orthographicSize -= spacing * Time.unscaledDeltaTime * 5;
-        else if (mouseWheel < 0 && (Camera.main.orthographicSize + (spacing * Time.unscaledDeltaTime * 5)) < 40)
+        else if (mouseWheel < 0 && (Camera.main.orthographicSize + (spacing * Time.unscaledDeltaTime * 5)) < maxOrtoSize)
             Camera.main.orthographicSize += spacing * Time.unscaledDeltaTime * 5;
 
         /// detect if middle mouse button was pressed and mark the place where it was pressed
@@ -94,8 +98,8 @@ public class CameraMovement : MonoBehaviour {
     ///     center the camera angle, used after every turn change so enemy cannot get hints from previous camera angle
     /// </summary>
     public void CenterCamera() {
-        transform.position = new Vector3(6, 6, -10);
-        Camera.main.orthographicSize = 25;
+        transform.position = new Vector3(20, -25, -10);
+        Camera.main.orthographicSize = 30;
     }
 }
 
